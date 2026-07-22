@@ -23,17 +23,8 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const { data: { user }, error } = await supabase.auth.getUser()
-
-  // temp:
-    console.log('[middleware]', request.nextUrl.pathname,
-    '| cookies seen:', request.cookies.getAll().map(c => c.name),
-    '| user:', user?.email ?? null,
-    '| error:', error?.message ?? null)
-    console.log('[middleware] raw cookie value length:',
-  request.cookies.get('sb-dtbfsjaqjlvupkvraatr-auth-token')?.value?.length,
-  '| first 40 chars:',
-  request.cookies.get('sb-dtbfsjaqjlvupkvraatr-auth-token')?.value?.slice(0, 40))
+  const { data: { session } } = await supabase.auth.getSession()
+  const user = session?.user ?? null
 
   const isStaffRoute = request.nextUrl.pathname.startsWith('/staff') &&
     !request.nextUrl.pathname.startsWith('/staff/login')
