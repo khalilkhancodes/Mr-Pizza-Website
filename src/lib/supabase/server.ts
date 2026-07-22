@@ -27,6 +27,20 @@ export async function createClient() {
   );
 }
 
+export async function checkStaff() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  const { data } = await supabase
+    .from('staff')
+    .select('id, role, name')
+    .eq('id', user.id)
+    .single();
+
+  return data;
+}
+
 export function createServiceClient() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

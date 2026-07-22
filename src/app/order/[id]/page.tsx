@@ -51,7 +51,15 @@ async function getOrder(id: string): Promise<Order | null> {
 async function getStaffSession(): Promise<boolean> {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  return !!user;
+  if (!user) return false;
+
+  const { data } = await supabase
+    .from('staff')
+    .select('id')
+    .eq('id', user.id)
+    .single();
+
+  return !!data;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {

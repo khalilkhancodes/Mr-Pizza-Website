@@ -36,6 +36,16 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { data: staffMember } = await supabase
+      .from('staff')
+      .select('id')
+      .eq('id', user.id)
+      .single();
+
+    if (!staffMember) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const serviceSupabase = createServiceClient();
 
     const { data: currentOrder, error: fetchError } = await supabase

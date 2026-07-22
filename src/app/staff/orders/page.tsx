@@ -43,6 +43,16 @@ export default async function StaffOrdersPage() {
     redirect('/staff/login?redirect=/staff/orders')
   }
 
+  const { data: staffMember } = await supabase
+    .from('staff')
+    .select('id')
+    .eq('id', user.id)
+    .single()
+
+  if (!staffMember) {
+    redirect('/')
+  }
+
   const { data: orders } = await supabase
     .from('orders')
     .select('*')
