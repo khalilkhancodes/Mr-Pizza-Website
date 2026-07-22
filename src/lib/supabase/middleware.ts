@@ -30,6 +30,10 @@ export async function updateSession(request: NextRequest) {
     '| cookies seen:', request.cookies.getAll().map(c => c.name),
     '| user:', user?.email ?? null,
     '| error:', error?.message ?? null)
+    console.log('[middleware] raw cookie value length:',
+  request.cookies.get('sb-dtbfsjaqjlvupkvraatr-auth-token')?.value?.length,
+  '| first 40 chars:',
+  request.cookies.get('sb-dtbfsjaqjlvupkvraatr-auth-token')?.value?.slice(0, 40))
 
   const isStaffRoute = request.nextUrl.pathname.startsWith('/staff') &&
     !request.nextUrl.pathname.startsWith('/staff/login')

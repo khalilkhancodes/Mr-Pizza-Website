@@ -55,7 +55,16 @@ export default function HomePage() {
           Floating Transparent Image 
           Positioned absolutely to overlap the bottom half of the typography 
         */}
-        {/* z-index */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[35%] w-[350px] h-[350px] md:w-[400px] md:h-[600px] lg:w-[600px] lg:h-[600px] z-6 pointer-events-none">
+          <Image
+            src="/images/Hero1.png" /* Replace with your actual transparent file name */
+            alt="Premium floating pizza"
+            fill
+            priority
+            className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-[1000ms] ease-out"
+            sizes="(max-width: 768px) 350px, (max-width: 1024px) 600px, 800px"
+          />
+        </div>
 
       </div>
     </section>
