@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServiceClient } from '@/lib/supabase/server';
+import { createClient, createServiceClient } from '@/lib/supabase/server';
 
 const VALID_STATUSES = ['placed', 'confirmed', 'delivered', 'cancelled'] as const;
 const STATUS_TRANSITIONS: Record<string, string[]> = {
@@ -30,12 +30,13 @@ export async function POST(
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
-    const supabase = createServiceClient();
-
-    const { data: { session }, error: authError } = await supabase.auth.getSession();
-    if (authError || !session) {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const serviceSupabase = createServiceClient();
 
     const { data: currentOrder, error: fetchError } = await supabase
       .from('orders')
@@ -55,11 +56,11 @@ export async function POST(
       );
     }
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await serviceSupabase
       .from('orders')
       .update({
         status,
-        confirmed_by: status === 'confirmed' ? session.user.email : null,
+        confirmed_by: status === 'confirmed' ? user.email : null,
         updated_at: new Date().toISOString(),
       })
       .eq('id', id);

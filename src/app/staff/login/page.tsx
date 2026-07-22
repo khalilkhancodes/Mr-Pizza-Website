@@ -1,75 +1,12 @@
-'use client';
+import { login } from './actions'
+import { ShieldIcon, UserIcon, LockIcon } from '@/components/ui/Icons'
 
-import { Suspense, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { createClient as createSupabaseClient } from '@/lib/supabase/client';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { useToast } from '@/components/ui/Toaster';
-import { LockIcon, EyeIcon, EyeOffIcon, LoaderIcon, ShieldIcon, UserIcon } from '@/components/ui/Icons';
-
-export default function StaffLoginPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p className="font-body body-lg text-on-surface-variant animate-pulse">Loading...</p></div>}>
-      <StaffLoginContent />
-    </Suspense>
-  );
-}
-
-function StaffLoginContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirect') || '/staff/orders';
-  const { error: toastError, success } = useToast();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const supabase = createSupabaseClient();
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    if (!email.trim()) newErrors.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Invalid email format';
-    if (!password) newErrors.password = 'Password is required';
-    else if (password.length < 8) newErrors.password = 'Password must be at least 8 characters';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setIsLoading(true);
-
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
-
-      if (error) {
-        if (error.message.includes('Invalid login credentials')) {
-          setErrors({ form: 'Invalid email or password' });
-        } else {
-          throw error;
-        }
-        return;
-      }
-
-      success('Welcome back!', 'You are now signed in.');
-      router.push(redirectTo);
-      router.refresh();
-    } catch {
-      toastError('Login Failed', 'An unexpected error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+export default async function StaffLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirect?: string; error?: string }>
+}) {
+  const params = await searchParams
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background py-xl lg:py-[120px]">
@@ -81,59 +18,59 @@ function StaffLoginContent() {
         </div>
 
         <div className="card-elevated p-6 lg:p-8 animate-slide-up">
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-            {errors.form && (
+          <form action={login} className="space-y-6">
+            <input type="hidden" name="redirect" value={params.redirect ?? '/staff/orders'} />
+
+            {params.error && (
               <div className="p-4 bg-red-900/30 border border-red-900/50 rounded-soft-sm text-red-300 font-body body-md">
-                {errors.form}
+                Invalid email or password.
               </div>
             )}
 
-            <Input
-              label="Email Address"
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors(prev => ({ ...prev, email: '' })); }}
-              error={errors.email}
-              placeholder="staff@mrpizza.pk"
-              required
-              disabled={isLoading}
-              leftIcon={<UserIcon className="w-5 h-5" />}
-            />
-
-            <div className="relative">
-              <Input
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); if (errors.password) setErrors(prev => ({ ...prev, password: '' })); }}
-                error={errors.password}
-                placeholder="Enter your password"
-                required
-                disabled={isLoading}
-                leftIcon={<LockIcon className="w-5 h-5" />}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-[38px] text-on-surface-variant hover:text-cream transition-colors"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <EyeOffIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
-              </button>
+            <div>
+              <label className="font-body label-md text-cream mb-2 block" htmlFor="email">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <UserIcon className="w-5 h-5 text-on-surface-variant" />
+                </div>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="staff@mrpizza.pk"
+                  className="w-full h-12 pl-12 pr-4 p-20 font-body body-md text-cream bg-surface-elevated/50 border border-border rounded-soft-sm placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all duration-fast"
+                />
+              </div>
             </div>
 
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              loading={isLoading}
+            <div>
+              <label className="font-body label-md text-cream mb-2 block" htmlFor="password">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <LockIcon className="w-5 h-5 text-on-surface-variant" />
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Enter your password"
+                  className="w-full h-12 pl-12 pr-4 p-20 bg-black font-body body-md text-cream bg-surface-elevated/50 border border-border rounded-soft-sm placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all duration-fast"
+                />
+              </div>
+            </div>
+
+            <button
               type="submit"
+              className="btn-primary w-full flex items-center justify-center gap-2 font-body label-lg text-cream bg-gold hover:bg-gold/90 disabled:opacity-50 disabled:cursor-not-allowed px-6 py-3 rounded-soft-sm transition-all duration-fast"
             >
-              <LoaderIcon className="w-5 h-5" />
               Sign In
-            </Button>
+            </button>
 
             <p className="font-body label-md text-on-surface-variant/60 text-center">
               Forgot password?{' '}
@@ -153,5 +90,5 @@ function StaffLoginContent() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -38,7 +38,7 @@ const PROGRESS_WIDTHS: Record<string, number> = { placed: 25, confirmed: 50, del
 const STATUS_ORDER: Record<string, number> = { placed: 0, confirmed: 1, delivered: 2, cancelled: 3 };
 
 async function getOrder(id: string): Promise<Order | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from('orders')
     .select('*')
@@ -49,9 +49,9 @@ async function getOrder(id: string): Promise<Order | null> {
 }
 
 async function getStaffSession(): Promise<boolean> {
-  const supabase = createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  return !!session;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return !!user;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {

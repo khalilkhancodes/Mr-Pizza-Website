@@ -1,29 +1,11 @@
-import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-import { formatPrice } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import { ClockIcon, MapPinIcon, PhoneIcon, UserIcon, ExternalLinkIcon, ChevronRightIcon, RefreshIcon } from '@/components/ui/Icons';
-import Link from 'next/link';
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
+import { formatPrice } from '@/lib/utils'
+import { Button } from '@/components/ui/Button'
+import { ClockIcon, ExternalLinkIcon, RefreshIcon } from '@/components/ui/Icons'
+import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: 'Staff Orders',
-  description: 'Manage and track all customer orders',
-};
-
-async function getOrders() {
-  const supabase = createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) return null;
-
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw error;
-  return data;
-}
+export const dynamic = 'force-dynamic'
 
 interface Order {
   id: string;
@@ -58,11 +40,19 @@ const STATUS_ACTIONS = {
 };
 
 export default async function StaffOrdersPage() {
-  const orders = await getOrders();
-  
-  if (!orders) {
-    redirect('/staff/login?redirect=/staff/orders');
+  const supabase = await createClient()
+  const { data: { user }, error } = await supabase.auth.getUser()
+
+   console.log('[orders page] user:', user?.email ?? null, '| error:', error?.message ?? null)
+
+  if (!user) {
+    redirect('/staff/login?redirect=/staff/orders')
   }
+
+  const { data: orders } = await supabase
+    .from('orders')
+    .select('*')
+    .order('created_at', { ascending: false })
 
   return (
     <div className="min-h-screen">
@@ -75,7 +65,7 @@ export default async function StaffOrdersPage() {
             </div>
             <div className="flex items-center gap-3">
               <span className="font-body label-md text-on-surface-variant/70">
-                {orders.length} total orders
+                {orders?.length ?? 0} total orders
               </span>
               <Button variant="ghost" size="sm">
                 <RefreshIcon className="w-4 h-4" />
@@ -88,7 +78,7 @@ export default async function StaffOrdersPage() {
 
       <section className="section-spacing bg-charcoal">
         <div className="container-padding">
-          {orders.length === 0 ? (
+          {!orders || orders.length === 0 ? (
             <div className="text-center py-20">
               <ClockIcon className="w-16 h-16 mx-auto text-border mb-4" />
               <h2 className="font-display text-headline-sm text-cream mb-2">No Orders Yet</h2>
@@ -192,5 +182,5 @@ export default async function StaffOrdersPage() {
         </div>
       </section>
     </div>
-  );
+  )
 }
