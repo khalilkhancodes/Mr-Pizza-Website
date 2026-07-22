@@ -104,8 +104,3 @@ docker-compose.override.yml
 *.swo
 
 generated/
-
-supabase/
-supabase/migrations/
-supabase/.temp/
-supabase-setup.sql
