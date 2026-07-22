@@ -62,7 +62,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="staff@mrpizza.pk"
-                  className="w-full h-12 pl-12 pr-4 p-20 font-body body-md text-cream bg-surface-elevated/50 border border-border rounded-soft-sm placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all duration-fast"
+                  className="w-full h-12 bg-black pl-12 pr-4 p-20 font-body body-md text-cream bg-surface-elevated/50 border border-border rounded-soft-sm placeholder:text-on-surface-variant/50 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-all duration-fast"
                 />
               </div>
             </div>

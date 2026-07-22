@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { ClockIcon, ExternalLinkIcon, RefreshIcon } from '@/components/ui/Icons'
+import { OrderStatusSelect } from '@/components/staff/OrderStatusSelect'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -31,13 +32,6 @@ const STATUS_CONFIG = {
   delivered: { label: 'Delivered', color: 'badge-delivered' },
   cancelled: { label: 'Cancelled', color: 'badge-cancelled' },
 } as const;
-
-const STATUS_ACTIONS = {
-  placed: ['confirmed', 'cancelled'],
-  confirmed: ['delivered', 'cancelled'],
-  delivered: [],
-  cancelled: [],
-};
 
 export default async function StaffOrdersPage() {
   const supabase = await createClient()
@@ -149,28 +143,7 @@ export default async function StaffOrdersPage() {
                             <ExternalLinkIcon className="w-4 h-4" />
                             View
                           </Link>
-                          {STATUS_ACTIONS[order.status].length > 0 && (
-                            <form action={`/api/orders/${order.id}/status`} method="POST" className="flex items-center gap-2">
-                              <select
-                                name="status"
-                                className="input-base text-sm py-2 px-3 min-w-[140px]"
-                                onChange={(e) => e.currentTarget.form?.requestSubmit()}
-                              >
-                                <option value="" disabled>Update status</option>
-                                {STATUS_ACTIONS[order.status].map((status) => (
-                                  <option key={status} value={status}>
-                                    Mark as {STATUS_CONFIG[status as keyof typeof STATUS_CONFIG].label}
-                                  </option>
-                                ))}
-                              </select>
-                              <button
-                                type="submit"
-                                className="btn-primary text-sm px-3 py-2"
-                              >
-                                Go
-                              </button>
-                            </form>
-                          )}
+                          <OrderStatusSelect orderId={order.id} currentStatus={order.status} />
                         </div>
                       </td>
                     </tr>
