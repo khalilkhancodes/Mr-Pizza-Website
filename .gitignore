@@ -1,0 +1,111 @@
+# ==========================================================
+# Mr. Pizza Website
+# Next.js 15 + TypeScript + Tailwind CSS v4
+# ==========================================================
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Package Managers
+package-lock.json
+yarn.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build Output
+.next/
+out/
+dist/
+build/
+
+# Static Export
+export/
+
+# Production
+.vercel/
+.vercel-cache/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.cache/
+.parcel-cache/
+.turbo/
+.eslintcache
+
+# Storybook
+storybook-static/
+
+# IDE - VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains
+.idea/
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+*~
+
+tmp/
+temp/
+*.tmp
+
+*.pem
+*.key
+*.crt
+
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+.firebase/
+firebase-debug.log
+
+docker-compose.override.yml
+
+*.swp
+*.swo
+
+generated/
+
+supabase/
+supabase/migrations/
+supabase/.temp/
+supabase-setup.sql

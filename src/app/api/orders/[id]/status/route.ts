@@ -1,0 +1,77 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createServiceClient } from '@/lib/supabase/server';
+
+const VALID_STATUSES = ['placed', 'confirmed', 'delivered', 'cancelled'] as const;
+const STATUS_TRANSITIONS: Record<string, string[]> = {
+  placed: ['confirmed', 'cancelled'],
+  confirmed: ['delivered', 'cancelled'],
+  delivered: [],
+  cancelled: [],
+};
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    const contentType = request.headers.get('content-type') || '';
+    let status: string;
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      status = body.status;
+    } else {
+      const formData = await request.formData();
+      status = formData.get('status') as string;
+    }
+
+    if (!(VALID_STATUSES as readonly string[]).includes(status)) {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+    }
+
+    const supabase = createServiceClient();
+
+    const { data: { session }, error: authError } = await supabase.auth.getSession();
+    if (authError || !session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { data: currentOrder, error: fetchError } = await supabase
+      .from('orders')
+      .select('id, status')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !currentOrder) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+
+    const allowedTransitions = STATUS_TRANSITIONS[currentOrder.status];
+    if (!allowedTransitions.includes(status)) {
+      return NextResponse.json(
+        { error: `Cannot transition from ${currentOrder.status} to ${status}` },
+        { status: 400 }
+      );
+    }
+
+    const { error: updateError } = await supabase
+      .from('orders')
+      .update({
+        status,
+        confirmed_by: status === 'confirmed' ? session.user.email : null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Order update error:', updateError);
+      return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, status });
+  } catch (err) {
+    console.error('Order status update error:', err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
