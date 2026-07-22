@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
-import { Inter, Sora, Bricolage_Grotesque } from 'next/font/google';
+import { Inter, Anton } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/Toaster';
 import { GlobalLoader } from '@/components/layout/GlobalLoader';
+import { cn } from "@/lib/utils";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -13,18 +14,11 @@ const inter = Inter({
   weight: ['400', '500', '600', '700'],
 });
 
-const sora = Sora({
+const anton = Anton({
   subsets: ['latin'],
-  variable: '--font-sora',
+  variable: '--font-anton',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--font-bricolage',
-  display: 'swap',
-  weight: ['700', '800'],
+  weight: ['400'],
 });
 
 export const metadata = {
@@ -86,12 +80,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} ${bricolage.variable} scroll-smooth`}>
+    <html lang="en" className={cn("scroll-smooth", inter.variable, anton.variable)}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="font-body antialiased bg-background text-on-background min-h-screen flex flex-col">
+      <body className="font-body antialiased bg-background text-primary-text min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />

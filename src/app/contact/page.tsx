@@ -14,7 +14,6 @@ import {
   SendIcon,
   CheckIcon,
 } from "@/components/ui/Icons";
-import { div } from "framer-motion/client";
 
 const contactInfo = [
   {
@@ -46,9 +45,7 @@ const hours = [
 export default function ContactPage() {
   const { success, error } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -114,41 +111,40 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative min-h-[50vh] lg:h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/Kitchen_Exterior.png"
             alt="Mr. Pizza restaurant exterior"
             className="w-full h-full object-cover"
           />
-          <div className="image-scrim-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
         </div>
 
-        <div className="container-padding relative z-10 py-16 lg:py-32">
-          <div className="max-w-3xl animate-fade-in">
-            <span className="font-body label-lg text-gold tracking-widest mb-6 block">
-              GET IN TOUCH
+        <div className="container-padding relative z-10 py-20 lg:py-32 w-full">
+          <div className="max-w-2xl animate-fade-in">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+              get in touch
             </span>
-            <h1 className="font-display text-headline-lg-mobile lg:text-headline-lg text-cream mb-6">
-              Let&apos;s <span className="text-gold">Start a Conversation</span>
+            <h1 className="font-display text-h1 text-primary-text mb-6">
+              let&apos;s <span className="text-gold">start a conversation</span>
             </h1>
-            <p className="font-body body-lg text-on-surface-variant">
-              Have a question about our menu, a catering inquiry, or just want
-              to say hello? We&apos;d love to hear from you.
+            <p className="font-body text-base lg:text-lg text-primary-text/70">
+              Have a question about our menu, a catering inquiry, or just want to say hello? We&apos;d love to hear from you.
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Info + Form */}
-      <section className="section-spacing bg-charcoal">
+      <section className="section-spacing bg-surface">
         <div className="container-padding">
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-3 gap-10 lg:gap-14">
             {/* Sidebar Info */}
-            <div className="lg:col-span-1 space-y-8">
-              <div className="mt-6">
-                <h2 className="font-display text-headline-sm text-cream mb-6">
-                  Contact Information
+            <div className="lg:col-span-1 space-y-10">
+              <div>
+                <h2 className="font-display text-2xl text-primary-text mb-8 uppercase tracking-[1px]">
+                  contact information
                 </h2>
                 <div className="space-y-6">
                   {contactInfo.map((item, index) => (
@@ -157,18 +153,18 @@ export default function ContactPage() {
                       className="flex gap-4 animate-slide-up"
                       style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                     >
-                      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-charcoal-50 border border-border rounded-soft-sm">
-                        <item.icon className="w-6 h-6 text-gold" />
+                      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-surface-elevated border border-border">
+                        <item.icon className="w-5 h-5 text-gold" />
                       </div>
-                      <div className="flex justify-start flex-col">
-                        <p className="font-body text-h5 text-on-surface-variant">
+                      <div>
+                        <p className="font-body text-sm text-primary-text/70">
                           {item.details}
                         </p>
                         <a
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn-tertiary inline-flex text-h5 pl-0"
+                          className="font-body text-xs tracking-[1px] uppercase text-gold hover:text-gold-hover transition-colors inline-block mt-1"
                         >
                           {item.linkText}
                         </a>
@@ -179,20 +175,20 @@ export default function ContactPage() {
               </div>
 
               <div className="pt-8 border-t border-border">
-                <h3 className="font-display text-headline-sm text-cream mb-4">
-                  Opening Hours
+                <h3 className="font-display text-xl text-primary-text mb-5 uppercase tracking-[1px]">
+                  opening hours
                 </h3>
                 <div className="space-y-3">
                   {hours.map((hour, index) => (
                     <div
                       key={hour.days}
-                      className="flex justify-between items-center py-2 px-4 bg-charcoal-50 border border-border rounded-soft-sm animate-slide-up"
+                      className="flex justify-between items-center py-3 px-4 bg-surface-elevated border border-border animate-slide-up"
                       style={{ animationDelay: `${(index + 4) * 0.1}s` }}
                     >
-                      <span className="font-body label-lg text-cream">
+                      <span className="font-body text-xs tracking-[1.5px] uppercase text-primary-text">
                         {hour.days}
                       </span>
-                      <span className="font-body body-md text-on-surface-variant">
+                      <span className="font-body text-sm text-primary-text/60">
                         {hour.time}
                       </span>
                     </div>
@@ -201,16 +197,12 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Form — Gold Frame */}
+            {/* Form */}
             <div className="lg:col-span-2">
-              <div className="card-gold-frame">
-                <h2 className="font-display text-headline-lg-mobile lg:text-headline-md text-cream mb-8">
-                  Send Us a Message
+              <div className="bg-surface-elevated border border-gold p-8 lg:p-10">
+                <h2 className="font-display text-2xl text-primary-text mb-8 uppercase tracking-[1px]">
+                  send us a message
                 </h2>
-
-                {submitStatus === "success" && (
-                  <div></div>
-                )}
 
                 <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                   <div className="grid sm:grid-cols-2 gap-6">
@@ -273,19 +265,19 @@ export default function ContactPage() {
                   />
 
                   <Button
-                    variant="primary"
+                    variant="default"
                     size="lg"
                     fullWidth
                     loading={isSubmitting}
                     disabled={isSubmitting}
                     type="submit"
                   >
-                    <SendIcon className="w-5 h-5" />
+                    <SendIcon className="w-4 h-4" />
                     Send Message
                   </Button>
 
-                  <p className="font-body label-md text-on-surface-variant/60 text-center">
-                    By submitting this form, you agree to our{" "}
+                  <p className="font-body text-xs tracking-[1px] uppercase text-primary-text/50 text-center">
+                    By submitting, you agree to our{" "}
                     <a href="/privacy" className="text-gold hover:underline">
                       Privacy Policy
                     </a>{" "}
@@ -302,19 +294,18 @@ export default function ContactPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="section-spacing bg-background">
+      <section className="section-spacing bg-background border-t border-border">
         <div className="container-padding text-center">
-          <span className="font-body label-lg text-gold tracking-widest mb-4 block">
-            PREFER TO ORDER DIRECTLY?
+          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+            prefer to order directly?
           </span>
-          <h2 className="font-display text-headline-lg-mobile lg:text-headline-lg text-cream mb-6">
-            Skip the Form, Order via WhatsApp
+          <h2 className="font-display text-h2 text-primary-text mb-6">
+            skip the form, order via whatsapp
           </h2>
-          <p className="font-body body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto">
-            Browse the menu, build your cart, and checkout in under 2 minutes.
-            Cash on delivery, no account needed.
+          <p className="font-body text-base text-primary-text/60 mb-10 max-w-xl mx-auto">
+            Browse the menu, build your cart, and checkout in under 2 minutes. Cash on delivery, no account needed.
           </p>
-          <a href="/menu" className="btn-primary inline-flex p-4 px-16">
+          <a href="/menu" className="btn-primary inline-flex px-12 py-3">
             Start Your Order
           </a>
         </div>

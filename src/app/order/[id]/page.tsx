@@ -87,33 +87,33 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <section className="bg-charcoal border-b border-border py-16 lg:py-24">
+      <section className="bg-surface border-b border-border py-16 lg:py-20">
         <div className="container-padding">
           <div className="max-w-3xl mx-auto text-center animate-fade-in">
-            <span className="font-body label-lg text-gold tracking-widest mb-4 block">ORDER STATUS</span>
-            <h1 className="font-display text-headline-lg-mobile lg:text-headline-lg text-cream mb-4">
-              Order <span className="text-gold">{order.order_code}</span>
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">order status</span>
+            <h1 className="font-display text-h2 text-primary-text mb-4">
+              order <span className="text-gold">{order.order_code}</span>
             </h1>
             <div className="flex items-center justify-center gap-4 mb-6">
               <span className={`badge ${config.color}`}>{config.label}</span>
             </div>
-            <p className="font-body body-lg text-on-surface-variant">{config.description}</p>
+            <p className="font-body text-base text-primary-text/60">{config.description}</p>
           </div>
         </div>
       </section>
 
-      <section className="section-spacing bg-charcoal">
+      <section className="section-spacing bg-background">
         <div className="container-padding">
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2 space-y-6">
               {/* Order Details */}
-              <div className="card-elevated p-6 lg:p-8">
-                <h2 className="font-display text-headline-sm text-cream mb-6">Order Details</h2>
+              <div className="bg-surface border border-border p-6 lg:p-8">
+                <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">order details</h2>
                 <ul className="space-y-4" role="list">
                   {order.items.map((item, index) => (
                     <li key={index} className="flex gap-4 py-4 border-b border-border last:border-0">
-                      <div className="relative w-16 h-16 flex-shrink-0 rounded-soft-sm overflow-hidden">
+                      <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden">
                         <img
                           src={item.image || '/images/Menu_Items.png'}
                           alt={item.name}
@@ -122,15 +122,15 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-display text-headline-sm text-cream truncate">{item.name}</h3>
-                          <span className="font-display text-headline-sm text-gold flex-shrink-0">
+                          <h3 className="font-display text-base text-primary-text truncate uppercase tracking-[0.5px]">{item.name}</h3>
+                          <span className="font-display text-base text-gold flex-shrink-0">
                             {formatPrice(item.unitPrice * item.quantity)}
                           </span>
                         </div>
                         <div className="flex items-center gap-4 mt-1">
-                          <span className="font-body body-md text-on-surface-variant">Qty: {item.quantity}</span>
+                          <span className="font-body text-sm text-primary-text/60">Qty: {item.quantity}</span>
                           {Object.keys(item.selectedOptions).length > 0 && (
-                            <span className="font-body body-md text-on-surface-variant/70">
+                            <span className="font-body text-sm text-primary-text/50">
                               {Object.values(item.selectedOptions).join(', ')}
                             </span>
                           )}
@@ -142,28 +142,28 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
               </div>
 
               {/* Delivery Info */}
-              <div className="card-elevated p-6 lg:p-8">
-                <h2 className="font-display text-headline-sm text-cream mb-6">Delivery Information</h2>
+              <div className="bg-surface border border-border p-6 lg:p-8">
+                <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">delivery information</h2>
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="flex items-start gap-3">
                     <UserIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-body label-md text-on-surface-variant">Customer</p>
-                      <p className="font-display text-headline-sm text-cream">{order.customer_name}</p>
+                      <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">Customer</p>
+                      <p className="font-display text-base text-primary-text uppercase tracking-[0.5px]">{order.customer_name}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <PhoneIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-body label-md text-on-surface-variant">Phone</p>
-                      <p className="font-display text-headline-sm text-cream">{order.customer_phone}</p>
+                      <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">Phone</p>
+                      <p className="font-display text-base text-primary-text">{order.customer_phone}</p>
                     </div>
                   </div>
                   <div className="sm:col-span-2 flex items-start gap-3">
                     <MapPinIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-body label-md text-on-surface-variant">Delivery Address</p>
-                      <p className="font-body body-md text-cream">{order.delivery_address}</p>
+                      <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">Delivery Address</p>
+                      <p className="font-body text-sm text-primary-text">{order.delivery_address}</p>
                     </div>
                   </div>
                 </div>
@@ -171,8 +171,8 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
 
               {/* Staff Controls */}
               {isStaff && (
-                <div className="card-gold-frame">
-                  <h2 className="font-display text-headline-sm text-cream mb-6">Staff Controls</h2>
+                <div className="bg-surface-elevated border border-gold p-6 lg:p-8">
+                  <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">staff controls</h2>
                   <div className="flex flex-wrap gap-3">
                     {(['confirmed', 'delivered', 'cancelled'] as const).map((status) => {
                       if (order.status === status) return null;
@@ -203,23 +203,22 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
               )}
             </div>
 
-            {/* Sidebar — Gold Frame */}
+            {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="sticky top-24 card-gold-frame space-y-6">
+              <div className="sticky top-24 bg-surface-elevated border border-gold p-6 lg:p-8 space-y-6">
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-display text-headline-sm text-cream">Total</h3>
-                    <span className="font-display text-headline-lg text-gold">{formatPrice(order.total)}</span>
+                  <div className="flex items-center justify-between mb-5">
+                    <h3 className="font-display text-lg text-primary-text uppercase tracking-[1px]">total</h3>
+                    <span className="font-display text-2xl text-gold">{formatPrice(order.total)}</span>
                   </div>
-                  {/* Progress Bar */}
                   <div>
-                    <div className="h-2 bg-border rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-border overflow-hidden">
                       <div
-                        className="h-full bg-gold rounded-full transition-all duration-500"
+                        className="h-full bg-gold transition-all duration-500"
                         style={{ width: `${PROGRESS_WIDTHS[order.status] || 0}%` }}
                       />
                     </div>
-                    <div className="flex justify-between mt-2 font-body label-md text-on-surface-variant">
+                    <div className="flex justify-between mt-2 font-body text-[10px] tracking-[1px] uppercase text-primary-text/60">
                       <span className={STATUS_ORDER[order.status] >= 0 ? 'text-gold' : ''}>Placed</span>
                       <span className={['confirmed', 'delivered'].includes(order.status) ? 'text-gold' : ''}>Confirmed</span>
                       <span className={order.status === 'delivered' ? 'text-gold' : ''}>Delivered</span>
@@ -229,8 +228,8 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
 
                 {/* Timeline */}
                 <div className="border-t border-border pt-6">
-                  <h3 className="font-display text-headline-sm text-cream mb-4">Timeline</h3>
-                  <div className="space-y-4">
+                  <h3 className="font-display text-lg text-primary-text mb-5 uppercase tracking-[1px]">timeline</h3>
+                  <div className="space-y-5">
                     {allStatuses.map((status, index) => {
                       const isCompleted = STATUS_ORDER[order.status] >= index;
                       const isCurrent = order.status === status;
@@ -240,33 +239,33 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                         <div key={status} className="flex items-start gap-3 relative">
                           <div className="relative flex-shrink-0">
                             <div
-                              className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
+                              className={`w-9 h-9 flex items-center justify-center border ${
                                 isCompleted
                                   ? 'bg-gold border-gold'
-                                  : 'bg-charcoal border-border'
+                                  : 'bg-surface border-border'
                               }`}
                             >
-                              <StatusIcon className={`w-5 h-5 ${isCompleted ? 'text-charcoal' : 'text-on-surface-variant'}`} />
+                              <StatusIcon className={`w-4 h-4 ${isCompleted ? 'text-charcoal' : 'text-primary-text/50'}`} />
                             </div>
                             {index < 2 && (
                               <div
-                                className="absolute left-5 top-10 bottom-[-16px] w-px"
+                                className="absolute left-4 top-9 bottom-[-12px] w-px"
                                 style={{ background: index < STATUS_ORDER[order.status] ? 'var(--color-gold)' : 'var(--color-border)' }}
                               />
                             )}
                           </div>
-                          <div className="flex-1 pt-1">
+                          <div className="flex-1 pt-0.5">
                             <div className="flex items-center gap-2">
-                              <span className={`font-display text-headline-sm ${isCompleted ? 'text-cream' : 'text-on-surface-variant'}`}>
+                              <span className={`font-display text-sm uppercase tracking-[0.5px] ${isCompleted ? 'text-primary-text' : 'text-primary-text/50'}`}>
                                 {statusConfig.label}
                               </span>
                               {isCurrent && (
-                                <span className="chip bg-gold/10 text-gold animate-pulse">Current</span>
+                                <span className="chip-gold text-[9px]">Current</span>
                               )}
                             </div>
-                            <p className="font-body body-md text-on-surface-variant mt-1">{statusConfig.description}</p>
+                            <p className="font-body text-xs text-primary-text/60 mt-0.5">{statusConfig.description}</p>
                             {isCompleted && (
-                              <p className="font-body label-md text-on-surface-variant/60 mt-1">
+                              <p className="font-body text-[10px] tracking-[0.5px] text-primary-text/40 mt-1">
                                 {new Date(order[status === 'placed' ? 'created_at' : 'updated_at']).toLocaleString()}
                               </p>
                             )}
@@ -283,20 +282,20 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       </section>
 
       {/* Help CTA */}
-      <section className="section-spacing bg-background text-center">
+      <section className="section-spacing bg-surface border-t border-border text-center">
         <div className="container-padding">
-          <span className="font-body label-lg text-gold tracking-widest mb-4 block">NEED HELP?</span>
-          <h2 className="font-display text-headline-lg-mobile lg:text-headline-lg text-cream mb-4">Questions About Your Order?</h2>
-          <p className="font-body body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">
+          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">need help?</span>
+          <h2 className="font-display text-h2 text-primary-text mb-4">questions about your order?</h2>
+          <p className="font-body text-base text-primary-text/60 mb-8 max-w-xl mx-auto">
             Contact us directly via WhatsApp or phone. We&apos;re here to help.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} target="_blank" rel="noopener noreferrer" className="btn-whatsapp inline-flex">
-              <WhatsAppIcon className="w-5 h-5" />
+              <WhatsAppIcon className="w-4 h-4" />
               Contact on WhatsApp
             </a>
             <a href={`tel:+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} className="btn-secondary inline-flex">
-              <PhoneIcon className="w-5 h-5" />
+              <PhoneIcon className="w-4 h-4" />
               Call Us
             </a>
           </div>

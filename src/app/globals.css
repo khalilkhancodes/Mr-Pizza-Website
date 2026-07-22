@@ -1,142 +1,103 @@
-﻿@tailwind base;
+﻿@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/*
- * MR. PIZZA — Design System
- * -------------------------
- * All visual tokens are defined as CSS custom properties in :root
- * and mapped to Tailwind v4 utility classes via tailwind.config.ts.
- *
- * Convention:
- *   --<category>-<token>  (raw value)
- *   .<class-name>          (component utility in @layer components)
- *
- * Categories: colors, typography (14 levels), spacing (8px scale),
- * radii, shadows, transitions, z-index, layout.
- */
-
 @layer base {
   :root {
-    /*
-     * COLOR PALETTE
-     * Dark theme with gold accent.
-     * Usage: bg-background, text-on-background, border-border, etc.
-     */
-    --color-background: #121212;
-    --color-surface: #191919;
-    --color-surface-elevated: #232323;
+    --color-background: #0F0F0F;
+    --color-surface: #1A1A1A;
+    --color-surface-elevated: #222222;
     --color-primary-text: #FFFFFF;
     --color-secondary-text: rgba(255, 255, 255, 0.74);
     --color-muted: rgba(255, 255, 255, 0.52);
     --color-gold: #D4AF37;
     --color-gold-hover: #E6C24A;
-    --color-gold-dim: #E6C24A;
-    --color-on-gold: #1A1100;
-    --color-border: rgba(255, 255, 255, 0.08);
+    --color-gold-dim: rgba(212, 175, 55, 0.15);
+    --color-on-gold: #0F0F0F;
+    --color-border: rgba(212, 175, 55, 0.15);
     --color-cream: #FFFFFF;
     --color-on-surface-variant: rgba(255, 255, 255, 0.74);
-    --color-charcoal: #121212;
-    --color-charcoal-50: #1B1B1B;
-    --color-charcoal-100: #232323;
+    --color-charcoal: #0F0F0F;
+    --color-charcoal-50: #1A1A1A;
+    --color-charcoal-100: #222222;
     --color-charcoal-300: #2A2A2A;
     --color-error: #EF4444;
     --color-error-bg: rgba(239, 68, 68, 0.1);
     --color-whatsapp: #25D366;
     --color-whatsapp-hover: #1DA851;
 
-    /*
-     * TYPOGRAPHY — Font Families
-     * --font-display (Sora): headings, hero, card titles, prices
-     * --font-body (Inter):   body copy, captions, labels, buttons, nav
-     */
-    --font-display: var(--font-sora), Georgia, serif;
+    --font-display: var(--font-anton), Impact, sans-serif;
+    --font-heading: var(--font-anton), Impact, sans-serif;
     --font-body: var(--font-inter), system-ui, sans-serif;
 
-    /*
-     * FONT SIZE SCALE — 14 levels
-     * Suffix: -lh = line-height, -ls = letter-spacing, -weight = font-weight
-     * Only weights 400/500/600/700 are used.
-     * Mapping: hero-label/hero-title → homepage hero section
-     *          h1-h5 → section/page headings
-     *          card-title/product-name → menu assets
-     *          price → monetary values (always gold)
-     *          body-large/body/small → prose text
-     *          caption → metadata, timestamps
-     *          nav/button → navbar links & CTA buttons
-     */
-    --text-hero-label: 12px;
-    --text-hero-label-lh: 16px;
-    --text-hero-label-ls: 3px;
+    --text-hero-label: 11px;
+    --text-hero-label-lh: 1;
+    --text-hero-label-ls: 4px;
     --text-hero-label-weight: 700;
 
-    --text-hero-title: 64px;
-    --text-hero-title-lh: 72px;
+    --text-hero-title: clamp(4rem, 12vw, 10rem);
+    --text-hero-title-lh: 0.88;
     --text-hero-title-ls: -0.02em;
-    --text-hero-title-weight: 700;
+    --text-hero-title-weight: 400;
 
-    --text-h1: 52px;
-    --text-h1-lh: 20px;
-    --text-h1-weight: 700;
+    --text-h1: clamp(2.5rem, 6vw, 5rem);
+    --text-h1-lh: 0.9;
+    --text-h1-weight: 400;
 
-    --text-h2: 44px;
-    --text-h2-lh: 20px;
-    --text-h2-weight: 700;
+    --text-h2: clamp(2rem, 4vw, 3.5rem);
+    --text-h2-lh: 0.9;
+    --text-h2-weight: 400;
 
-    --text-h3: 24px;
-    --text-h3-lh: 32px;
-    --text-h3-weight: 600;
+    --text-h3: clamp(1.25rem, 2.5vw, 1.75rem);
+    --text-h3-lh: 1.1;
+    --text-h3-weight: 400;
 
-    --text-h4: 18px;
-    --text-h4-lh: 20px;
-    --text-h4-weight: 600;
+    --text-h4: 1rem;
+    --text-h4-lh: 1.2;
+    --text-h4-weight: 400;
 
-    --text-h5: 14px;
-    --text-h5-lh: 20px;
+    --text-h5: 0.875rem;
+    --text-h5-lh: 1.3;
     --text-h5-weight: 400;
 
-    --text-card-title: 20px;
-    --text-card-title-lh: 32px;
-    --text-card-title-weight: 700;
+    --text-card-title: 1.25rem;
+    --text-card-title-lh: 1.1;
+    --text-card-title-weight: 400;
 
-    --text-product-name: 22px;
-    --text-product-name-lh: 30px;
-    --text-product-name-weight: 600;
+    --text-product-name: 1.375rem;
+    --text-product-name-lh: 1.1;
+    --text-product-name-weight: 400;
 
-    --text-price: 3px;
-    --text-price-lh: 40px;
-    --text-price-weight: 700;
+    --text-price: 1.5rem;
+    --text-price-lh: 1;
+    --text-price-weight: 400;
 
-    --text-body-large: 18px;
-    --text-body-large-lh: 30px;
+    --text-body-large: 1.125rem;
+    --text-body-large-lh: 1.6;
     --text-body-large-weight: 400;
 
-    --text-body: 16px;
-    --text-body-lh: 28px;
+    --text-body: 1rem;
+    --text-body-lh: 1.6;
     --text-body-weight: 400;
 
-    --text-small: 14px;
-    --text-small-lh: 22px;
+    --text-small: 0.875rem;
+    --text-small-lh: 1.5;
     --text-small-weight: 400;
 
-    --text-caption: 12px;
-    --text-caption-lh: 18px;
+    --text-caption: 0.75rem;
+    --text-caption-lh: 1.3;
     --text-caption-weight: 500;
 
-    --text-nav: 15px;
-    --text-nav-ls: 0.2px;
-    --text-nav-weight: 500;
+    --text-nav: 0.8125rem;
+    --text-nav-ls: 1px;
+    --text-nav-weight: 600;
 
-    --text-button: 14px;
-    --text-button-ls: 0.8px;
+    --text-button: 0.8125rem;
+    --text-button-ls: 2px;
     --text-button-weight: 700;
 
-    /*
-     * SEMANTIC ALIASES (backward compat)
-     * These map original Tailwind-style semantic names to the
-     * canonical size tokens above. Prefer canonical tokens in
-     * new code; these exist for gradual migration.
-     */
     --text-display-lg: var(--text-hero-title);
     --text-display-lg-lh: var(--text-hero-title-lh);
     --text-display-lg-ls: var(--text-hero-title-ls);
@@ -155,9 +116,9 @@
     --text-headline-md-lh: var(--text-h2-lh);
     --text-headline-md-weight: var(--text-h2-weight);
 
-    --text-headline-sm: var(--text-h4);
-    --text-headline-sm-lh: var(--text-h4-lh);
-    --text-headline-sm-weight: var(--text-h4-weight);
+    --text-headline-sm: var(--text-h3);
+    --text-headline-sm-lh: var(--text-h3-lh);
+    --text-headline-sm-weight: var(--text-h3-weight);
 
     --text-body-lg: var(--text-body-large);
     --text-body-lg-lh: var(--text-body-large-lh);
@@ -181,12 +142,6 @@
     --text-label-md-ls: 1.5px;
     --text-label-md-weight: 600;
 
-    /*
-     * SPACING SCALE — 8px grid
-     * Values: 4, 8, 12, 16, 20, 24, 28, 32, 40, 48, 64, 80, 96, 120.
-     * Used through Tailwind utilities (p-X, m-X, gap-X, space-X).
-     * Token --space-gutter = minimum horizontal page padding.
-     */
     --space-4: 4px;
     --space-8: 8px;
     --space-12: 12px;
@@ -195,18 +150,13 @@
     --space-24: 24px;
     --space-28: 28px;
     --space-32: 32px;
-    --space-40: 40px;
+    --space-40: 20px;
     --space-48: 48px;
     --space-64: 64px;
     --space-80: 80px;
     --space-96: 96px;
     --space-120: 120px;
 
-    /*
-     * SEMANTIC SPACING ALIASES (backward compat)
-     * Named tiers (xs → 4xl) mapping to the 8px scale.
-     * --space-gutter: page inset on mobile (16px → 40px on md+).
-     */
     --space-base: var(--space-16);
     --space-xs: var(--space-4);
     --space-sm: var(--space-8);
@@ -221,68 +171,66 @@
     --space-margin-desktop: var(--space-40);
     --space-container-max: 1280px;
 
-    /*
-     * BORDER RADIUS
-     * Convention: buttons/images → 2px, cards → 4px,
-     * inputs → 6px, modals → 8px. No pill shapes.
-     */
-    --radius-2: 2px;
-    --radius-4: 4px;
-    --radius-6: 6px;
-    --radius-8: 8px;
-    --radius-full: 9999px;
     --radius-sharp: 0px;
-    --radius-soft-sm: var(--radius-4);
-    --radius-soft-md: var(--radius-8);
-    --radius-soft-lg: 12px;
+    --radius-soft-sm: 0px;
+    --radius-soft-md: 0px;
+    --radius-soft-lg: 0px;
+    --radius-full: 9999px;
 
-    /* BORDER WIDTHS — 1px default, 2px for gold accents */
     --border-1: 1px;
     --border-2: 2px;
 
-    /*
-     * SHADOWS
-     * card: default resting state for elevated cards
-     * card-hover: lifted state on card hover
-     * gold-glow / whatsapp-glow: accent glows for CTA buttons
-     * btn-hover: generic button lift on hover
-     */
-    --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.18);
-    --shadow-card-hover: 0 14px 35px rgba(0, 0, 0, 0.30);
-    --shadow-gold-glow: 0 0 24px rgba(212, 175, 55, 0.25);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --shadow-gold-glow: 0 0 30px rgba(212, 175, 55, 0.2);
     --shadow-whatsapp-glow: 0 0 24px rgba(37, 211, 102, 0.25);
-    --shadow-btn-hover: 0 8px 25px rgba(0, 0, 0, 0.25);
+    --shadow-btn-hover: 0 8px 25px rgba(0, 0, 0, 0.3);
 
-    /*
-     * TRANSITIONS
-     * fast (150ms):   color/hover micro-interactions
-     * normal (300ms): card hover, panel slide
-     * slow (500ms):   hero animations, page transitions
-     * 250/300:        button hover, input focus
-     */
     --transition-250: 250ms ease;
     --transition-300: 300ms ease;
     --transition-fast: 150ms ease;
     --transition-normal: 300ms ease;
     --transition-slow: 500ms ease;
 
-    /*
-     * Z-INDEX STACKING
-     * nav → cart-drawer → modal → toast (ascending order).
-     * Each tier ensures UI chrome layers correctly above content.
-     */
     --z-nav: 999;
     --z-cart-drawer: 60;
     --z-modal: 70;
     --z-toast: 80;
 
-    /*
-     * LAYOUT CONSTRAINTS
-     * --layout-container-max: outer page wrapper max-width (1280px)
-     * --layout-content-max:   inner content max-width (960px) for readability
-     */
     --layout-container-max: 1280px;
     --layout-content-max: 960px;
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0px;
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
   }
 
   body {
@@ -301,15 +249,42 @@
   * {
     border-color: var(--color-border);
   }
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
 }
 
 @layer components {
-  /* ============================
-     CONTAINER & LAYOUT
-     Use .container for full-width sections (hero, banners)
-     Use .container-padding for standard page content (fixed width + gutter)
-     Use .container-narrow inside .container-padding for text-heavy areas
-     ============================ */
   .container {
     width: 100%;
     max-width: var(--layout-container-max);
@@ -339,7 +314,6 @@
     }
   }
 
-  /* SECTION SPACING — consistent vertical rhythm between page sections */
   .section-spacing {
     padding-top: var(--space-96);
     padding-bottom: var(--space-96);
@@ -350,12 +324,6 @@
     padding-bottom: var(--space-64);
   }
 
-  /* ============================
-     TYPOGRAPHY — Component-level text classes
-     Each maps to the :root token of the same name.
-     Display font (Sora) → headings, hero, card titles, prices
-     Body font (Inter) → prose, captions, labels, buttons
-     ============================ */
   .text-hero-label {
     font-family: var(--font-body);
     font-size: var(--text-hero-label);
@@ -371,218 +339,47 @@
     font-weight: var(--text-hero-title-weight);
     line-height: var(--text-hero-title-lh);
     letter-spacing: var(--text-hero-title-ls);
-  }
-
-  .text-h1 {
-    font-family: var(--font-display);
-    font-size: var(--text-h1);
-    font-weight: var(--text-h1-weight);
-    line-height: var(--text-h1-lh);
-  }
-
-  .text-h2 {
-    font-family: var(--font-display);
-    font-size: var(--text-h2);
-    font-weight: var(--text-h2-weight);
-    line-height: var(--text-h2-lh);
-  }
-
-  .text-h3 {
-    font-family: var(--font-display);
-    font-size: var(--text-h3);
-    font-weight: var(--text-h3-weight);
-    line-height: var(--text-h3-lh);
-  }
-
-  .text-h4 {
-    font-family: var(--font-display);
-    font-size: var(--text-h4);
-    font-weight: var(--text-h4-weight);
-    line-height: var(--text-h4-lh);
-  }
-
-  .text-h5 {
-    font-family: var(--font-display);
-    font-size: var(--text-h5);
-    font-weight: var(--text-h5-weight);
-    line-height: var(--text-h5-lh);
-  }
-
-  .text-card-title {
-    font-family: var(--font-display);
-    font-size: var(--text-card-title);
-    font-weight: var(--text-card-title-weight);
-    line-height: var(--text-card-title-lh);
-  }
-
-  .text-product-name {
-    font-family: var(--font-display);
-    font-size: var(--text-product-name);
-    font-weight: var(--text-product-name-weight);
-    line-height: var(--text-product-name-lh);
-  }
-
-  .text-price {
-    font-family: var(--font-display);
-    font-size: var(--text-price);
-    font-weight: var(--text-price-weight);
-    line-height: var(--text-price-lh);
-    color: var(--color-gold);
-  }
-
-  .text-body-large {
-    font-family: var(--font-body);
-    font-size: var(--text-body-large);
-    font-weight: var(--text-body-large-weight);
-    line-height: var(--text-body-large-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-body {
-    font-family: var(--font-body);
-    font-size: var(--text-body);
-    font-weight: var(--text-body-weight);
-    line-height: var(--text-body-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-small {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    font-weight: var(--text-small-weight);
-    line-height: var(--text-small-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-caption {
-    font-family: var(--font-body);
-    font-size: var(--text-caption);
-    font-weight: var(--text-caption-weight);
-    line-height: var(--text-caption-lh);
-    color: var(--color-muted);
-  }
-
-  /*
-   * SEMANTIC TEXT ALIASES (backward compat)
-   * Maps original Tailwind-style names to the canonical 14-level scale.
-   * Prefer canonical (.text-h1, .text-body, etc.) in new code.
-   */
-  .text-display-lg {
-    font-family: var(--font-display);
-    font-size: var(--text-display-lg);
-    font-weight: var(--text-display-lg-weight);
-    line-height: var(--text-display-lg-lh);
-    letter-spacing: var(--text-display-lg-ls);
-  }
-
-  .text-headline-lg {
-    font-family: var(--font-display);
-    font-size: var(--text-headline-lg);
-    font-weight: var(--text-headline-lg-weight);
-    line-height: var(--text-headline-lg-lh);
-  }
-
-  .text-headline-lg-mobile {
-    font-family: var(--font-display);
-    font-size: var(--text-headline-lg-mobile);
-    font-weight: var(--text-headline-lg-mobile-weight);
-    line-height: var(--text-headline-lg-mobile-lh);
-  }
-
-  .text-headline-md {
-    font-family: var(--font-display);
-    font-size: var(--text-headline-md);
-    font-weight: var(--text-headline-md-weight);
-    line-height: var(--text-headline-md-lh);
-  }
-
-  .text-headline-sm {
-    font-family: var(--font-display);
-    font-size: var(--text-headline-sm);
-    font-weight: var(--text-headline-sm-weight);
-    line-height: var(--text-headline-sm-lh);
-  }
-
-  .text-body-lg {
-    font-family: var(--font-body);
-    font-size: var(--text-body-lg);
-    font-weight: var(--text-body-lg-weight);
-    line-height: var(--text-body-lg-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-body-md {
-    font-family: var(--font-body);
-    font-size: var(--text-body-md);
-    font-weight: var(--text-body-md-weight);
-    line-height: var(--text-body-md-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-body-sm {
-    font-family: var(--font-body);
-    font-size: var(--text-body-sm);
-    font-weight: var(--text-body-sm-weight);
-    line-height: var(--text-body-sm-lh);
-    color: var(--color-secondary-text);
-  }
-
-  .text-label-lg {
-    font-family: var(--font-body);
-    font-size: var(--text-label-lg);
-    font-weight: var(--text-label-lg-weight);
-    line-height: var(--text-label-lg-lh);
-    letter-spacing: var(--text-label-lg-ls);
     text-transform: uppercase;
   }
 
-  .text-label-md {
-    font-family: var(--font-body);
-    font-size: var(--text-label-md);
-    font-weight: var(--text-label-md-weight);
-    line-height: var(--text-label-md-lh);
-    letter-spacing: var(--text-label-md-ls);
-    text-transform: uppercase;
-  }
+  .text-h1 { font-family: var(--font-display); font-size: var(--text-h1); font-weight: var(--text-h1-weight); line-height: var(--text-h1-lh); text-transform: uppercase; }
+  .text-h2 { font-family: var(--font-display); font-size: var(--text-h2); font-weight: var(--text-h2-weight); line-height: var(--text-h2-lh); text-transform: uppercase; }
+  .text-h3 { font-family: var(--font-display); font-size: var(--text-h3); font-weight: var(--text-h3-weight); line-height: var(--text-h3-lh); text-transform: uppercase; }
+  .text-h4 { font-family: var(--font-display); font-size: var(--text-h4); font-weight: var(--text-h4-weight); line-height: var(--text-h4-lh); text-transform: uppercase; }
+  .text-h5 { font-family: var(--font-display); font-size: var(--text-h5); font-weight: var(--text-h5-weight); line-height: var(--text-h5-lh); text-transform: uppercase; }
+  .text-card-title { font-family: var(--font-display); font-size: var(--text-card-title); font-weight: var(--text-card-title-weight); line-height: var(--text-card-title-lh); text-transform: uppercase; }
+  .text-product-name { font-family: var(--font-display); font-size: var(--text-product-name); font-weight: var(--text-product-name-weight); line-height: var(--text-product-name-lh); }
+  .text-price { font-family: var(--font-display); font-size: var(--text-price); font-weight: var(--text-price-weight); line-height: var(--text-price-lh); color: var(--color-gold); }
+  .text-body-large { font-family: var(--font-body); font-size: var(--text-body-large); font-weight: var(--text-body-large-weight); line-height: var(--text-body-large-lh); color: var(--color-secondary-text); }
+  .text-body { font-family: var(--font-body); font-size: var(--text-body); font-weight: var(--text-body-weight); line-height: var(--text-body-lh); color: var(--color-secondary-text); }
+  .text-small { font-family: var(--font-body); font-size: var(--text-small); font-weight: var(--text-small-weight); line-height: var(--text-small-lh); color: var(--color-secondary-text); }
+  .text-caption { font-family: var(--font-body); font-size: var(--text-caption); font-weight: var(--text-caption-weight); line-height: var(--text-caption-lh); color: var(--color-muted); }
+  .text-display-lg { font-family: var(--font-display); font-size: var(--text-display-lg); font-weight: var(--text-display-lg-weight); line-height: var(--text-display-lg-lh); letter-spacing: var(--text-display-lg-ls); text-transform: uppercase; }
+  .text-headline-lg { font-family: var(--font-display); font-size: var(--text-headline-lg); font-weight: var(--text-headline-lg-weight); line-height: var(--text-headline-lg-lh); text-transform: uppercase; }
+  .text-headline-lg-mobile { font-family: var(--font-display); font-size: var(--text-headline-lg-mobile); font-weight: var(--text-headline-lg-mobile-weight); line-height: var(--text-headline-lg-mobile-lh); text-transform: uppercase; }
+  .text-headline-md { font-family: var(--font-display); font-size: var(--text-headline-md); font-weight: var(--text-headline-md-weight); line-height: var(--text-headline-md-lh); text-transform: uppercase; }
+  .text-headline-sm { font-family: var(--font-display); font-size: var(--text-headline-sm); font-weight: var(--text-headline-sm-weight); line-height: var(--text-headline-sm-lh); text-transform: uppercase; }
+  .text-body-lg { font-family: var(--font-body); font-size: var(--text-body-lg); font-weight: var(--text-body-lg-weight); line-height: var(--text-body-lg-lh); color: var(--color-secondary-text); }
+  .text-body-md { font-family: var(--font-body); font-size: var(--text-body-md); font-weight: var(--text-body-md-weight); line-height: var(--text-body-md-lh); color: var(--color-secondary-text); }
+  .text-body-sm { font-family: var(--font-body); font-size: var(--text-body-sm); font-weight: var(--text-body-sm-weight); line-height: var(--text-body-sm-lh); color: var(--color-secondary-text); }
+  .text-label-lg { font-family: var(--font-body); font-size: var(--text-label-lg); font-weight: var(--text-label-lg-weight); line-height: var(--text-label-lg-lh); letter-spacing: var(--text-label-lg-ls); text-transform: uppercase; }
+  .text-label-md { font-family: var(--font-body); font-size: var(--text-label-md); font-weight: var(--text-label-md-weight); line-height: var(--text-label-md-lh); letter-spacing: var(--text-label-md-ls); text-transform: uppercase; }
+  .price-lg { font-family: var(--font-display); font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 400; line-height: 1; color: var(--color-gold); }
+  .price-original { font-family: var(--font-body); font-size: var(--text-small); color: var(--color-muted); text-decoration: line-through; }
 
-  /* Price display — always gold, large, bold. Used on menu items and deal cards. */
-  .price-lg {
-    font-family: var(--font-display);
-    font-size: var(--text-price);
-    font-weight: var(--text-price-weight);
-    line-height: var(--text-price-lh);
-    color: var(--color-gold);
-  }
-
-  /* Strikethrough original price — muted, small. Used for sale/discount display. */
-  .price-original {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--color-muted);
-    text-decoration: line-through;
-  }
-
-  /* ============================
-     BUTTONS
-     Base: 52px height, 2px radius, uppercase, 14px/700/0.8em ls
-     Variants: primary (gold fill), secondary (outline), tertiary (text),
-               ghost (minimal), whatsapp (green)
-     Size mods: btn-lg (56px), btn-sm (40px)
-     Hover: translateY(-2px) + shadow lift, 250ms ease
-     ============================ */
   .btn-base {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-8);
-    height: 52px;
-    padding: var(--space-16) var(--space-28);
+    height: 50px;
+    padding: var(--space-12) var(--space-28);
     font-family: var(--font-body);
     font-size: var(--text-button);
     font-weight: var(--text-button-weight);
     letter-spacing: var(--text-button-ls);
     text-transform: uppercase;
-    border-radius: var(--radius-2);
+    border-radius: 0;
     transition: all var(--transition-250);
     cursor: pointer;
     border: none;
@@ -591,34 +388,25 @@
     white-space: nowrap;
     line-height: 1;
   }
-
-  .btn-base:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-btn-hover);
-  }
-
-  .btn-base:active {
-    transform: translateY(0);
-  }
+  .btn-base:hover { box-shadow: var(--shadow-btn-hover); }
+  .btn-base:active { transform: translateY(0); }
 
   .btn-primary {
     background-color: var(--color-gold);
-    color: var(--color-on-gold);
-    border: var(--border-1) solid var(--color-gold);
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-gold);
   }
-
   .btn-primary:hover {
     background-color: var(--color-gold-hover);
     border-color: var(--color-gold-hover);
-    color: var(--color-on-gold);
+    color: var(--color-charcoal);
   }
 
   .btn-secondary {
     background-color: transparent;
     color: var(--color-primary-text);
-    border: var(--border-1) solid var(--color-border);
+    border: 1px solid var(--color-border);
   }
-
   .btn-secondary:hover {
     border-color: var(--color-gold);
     color: var(--color-gold);
@@ -627,81 +415,53 @@
   .btn-tertiary {
     background-color: transparent;
     color: var(--color-gold);
-    border: var(--border-1) solid transparent;
+    border: 1px solid transparent;
     padding: var(--space-8) var(--space-16);
     height: auto;
   }
-
-  .btn-tertiary:hover {
-    color: var(--color-gold-hover);
-  }
+  .btn-tertiary:hover { color: var(--color-gold-hover); }
 
   .btn-ghost {
     background-color: transparent;
     color: var(--color-primary-text);
-    border: var(--border-1) solid transparent;
+    border: 1px solid transparent;
     height: auto;
     padding: var(--space-8) var(--space-16);
   }
-
-  .btn-ghost:hover {
-    color: var(--color-gold);
-  }
+  .btn-ghost:hover { color: var(--color-gold); }
 
   .btn-whatsapp {
     background-color: var(--color-whatsapp);
     color: #000000;
-    border: var(--border-1) solid var(--color-whatsapp);
+    border: 1px solid var(--color-whatsapp);
   }
-
   .btn-whatsapp:hover {
     background-color: var(--color-whatsapp-hover);
     border-color: var(--color-whatsapp-hover);
     box-shadow: var(--shadow-whatsapp-glow);
   }
 
-  .btn-lg {
-    height: 56px;
-    padding: var(--space-16) var(--space-32);
-    font-size: 15px;
-  }
+  .btn-lg { height: 56px; padding: var(--space-16) var(--space-36); font-size: 0.875rem; letter-spacing: 2.5px; }
+  .btn-sm { height: 40px; padding: var(--space-8) var(--space-20); font-size: 0.75rem; }
 
-  .btn-sm {
-    height: 40px;
-    padding: var(--space-8) var(--space-20);
-    font-size: 12px;
-  }
-
-  /* ============================
-     CARDS
-     Three card styles:
-       card-elevated  — generic content card (shadow resting → lifted on hover)
-       card-menu      — menu item card (gold border on hover, overflow hidden)
-       card-gold-frame — special/deal card (gold border always visible)
-     All share: surface-elevated bg, 4px radius, 1px border, 300ms transition
-     ============================ */
   .card-elevated {
-    background-color: var(--color-surface-elevated);
-    border: var(--border-1) solid var(--color-border);
-    border-radius: var(--radius-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
     box-shadow: var(--shadow-card);
     transition: all var(--transition-300);
   }
-
-  .card-elevated:hover {
-    box-shadow: var(--shadow-card-hover);
-  }
+  .card-elevated:hover { box-shadow: var(--shadow-card-hover); }
 
   .card-menu {
     background-color: var(--color-surface-elevated);
-    border: var(--border-1) solid var(--color-border);
-    border-radius: var(--radius-4);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
     transition: all var(--transition-300);
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
-
   .card-menu:hover {
     box-shadow: var(--shadow-card-hover);
     border-color: var(--color-gold);
@@ -709,32 +469,21 @@
 
   .card-gold-frame {
     background-color: var(--color-surface-elevated);
-    border: var(--border-2) solid var(--color-gold);
-    border-radius: var(--radius-4);
+    border: 1px solid var(--color-gold);
+    border-radius: 0;
     padding: var(--space-28);
     box-shadow: var(--shadow-card);
     transition: all var(--transition-300);
   }
+  .card-gold-frame:hover { box-shadow: var(--shadow-card-hover); }
 
-  .card-gold-frame:hover {
-    box-shadow: var(--shadow-card-hover);
-  }
-
-  /* ============================
-     INPUTS
-     Base: 52px height, 6px radius (larger than buttons), surface bg.
-     States: focus → gold border, disabled → 50% opacity,
-     error → red border (via .input-error modifier).
-     Companion classes: .input-label (uppercase caption above),
-     .input-error-message (red error text below).
-     ============================ */
   .input-base {
     width: 100%;
-    height: 52px;
+    height: 50px;
     padding: var(--space-12) var(--space-16);
     background-color: var(--color-surface);
-    border: var(--border-1) solid var(--color-border);
-    border-radius: var(--radius-6);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
     color: var(--color-primary-text);
     font-family: var(--font-body);
     font-size: var(--text-body);
@@ -742,19 +491,9 @@
     transition: border-color var(--transition-300);
     outline: none;
   }
-
-  .input-base::placeholder {
-    color: var(--color-muted);
-  }
-
-  .input-base:focus {
-    border-color: var(--color-gold);
-  }
-
-  .input-base:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  .input-base::placeholder { color: var(--color-muted); }
+  .input-base:focus { border-color: var(--color-gold); }
+  .input-base:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .input-label {
     display: block;
@@ -767,25 +506,9 @@
     margin-bottom: var(--space-8);
   }
 
-  .input-error {
-    border-color: var(--color-error);
-  }
+  .input-error { border-color: var(--color-error); }
+  .input-error-message { font-family: var(--font-body); font-size: var(--text-small); color: var(--color-error); margin-top: var(--space-4); }
 
-  .input-error-message {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--color-error);
-    margin-top: var(--space-4);
-  }
-
-  /* ============================
-     BADGES & CHIPS
-     Chips: small 28px inline labels (e.g. "BESTSELLER", "SALE").
-       .chip-gold → gold text on gold-tinted bg
-       .chip       → generic (compose with bg-* / text-*)
-     Badges: 32px status indicators for order states.
-       .badge-placed, .badge-confirmed, .badge-delivered, .badge-cancelled
-     ============================ */
   .chip-gold {
     display: inline-flex;
     align-items: center;
@@ -798,7 +521,7 @@
     text-transform: uppercase;
     background-color: rgba(212, 175, 55, 0.12);
     color: var(--color-gold);
-    border-radius: var(--radius-2);
+    border-radius: 0;
     white-space: nowrap;
   }
 
@@ -812,14 +535,10 @@
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
-    border-radius: var(--radius-2);
+    border-radius: 0;
     white-space: nowrap;
   }
-
-  .chip.bg-gold {
-    background-color: var(--color-gold);
-    color: var(--color-on-gold);
-  }
+  .chip.bg-gold { background-color: var(--color-gold); color: var(--color-on-gold); }
 
   .badge {
     display: inline-flex;
@@ -832,55 +551,27 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    border-radius: var(--radius-2);
+    border-radius: 0;
     white-space: nowrap;
   }
 
-  .badge-placed {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: var(--color-primary-text);
-  }
+  .badge-placed { background-color: rgba(255, 255, 255, 0.08); color: var(--color-primary-text); }
+  .badge-confirmed { background-color: rgba(212, 175, 55, 0.15); color: var(--color-gold); }
+  .badge-delivered { background-color: rgba(37, 211, 102, 0.15); color: var(--color-whatsapp); }
+  .badge-cancelled { background-color: rgba(239, 68, 68, 0.15); color: var(--color-error); }
 
-  .badge-confirmed {
-    background-color: rgba(212, 175, 55, 0.15);
-    color: var(--color-gold);
-  }
-
-  .badge-delivered {
-    background-color: rgba(37, 211, 102, 0.15);
-    color: var(--color-whatsapp);
-  }
-
-  .badge-cancelled {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: var(--color-error);
-  }
-
-  /* ============================
-     UTILITIES
-     One-off composable helpers that don't fit other categories.
-     ============================ */
   .image-scrim-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      var(--color-background) 0%,
-      transparent 50%,
-      rgba(0, 0, 0, 0.4) 100%
-    );
+    background: linear-gradient(to top, var(--color-background) 0%, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
     pointer-events: none;
   }
 
-  .divider {
-    width: 100%;
-    height: 1px;
-    background-color: var(--color-border);
-  }
+  .divider { width: 100%; height: 1px; background-color: var(--color-border); }
 
   .gold-frame {
-    border: var(--border-2) solid var(--color-gold);
-    border-radius: var(--radius-4);
+    border: 1px solid var(--color-gold);
+    border-radius: 0;
     padding: var(--space-40);
   }
 
@@ -888,47 +579,14 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
   }
+  .scrollbar-custom::-webkit-scrollbar { height: 4px; }
+  .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-custom::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 0; }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.5); }
 
-  .scrollbar-custom::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .scrollbar-custom::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-custom::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.3);
-    border-radius: 9999px;
-  }
-
-  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-    background: rgba(212, 175, 55, 0.5);
-  }
-
-  /* ============================
-     ANIMATIONS
-     fadeIn → general entry (600ms)
-     slideUp → staggered list items (500ms)
-     scaleIn → modal/dialog entry (400ms)
-     pulse → attention-grabbing (2s infinite)
-     progress-bar → loading indicator animation
-     ============================ */
-  .animate-fade-in {
-    animation: fadeIn 600ms ease forwards;
-  }
-
-  .animate-slide-up {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 500ms ease forwards;
-  }
-
-  .animate-scale-in {
-    opacity: 0;
-    transform: scale(0.95);
-    animation: scaleIn 400ms ease forwards;
-  }
+  .animate-fade-in { animation: fadeIn 600ms ease forwards; }
+  .animate-slide-up { opacity: 0; transform: translateY(20px); animation: slideUp 500ms ease forwards; }
+  .animate-scale-in { opacity: 0; transform: scale(0.95); animation: scaleIn 400ms ease forwards; }
 }
 
 @keyframes fadeIn {

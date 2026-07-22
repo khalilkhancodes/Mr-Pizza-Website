@@ -1,106 +1,181 @@
 import Link from "next/link";
 
+const navigateLinks = [
+  { href: "/", label: "Home" },
+  { href: "/menu", label: "Menu" },
+  { href: "/deals", label: "Deals" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
 const socialLinks = [
-  {
-    href: "https://instagram.com",
-    label: "Instagram",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.51" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://facebook.com",
-    label: "Facebook",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://twitter.com",
-    label: "Twitter",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://maps.google.com",
-    label: "Map",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
-      </svg>
-    ),
-  },
+  { href: "https://instagram.com", label: "IG" },
+  { href: "https://facebook.com", label: "FB" },
+  { href: "https://twitter.com", label: "TW" },
+  { href: "https://youtube.com", label: "YT" },
 ];
 
 export function Footer() {
   return (
-    <footer className="bg-surface">
-      <div className="container-padding py-10 border-t border-border">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-            <Link
-              href="/"
-              className="font-display text-h4 font-bold tracking-widest text-cream uppercase mr-36"
-            >
-              MR. PIZZA
+    <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)] py-64 pb-32">
+      <div className="container-padding">
+        {/* Main Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+          {/* Brand & Socials (Left Column - Spans 5) */}
+          <div className="md:col-span-5">
+            <Link href="/" className="inline-block mb-4">
+              <h2 className="font-display text-[32px] font-bold uppercase tracking-wide">
+                <span className="text-[var(--color-gold)]">MR.</span>
+                <span className="text-[var(--color-cream)]">PIZZA</span>
+              </h2>
             </Link>
 
-            <div className="flex items-center justify-center gap-8">
+            <p className="text-body-regular text-[13px] max-w-sm mb-16 leading-relaxed">
+              Premium hand-crafted pizzas, burgers, and fast food. Made with the
+              finest ingredients, delivered to your door.
+            </p>
+
+            {/* Box-Style Social Links */}
+            <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
-                  className="text-cream hover:text-gold transition-colors"
+                  className="w-10 h-10 flex items-center justify-center border border-[var(--color-gold)]/30 text-[var(--color-gold)] font-body text-[12px] font-bold hover:bg-[var(--color-gold)] hover:text-[var(--color-on-gold)] transition-colors rounded-[2px]"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
                 >
-                  {social.icon}
+                  {social.label}
                 </a>
               ))}
             </div>
+          </div>
 
-          <div className="text-caption text-on-surface-variant">
-            <p>
-              &copy; {new Date().getFullYear()} MR. PIZZA. ALL RIGHTS RESERVED
-            </p>
+          {/* Navigate Links (Middle Column - Spans 3) */}
+          <div className="md:col-span-3 lg:ml-8">
+            <h4 className="font-body text-[13px] tracking-[0.2em] font-bold uppercase text-[var(--color-cream)] mb-8">
+              NAVIGATE
+            </h4>
+            <ul className="space-y-4">
+              {navigateLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-body-regular text-[13px] hover:text-[var(--color-gold)] transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info (Right Column - Spans 4) */}
+          <div className="md:col-span-4">
+            <h4 className="font-body text-[13px] tracking-[0.2em] font-bold uppercase text-[var(--color-cream)] mb-8">
+              CONTACT
+            </h4>
+            <ul className="space-y-5">
+              <li className="flex items-start gap-4 text-body-regular text-[13px]">
+                <svg
+                  className="w-3 h-3 text-[var(--color-gold)] shrink-0 mt-1 mr-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>Narowal, Pakistan</span>
+              </li>
+              <li className="flex items-start gap-4 text-body-regular text-[13px]">
+                <svg
+                  className="w-3 h-3 text-[var(--color-gold)] shrink-0 mt-1 mr-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <a
+                  href="tel:+923001234567"
+                  className="hover:text-[var(--color-gold)] transition-colors"
+                >
+                  +92 300 1234567
+                </a>
+              </li>
+              <li className="flex items-start gap-4 text-body-regular text-[13px]">
+                <svg
+                  className="w-3 h-3 text-[var(--color-gold)] shrink-0 mt-1 mr-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+                <a
+                  href="mailto:info.mrpizza@gmail.com"
+                  className="hover:text-[var(--color-gold)] transition-colors"
+                >
+                  info.mrpizza@gmail.com
+                </a>
+              </li>
+              <li className="flex items-start gap-4 text-body-regular text-[13px]">
+                <svg
+                  className="w-3 h-3 text-[var(--color-gold)] shrink-0 mt-1 mr-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>4:00 PM – 12:00 AM Daily</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar: Copyright & Legal */}
+        <div className="pt-20 mt-6 border-t border-[var(--color-border)] flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="font-body text-[13px] text-[var(--color-on-surface-variant)]">
+            &copy; {new Date().getFullYear()} Mr Pizza. All rights reserved.
+          </p>
+          <div className="flex items-center gap-1 font-body text-[13px] text-[var(--color-on-surface-variant)]">
+            <Link
+              href="/privacy"
+              className="hover:text-[var(--color-gold)] transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <span>&middot;</span>
+            <Link
+              href="/terms"
+              className="hover:text-[var(--color-gold)] transition-colors"
+            >
+              Terms of Service
+            </Link>
+            <span>&middot;</span>
+            <Link
+              href="/refund"
+              className="hover:text-[var(--color-gold)] transition-colors"
+            >
+              Refund Policy
+            </Link>
           </div>
         </div>
       </div>

@@ -18,8 +18,8 @@ export default function CheckoutPage() {
   const { success, error } = useToast();
   const { items, getSubtotal, getItemCount } = useCartStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMounted, setIsMounted] = useState(false); // HYDRATION FIX
-  
+  const [isMounted, setIsMounted] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -29,7 +29,6 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const geo = useGeolocation();
 
-  // HYDRATION FIX: Wait for client to mount before reading local storage
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -94,7 +93,7 @@ export default function CheckoutPage() {
 
       const { orderId, orderCode } = data;
       const trackingLink = `${window.location.origin}/order/${orderId}`;
-      
+
       success('Order Placed!', `Order ${orderCode} created. Redirecting to WhatsApp...`);
 
       const whatsappMessage = `*New Order ${orderCode}*\n\n` +
@@ -124,11 +123,10 @@ export default function CheckoutPage() {
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  // HYDRATION FIX: Prevent rendering until client state is synchronized
   if (!isMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <LoaderIcon className="w-12 h-12 text-gold animate-spin" />
+        <LoaderIcon className="w-10 h-10 text-gold animate-spin" />
       </div>
     );
   }
@@ -137,10 +135,8 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center py-xl">
         <div className="text-center container-padding">
-          <h2 className="font-display text-headline-sm text-cream mb-2">Your cart is empty</h2>
-          <Button asChild variant="primary" size="lg">
-            <Link href="/menu">Browse Menu</Link>
-          </Button>
+          <h2 className="font-display text-2xl text-primary-text mb-2 uppercase">your cart is empty</h2>
+          <Link href="/menu" className="btn-base btn-primary btn-lg">Browse Menu</Link>
         </div>
       </div>
     );
@@ -148,19 +144,20 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="bg-charcoal border-b border-border py-8 lg:py-12">
+      <section className="bg-surface border-b border-border py-10 lg:py-14">
         <div className="container-padding">
-          <h1 className="font-display text-headline-lg-mobile lg:text-headline-lg text-cream mb-2">Checkout</h1>
+          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-2 block">secure checkout</span>
+          <h1 className="font-display text-h2 text-primary-text">checkout</h1>
         </div>
       </section>
 
-      <section className="py-8 lg:py-16">
+      <section className="py-10 lg:py-16">
         <div className="container-padding">
           <div className="grid lg:grid-cols-12 gap-10">
             {/* Delivery Form */}
             <div className="lg:col-span-7">
-              <div className="card-elevated p-6 lg:p-10">
-                <h2 className="font-display text-headline-sm text-cream mb-6">Delivery Details</h2>
+              <div className="bg-surface border border-border p-8 lg:p-10">
+                <h2 className="font-display text-2xl text-primary-text mb-8 uppercase tracking-[1px]">delivery details</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-6">
                     <Input
@@ -172,7 +169,7 @@ export default function CheckoutPage() {
                       error={errors.name}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<UserIcon className="w-5 h-5" />}
+                      leftIcon={<UserIcon className="w-4 h-4" />}
                     />
                     <Input
                       label="Phone Number"
@@ -184,7 +181,7 @@ export default function CheckoutPage() {
                       error={errors.phone}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<PhoneIcon className="w-5 h-5" />}
+                      leftIcon={<PhoneIcon className="w-4 h-4" />}
                     />
                   </div>
 
@@ -198,16 +195,16 @@ export default function CheckoutPage() {
                       error={errors.address}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<MapPinIcon className="w-5 h-5" />}
+                      leftIcon={<MapPinIcon className="w-4 h-4" />}
                     />
-                     {geo.supported && (
+                    {geo.supported && (
                       <button
                         type="button"
                         onClick={handleRequestLocation}
                         disabled={geo.loading || isSubmitting}
-                        className="absolute right-3 top-[38px] text-on-surface-variant hover:text-gold transition-colors"
+                        className="absolute right-3 top-[38px] text-primary-text/60 hover:text-gold transition-colors"
                       >
-                        {geo.loading ? <LoaderIcon className="w-5 h-5 animate-spin" /> : <CrosshairIcon className="w-5 h-5" />}
+                        {geo.loading ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <CrosshairIcon className="w-4 h-4" />}
                       </button>
                     )}
                   </div>
@@ -222,43 +219,43 @@ export default function CheckoutPage() {
                     disabled={isSubmitting}
                   />
 
-                  <div className="flex items-start gap-3 p-4 bg-charcoal-50 rounded-soft-sm">
+                  <div className="flex items-start gap-4 p-5 bg-background border border-border">
                     <ShieldIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-body label-lg text-cream">Secure Checkout</p>
-                      <p className="font-body body-md text-on-surface-variant mt-1">
+                      <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text">Secure Checkout</p>
+                      <p className="font-body text-sm text-primary-text/60 mt-1">
                         Pay cash on delivery. Order total verified server-side.
                       </p>
                     </div>
                   </div>
 
-                  <Button variant="primary" size="lg" fullWidth loading={isSubmitting} disabled={isSubmitting} type="submit">
-                    PLACE ORDER VIA WHATSAPP &mdash; {formatPrice(subtotal)}
+                  <Button variant="default" size="lg" fullWidth loading={isSubmitting} disabled={isSubmitting} type="submit">
+                    Place Order via WhatsApp &mdash; {formatPrice(subtotal)}
                   </Button>
                 </form>
               </div>
             </div>
 
-            {/* Sticky Order Summary */}
+            {/* Order Summary */}
             <div className="lg:col-span-5">
-              <div className="sticky top-28 card-gold-frame p-8 lg:p-12">
-                <h2 className="font-display text-headline-md text-cream mb-10 tracking-wide">Order Total</h2>
-                <dl className="space-y-6 mb-8">
-                  <div className="flex justify-between items-center font-body body-md">
-                    <dt className="text-on-surface-variant">Subtotal ({itemCount} items)</dt>
-                    <dd className="text-cream font-bold">{formatPrice(subtotal)}</dd>
+              <div className="sticky top-28 bg-surface-elevated border border-gold p-8 lg:p-10">
+                <h2 className="font-display text-2xl text-primary-text mb-8 uppercase tracking-[1px]">order total</h2>
+                <dl className="space-y-5 mb-8">
+                  <div className="flex justify-between items-center font-body text-sm">
+                    <dt className="text-primary-text/60">Subtotal ({itemCount} items)</dt>
+                    <dd className="text-primary-text font-bold">{formatPrice(subtotal)}</dd>
                   </div>
-                  <div className="flex justify-between items-center font-body body-md">
-                    <dt className="text-on-surface-variant">Delivery</dt>
+                  <div className="flex justify-between items-center font-body text-sm">
+                    <dt className="text-primary-text/60">Delivery</dt>
                     <dd className="text-gold font-bold">Free</dd>
                   </div>
                   <div className="w-full h-px bg-border" />
-                  <div className="flex justify-between items-center font-display text-headline-sm pt-2">
-                    <dt className="text-cream">Total</dt>
-                    <dd className="text-gold text-[28px]">{formatPrice(subtotal)}</dd>
+                  <div className="flex justify-between items-center pt-2">
+                    <dt className="font-display text-xl text-primary-text">total</dt>
+                    <dd className="font-display text-2xl text-gold">{formatPrice(subtotal)}</dd>
                   </div>
                 </dl>
-                <p className="font-body label-md text-on-surface-variant/70 text-center mt-8">
+                <p className="font-body text-xs tracking-[1px] uppercase text-primary-text/50 text-center mt-6">
                   Cash on delivery via WhatsApp
                 </p>
               </div>

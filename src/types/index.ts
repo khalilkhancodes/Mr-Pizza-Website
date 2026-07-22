@@ -1,12 +1,15 @@
 export interface MenuItem {
   id: string;
   name: string;
+  briefDescription: string;
   description: string;
   price: number;
   originalPrice?: number;
   image: string;
   category: string;
   tags: string[];
+  ingredients: string[];
+  relatedItems: string[];
   options?: MenuItemOption[];
   popular?: boolean;
   featured?: boolean;
@@ -44,6 +47,7 @@ export interface Deal {
   items: DealItem[];
   price: number;
   originalPrice: number;
+  discount: number;
   savings: number;
   active: boolean;
   badge?: string;

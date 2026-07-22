@@ -8,17 +8,7 @@ import { formatPrice } from '@/lib/utils';
 import { useCartStore } from '@/store/cart';
 import { MenuItem } from '@/types';
 import { useToast } from '@/components/ui/Toaster';
-
-const metaTags = new Set([
-  'signature', 'premium', 'popular', 'classic', 'special', 'spicy', 'featured',
-  'stuffer', 'sandwich', 'loaded', 'mocktail', 'refreshing', 'vegetarian',
-]);
-
-function getIngredients(item: MenuItem): string[] {
-  return item.tags
-    .filter(t => !metaTags.has(t))
-    .map(t => t.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
-}
+import { menuItems } from '@/content/menu';
 
 export function ProductDetail({ item }: { item: MenuItem }) {
   const { addItem } = useCartStore();
@@ -36,10 +26,7 @@ export function ProductDetail({ item }: { item: MenuItem }) {
     return initial;
   });
   
-  // Dynamic Option State
   const [addonChecked, setAddonChecked] = useState<Record<string, boolean>>({});
-  
-  // Fallback Checkbox State for items without DB modifiers
   const [fallbackMods, setFallbackMods] = useState({ cheese: false, meat: false, toppings: false });
 
   const sizeOptions = item.options?.filter(o => o.type === 'size') ?? [];
@@ -51,7 +38,6 @@ export function ProductDetail({ item }: { item: MenuItem }) {
     return sum + (choice?.priceDelta ?? 0);
   }, 0);
 
-  // Calculate Addons from DB
   const addonsTotal = Object.entries(addonChecked).reduce((sum, [choiceId, checked]) => {
     if (!checked) return sum;
     for (const opt of addonOptions) {
@@ -61,9 +47,7 @@ export function ProductDetail({ item }: { item: MenuItem }) {
     return sum;
   }, 0);
 
-  // Calculate Fallback Addons (Rs. 100 each)
   const fallbackTotal = (fallbackMods.cheese ? 100 : 0) + (fallbackMods.meat ? 100 : 0) + (fallbackMods.toppings ? 100 : 0);
-
   const totalPrice = (basePrice + addonsTotal + fallbackTotal) * quantity;
 
   const handleSizeChange = (optionId: string, choiceId: string) => {
@@ -82,7 +66,6 @@ export function ProductDetail({ item }: { item: MenuItem }) {
       });
     });
     
-    // Pass fallback mods as notes if they exist
     let notes = [];
     if (fallbackMods.cheese) notes.push("Extra Cheese");
     if (fallbackMods.meat) notes.push("Extra Meat");
@@ -90,15 +73,16 @@ export function ProductDetail({ item }: { item: MenuItem }) {
 
     addItem({ ...item, note: notes.join(", ") } as any, quantity, allOptions);
     
-    // DO NOT REDIRECT - Provide elegant feedback
     success('Added! ✓', `${quantity}x ${item.name} added to your cart.`);
   };
 
-  const ingredients = getIngredients(item);
+  const ingredients = item.ingredients ?? [];
+  const relatedItems = (item.relatedItems ?? [])
+    .map(id => menuItems.find(mi => mi.id === id))
+    .filter((mi): mi is MenuItem => mi !== null);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Clean Full Height Hero Image */}
       <section className="relative w-full h-[55vh] lg:h-[70vh]">
         <Image
           src={item.image}
@@ -112,116 +96,121 @@ export function ProductDetail({ item }: { item: MenuItem }) {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent" />
       </section>
 
-      {/* Product Info & Options */}
       <section className="relative z-10 -mt-32 pb-24">
         <div className="container-padding">
-          
-          {/* Header Block */}
           <div className="mb-14 text-center max-w-3xl mx-auto">
-             <h1 className="font-display text-h2 lg:text-h1 text-cream mb-6">{item.name}</h1>
-             <p className="font-body text-body text-on-surface-variant leading-relaxed px-4">{item.description}</p>
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">our menu</span>
+            <h1 className="font-display text-h2 lg:text-h1 text-primary-text mb-6">{item.name}</h1>
+            <p className="font-body text-base text-primary-text/60 leading-relaxed px-4">{item.description}</p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-10">
-            
-            {/* Conditional Magnitude (Size) Options */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Size Options */}
             {sizeOptions.length > 0 && (
-              <div className="card-elevated p-8 lg:p-10">
-                <h3 className="font-display text-h4 text-cream mb-8">Magnitude</h3>
-                <div className="space-y-5">
-                    {sizeOptions.map(opt => (
-                      opt.choices.map(ch => {
-                        const isSelected = selectedOptions[opt.id] === ch.id;
-                        return (
-                          <button
-                            key={ch.id}
-                            type="button"
-                            onClick={() => handleSizeChange(opt.id, ch.id)}
-                            className={`w-full flex items-center justify-between p-5 rounded-soft-sm border transition-all duration-300 ${
-                              isSelected ? 'border-gold bg-gold/5' : 'border-border hover:border-gold/30'
-                            }`}
-                          >
-                            <span className="font-body text-body text-cream">{ch.name}</span>
-                            <span className="text-body-large text-gold font-bold">
-                              {formatPrice(item.price + ch.priceDelta)}
-                            </span>
-                          </button>
-                        );
-                      })
-                    ))}
+              <div className="bg-surface border border-border p-8 lg:p-10">
+                <h3 className="font-display text-xl text-primary-text mb-8 uppercase tracking-[1px]">size</h3>
+                <div className="space-y-4">
+                  {sizeOptions.map(opt => (
+                    opt.choices.map(ch => {
+                      const isSelected = selectedOptions[opt.id] === ch.id;
+                      return (
+                        <button
+                          key={ch.id}
+                          type="button"
+                          onClick={() => handleSizeChange(opt.id, ch.id)}
+                          className={`w-full flex items-center justify-between p-4 border transition-all duration-300 ${
+                            isSelected ? 'border-gold bg-gold/5' : 'border-border hover:border-gold/30'
+                          }`}
+                        >
+                          <span className="font-body text-sm text-primary-text">{ch.name}</span>
+                          <span className="font-display text-base text-gold">
+                            {formatPrice(item.price + ch.priceDelta)}
+                          </span>
+                        </button>
+                      );
+                    })
+                  ))}
                 </div>
               </div>
             )}
 
-            {/* Personalize & Add To Cart */}
-            <div className="card-elevated p-8 lg:p-10 flex flex-col lg:col-span-1">
-              <h3 className="font-display text-h4 text-cream mb-8">Personalize</h3>
-              <div className="flex-1 space-y-5">
+            {/* Personalize */}
+            <div className="bg-surface border border-border p-8 lg:p-10 flex flex-col lg:col-span-1">
+              <h3 className="font-display text-xl text-primary-text mb-8 uppercase tracking-[1px]">personalize</h3>
+              <div className="flex-1 space-y-4">
                 {addonOptions.length > 0 ? (
                   addonOptions.map(opt => (
                     opt.choices.map(ch => (
-                      <label key={ch.id} className="flex items-center gap-4 p-5 rounded-soft-sm border border-border hover:border-gold/30 transition-colors cursor-pointer">
+                      <label key={ch.id} className="flex items-center gap-4 p-4 border border-border hover:border-gold/30 transition-colors cursor-pointer">
                         <input
                           type="checkbox"
                           checked={!!addonChecked[ch.id]}
                           onChange={() => handleAddonToggle(ch.id)}
-                          className="w-5 h-5 accent-gold"
+                          className="w-4 h-4 accent-gold"
                         />
-                        <span className="flex-1 font-body text-body text-cream">{ch.name}</span>
+                        <span className="flex-1 font-body text-sm text-primary-text">{ch.name}</span>
                         {ch.priceDelta > 0 && (
-                          <span className="text-gold font-bold">+{formatPrice(ch.priceDelta)}</span>
+                          <span className="text-gold font-bold text-sm">+{formatPrice(ch.priceDelta)}</span>
                         )}
                       </label>
                     ))
                   ))
                 ) : (
-                  // Functional Fallback Checkboxes
-                  <div className="space-y-5">
-                      <label className="flex items-center gap-4 p-5 rounded-soft-sm border border-border hover:border-gold/30 cursor-pointer">
-                        <input type="checkbox" checked={fallbackMods.cheese} onChange={() => setFallbackMods(p => ({...p, cheese: !p.cheese}))} className="w-5 h-5 accent-gold" />
-                        <span className="flex-1 font-body text-body text-cream">Extra Cheese</span>
-                        <span className="text-gold font-bold">+{formatPrice(100)}</span>
+                  <div className="space-y-4">
+                    {[
+                      { key: 'cheese' as const, label: 'Extra Cheese' },
+                      { key: 'meat' as const, label: 'Extra Meat' },
+                      { key: 'toppings' as const, label: 'Extra Toppings' },
+                    ].map(({ key, label }) => (
+                      <label key={key} className="flex items-center gap-4 p-4 border border-border hover:border-gold/30 cursor-pointer">
+                        <input type="checkbox" checked={fallbackMods[key]} onChange={() => setFallbackMods(p => ({...p, [key]: !p[key]}))} className="w-4 h-4 accent-gold" />
+                        <span className="flex-1 font-body text-sm text-primary-text">{label}</span>
+                        <span className="text-gold font-bold text-sm">+{formatPrice(100)}</span>
                       </label>
-                      <label className="flex items-center gap-4 p-5 rounded-soft-sm border border-border hover:border-gold/30 cursor-pointer">
-                        <input type="checkbox" checked={fallbackMods.meat} onChange={() => setFallbackMods(p => ({...p, meat: !p.meat}))} className="w-5 h-5 accent-gold" />
-                        <span className="flex-1 font-body text-body text-cream">Extra Meat</span>
-                        <span className="text-gold font-bold">+{formatPrice(100)}</span>
-                      </label>
-                      <label className="flex items-center gap-4 p-5 rounded-soft-sm border border-border hover:border-gold/30 cursor-pointer">
-                        <input type="checkbox" checked={fallbackMods.toppings} onChange={() => setFallbackMods(p => ({...p, toppings: !p.toppings}))} className="w-5 h-5 accent-gold" />
-                        <span className="flex-1 font-body text-body text-cream">Extra Toppings</span>
-                        <span className="text-gold font-bold">+{formatPrice(100)}</span>
-                      </label>
+                    ))}
                   </div>
                 )}
               </div>
 
               <div className="border-t border-border pt-8 mt-8 space-y-6">
                 <div className="flex items-center justify-between">
-                  <span className="font-body text-body text-on-surface-variant">Quantity</span>
+                  <span className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">quantity</span>
                   <QuantitySelector value={quantity} onChange={setQuantity} min={1} max={20} />
                 </div>
-                <Button variant="primary" size="lg" fullWidth onClick={handleAddToCart}>
+                <Button variant="default" size="lg" fullWidth onClick={handleAddToCart}>
                   Add to Cart &mdash; {formatPrice(totalPrice)}
                 </Button>
               </div>
             </div>
 
-            {/* Conditional Ingredients */}
+            {/* Ingredients */}
             {ingredients.length > 0 && (
-              <div className="card-elevated p-8 lg:p-10">
-                <h3 className="font-display text-h4 text-cream mb-8">Ingredients</h3>
-                <ul className="space-y-5">
+              <div className="bg-surface border border-border p-8 lg:p-10">
+                <h3 className="font-display text-xl text-primary-text mb-8 uppercase tracking-[1px]">ingredients</h3>
+                <ul className="space-y-4">
                   {ingredients.map((ing, i) => (
                     <li key={i} className="flex items-center gap-4">
-                      <span className="w-2.5 h-2.5 rounded-full bg-gold flex-shrink-0" />
-                      <span className="font-body text-body text-on-surface-variant">{ing}</span>
+                      <span className="w-2 h-2 bg-gold flex-shrink-0" />
+                      <span className="font-body text-sm text-primary-text/70">{ing}</span>
                     </li>
                   ))}
                 </ul>
+
+                {relatedItems.length > 0 && (
+                  <div className="mt-10 pt-8 border-t border-border">
+                    <h3 className="font-display text-lg text-primary-text mb-6 uppercase tracking-[1px]">you may also like</h3>
+                    <ul className="space-y-4">
+                      {relatedItems.map((ri) => (
+                        <li key={ri.id} className="flex items-center justify-between">
+                          <span className="font-body text-sm text-primary-text">{ri.name}</span>
+                          <span className="font-display text-base text-gold">{formatPrice(ri.price)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
-            
           </div>
         </div>
       </section>

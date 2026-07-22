@@ -10,45 +10,38 @@ import { formatPrice } from '@/lib/utils';
 import { QuantitySelector } from '@/components/ui/QuantitySelector';
 import type { CartItem as CartItemType } from '@/types';
 import { getOptionDisplayName } from '@/lib/menu-utils';
-import { ArrowLeftIcon, ShieldIcon } from '@/components/ui/Icons';
-import { div } from 'framer-motion/client';
 
-const TAX_RATE = 0.08;
-const DELIVERY_FEE = 0;
+const DELIVERY_FEE = 0; // Kept for logic, but hidden in UI to match template
 
 const crossSellItems = menuItems.filter(i =>
   ['sp-5', 'brg-5', 'app-2', 'bev-7'].includes(i.id)
-).slice(0, 2); // Showing 2 items to match the template scale
+).slice(0, 2);
 
 export default function CartPage() {
   const router = useRouter();
   const { items, getSubtotal, getItemCount } = useCartStore();
   const [isMounted, setIsMounted] = useState(false);
 
-  // Hydration Fix: Ensure client is mounted before rendering cart state from local storage
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const subtotal = getSubtotal();
   const itemCount = getItemCount();
-  const tax = subtotal * TAX_RATE;
-  const total = subtotal + tax + DELIVERY_FEE;
+  
+  // Tax logic removed as requested.
+  const total = subtotal + DELIVERY_FEE;
 
-  // Protect against hydration mismatch
   if (!isMounted) return null;
 
   if (itemCount === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center py-16 bg-[var(--color-surface)]">
         <div className="text-center container-padding">
-          <h2 className="text-section text-[var(--color-cream)] mb-4">Your cart is empty</h2>
-          <p className="text-body-regular mb-8">Add some items before checking out.</p>
-          <Link 
-            href="/menu" 
-            className="btn-interactive bg-[var(--color-gold)] text-[var(--color-on-gold)] text-label-bold px-8 py-4 rounded-[var(--radius-component)] hover:bg-[var(--color-gold-hover)]"
-          >
-            BROWSE MENU
+          <h2 className="font-display text-[150px] text-[var(--color-cream)] mb-4 uppercase tracking-tight">Your cart is empty</h2>
+          <p className="font-body text-[16px] text-[var(--color-on-surface-variant)] mb-8">Add some items before checking out.</p>
+          <Link href="/menu" className="bg-[var(--color-gold)] text-[#131313] font-body text-[14px] font-bold uppercase tracking-[1px] px-10 py-4 rounded-[2px] hover:bg-[var(--color-gold-hover)] transition-colors">
+            Browse Menu
           </Link>
         </div>
       </div>
@@ -56,42 +49,39 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] pt-8 pb-24">
+    <div className="min-h-screen bg-[var(--color-surface)] pt-12 pb-24">
       <div className="container-padding">
-        <div className="grid lg:grid-cols-12 gap-12">
-          {/* Main Content (Left Column) */}
-          <div className="lg:col-span-7 space-y-12">
-            
-            {/* Header */}
-            <div>
-              <h1 className="text-h1 text-[var(--color-cream)] uppercase mt-10 mb-6">YOUR CART</h1>
-              <p className="text-label-bold text-[var(--color-on-surface-variant)]">
-                {itemCount} ITEM{itemCount !== 1 ? 'S' : ''} SELECTED FOR INDULGENCE
-              </p>
-            </div>
+        
+        {/* Massive Typographic Header exactly matching the template */}
+        <div className="mb-12 lg:my-64">
+          <h1 className="font-display text-[48px] md:text-[64px] font-bold uppercase">
+            <h1>Your <br /> <span className="text-gold">cart</span></h1>
+          </h1>
+        </div>
 
-            {/* Cart Items List */}
-            <ul className="space-y-2" role="list" aria-label="Cart items">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16">
+          
+          {/* Main Content: Cart Items */}
+          <div className="lg:col-span-8 flex flex-col gap-8">
+            <ul role="list" aria-label="Cart items" className="flex flex-col gap-4">
               {items.map((item) => (
-                <div className='bg-[var(--color-surface)]'>
-                  <CartItem key={item.id} item={item} />
-                </div>
+                <CartItem key={item.id} item={item} />
               ))}
             </ul>
 
-            {/* Cross-sell Section */}
-            <div className="pt-8">
-              <h3 className="text-label-bold text-[var(--color-cream)] mb-6 tracking-widest">
-                COMPLETE THE EXPERIENCE
+            {/* Cross-sell Section (Maintained functionality, updated to fit dark theme) */}
+            <div className="pt-10">
+              <h3 className="font-display text-[24px] uppercase text-[var(--color-cream)] mb-6 tracking-wider">
+                Complete the experience
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 {crossSellItems.map((item) => (
                   <Link
                     key={item.id}
                     href={`/product/${item.id}`}
-                    className="group"
+                    className="group bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)] overflow-hidden hover:border-[#555555] transition-colors"
                   >
-                    <div className="relative aspect-[4/3] rounded-[var(--radius-component)] overflow-hidden bg-[var(--color-surface-elevated)] border border-[var(--color-border)] mb-4">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -100,52 +90,54 @@ export default function CartPage() {
                         sizes="(max-width: 640px) 50vw, 25vw"
                       />
                     </div>
-                    <p className="text-label-bold text-[var(--color-cream)] truncate mb-1">{item.name}</p>
-                    <p className="text-body-regular text-[var(--color-gold)] font-bold">{formatPrice(item.price)}</p>
+                    <div className="p-16">
+                      <p className="font-body font-bold text-[16px] text-[var(--color-cream)] truncate mb-1 uppercase">{item.name}</p>
+                      <p className="font-body font-bold text-[14px] text-[var(--color-gold)]">{formatPrice(item.price)}</p>
+                    </div>
                   </Link>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Sidebar — Order Summary (Right Column) */}
-          <div className="lg:col-span-5    p-3 lg:p-4 lg:mt-36">
-            {/* position: sticky added here so it follows the user */}
-            <div className="card-premium bg-[var(--color-surface-elevated)] border border-[var(--color-border)] p-8 lg:p-10 sticky top-32">
-              <h2 className="text-section text-[32px] text-[var(--color-cream)] mb-8 tracking-wide">
-                ORDER SUMMARY
+          {/* Order Summary Sidebar */}
+          <div className="lg:col-span-4 ">
+            <div className="bg-[var(--color-surface-elevated)] p-8 lg:p-8 sticky top-32 rounded-[var(--radius-component)] border border-[var(--color-border)]">
+              
+              <h2 className="font-display text-[26px] text-[var(--color-cream)] uppercase tracking-wide mb-12">
+                Order Summary
               </h2>
 
-              <div className="space-y-6 mb-8">
-                <div className="flex justify-between items-center text-label-bold text-[var(--color-on-surface-variant)]">
-                  <span>SUBTOTAL</span>
-                  <span className="text-[var(--color-cream)]">{formatPrice(subtotal)}</span>
-                </div>
-                <div className="flex justify-between items-center text-label-bold text-[var(--color-on-surface-variant)]">
-                  <span>TAX (EST.)</span>
-                  <span className="text-[var(--color-cream)]">{formatPrice(tax)}</span>
-                </div>
-                <div className="flex justify-between items-center text-label-bold text-[var(--color-on-surface-variant)]">
-                  <span>DELIVERY</span>
-                  <span className="text-[var(--color-cream)]">{DELIVERY_FEE === 0 ? 'FREE' : formatPrice(DELIVERY_FEE)}</span>
-                </div>
+              {/* Itemized list matching the template image */}
+              <div className="space-y-2 mb-6">
+                {items.map(item => (
+                  <div key={item.id} className="flex justify-between items-start gap-4 border border-[var(--color-border)] p-[8px]">
+                    <span className="font-body text-[14px] text-[var(--color-on-surface-variant)] leading-snug">
+                      {item.name}
+                    </span>
+                    <span className="font-body text-[14px] text-[var(--color-cream)] whitespace-nowrap">
+                      {formatPrice(item.price * item.quantity)}
+                    </span>
+                  </div>
+                ))}
               </div>
 
-              <div className="border-t border-[var(--color-border)] pt-8 mb-10 flex justify-between items-center">
-                <span className="text-label-bold text-[var(--color-cream)] text-[16px]">TOTAL</span>
-                <span className="text-product text-[var(--color-gold)] text-[32px]">{formatPrice(total)}</span>
+              <div className="border-t border-[var(--color-border)] pt-4 mb-8 flex justify-between items-center">
+                <span className="font-display text-[20px] text-[var(--color-cream)] uppercase">Total</span>
+                <span className="font-display text-[32px] text-[var(--color-gold)]">{formatPrice(total)}</span>
               </div>
 
-              <Link 
-                href={`/checkout?total=${total}`} 
-                className="btn-interactive w-full bg-[var(--color-gold)] text-[var(--color-on-gold)] text-label-bold px-6 py-4 rounded-[var(--radius-component)] hover:bg-[var(--color-cream)] text-center flex justify-center mb-6 tracking-widest"
+              <Link
+                href={`/checkout?total=${total}`}
+                className="btn-interactive w-full bg-[var(--color-gold)] text-[#131313] font-body text-[14px] font-bold uppercase tracking-[1px] flex items-center justify-center py-[16px] rounded-[2px] hover:bg-[#ffffff] transition-colors"
               >
-                PROCEED TO CHECKOUT
+                Proceed to Checkout
               </Link>
               
-              <div className="flex items-center justify-center gap-2 text-[var(--color-on-surface-variant)] text-label-bold text-[10px]">
-                <ShieldIcon className="w-4 h-4" />
-                <span>SECURE TRANSACTIONS ONLY</span>
+              <div className="mt-6 text-center">
+                <Link href="/menu" className="font-body text-[12px] font-bold uppercase tracking-[1px] text-[var(--color-on-surface-variant)] hover:text-[var(--color-cream)] transition-colors">
+                  Continue Shopping
+                </Link>
               </div>
             </div>
           </div>
@@ -157,80 +149,77 @@ export default function CartPage() {
 }
 
 // ==========================================
-// Cart Item Component
+// Cart Item Component (Refactored to match template)
 // ==========================================
 function CartItem({ item }: { item: CartItemType }) {
   const { removeItem, updateQuantity } = useCartStore();
 
   return (
-    <li className="p-4 sm:p-6 flex flex-col sm:flex-row gap-5 sm:gap-6 bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)]">
-  
-  {/* Product Image - Strict Square exactly like the template */}
-  <div className="relative w-full sm:w-[120px] h-[120px] flex-shrink-0 rounded-[var(--radius-component)] overflow-hidden bg-[#131313]">
+    <li className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] p-4 sm:p-5 flex flex-row gap-4 sm:gap-6 rounded-[var(--radius-component)]">
+      
+  <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-96 md:h-96 flex-shrink-0 bg-[#131313] rounded-[2px] overflow-hidden">
     <Image
       src={item.image}
       alt={item.name}
       fill
       className="object-cover"
-      sizes="120px"
+      sizes="(max-width: 640px) 80px, (max-width: 768px) 96px, 112px"
     />
   </div>
 
-  {/* Content Wrapper */}
-  <div className="flex-1 flex flex-row justify-between sm:min-h-[120px]">
+  {/* Middle Column: Details & Quantity */}
+  <div className="flex-1 flex flex-col justify-between py-0.5">
+    <div>
+      <h3 className="font-body font-bold text-[16px] sm:text-[18px] text-[var(--color-cream)] uppercase tracking-wide leading-tight">
+        {item.name}
+      </h3>
+      
+      <div className="font-body font-bold text-[14px] sm:text-[15px] text-[var(--color-gold)] mt-1">
+        {formatPrice(item.price)}
+      </div>
+
+      {/* Subtitles & Notes */}
+      <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest mt-1">
+        {Object.entries(item.selectedOptions).length > 0 && (
+          <span>{getOptionDisplayName(item.menuItemId, item.selectedOptions)}</span>
+        )}
+        {item.note && (
+          <span className="text-[var(--color-gold)] before:content-['▪'] before:text-[var(--color-border)] before:mr-1.5 before:ml-0.5">
+            {item.note}
+          </span>
+        )}
+      </div>
+    </div>
+
+    <div className="w-24 mt-4">
+      <QuantitySelector
+        value={item.quantity}
+        onChange={(qty) => updateQuantity(item.id, qty)}
+        max={20}
+        aria-label={`${item.name} quantity`}
+      />
+    </div>
+  </div>
+
+  {/* Right Column: Trash Icon & Item Total */}
+  <div className="flex flex-col items-end justify-between py-0.5 ml-2">
     
-    {/* Middle Column: Details & Quantity */}
-    <div className="flex flex-col justify-between">
-      
-      <div>
-        <h3 className="font-body font-bold text-[20px] sm:text-[22px] text-[var(--color-cream)] uppercase tracking-wide mb-1.5">
-          {item.name}
-        </h3>
-        
-        {/* Inline Subtitle: Size and Notes separated by a bullet */}
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest">
-          {Object.entries(item.selectedOptions).length > 0 && (
-            <span>{getOptionDisplayName(item.menuItemId, item.selectedOptions)}</span>
-          )}
-          
-          {Object.entries(item.selectedOptions).length > 0 && item.note && (
-            <span className="text-[var(--color-border)] mt-[-2px]">▪</span>
-          )}
-          
-          {item.note && (
-            <span className="text-[var(--color-gold)]">{item.note}</span>
-          )}
-        </div>
-      </div>
-      
-      {/* Quantity Selector aligned to the bottom left of this column */}
-      <div className="w-28 mt-6 sm:mt-0">
-        <QuantitySelector
-          value={item.quantity}
-          onChange={(qty) => updateQuantity(item.id, qty)}
-          max={20}
-          aria-label={`${item.name} quantity`}
-        />
-      </div>
+    {/* Subtle Trash Icon matching the template */}
+    <button
+      onClick={() => removeItem(item.id)}
+      className="text-[var(--color-border)] hover:text-[#FFB4AB] transition-colors p-1 -mr-1 -mt-1"
+      aria-label={`Remove ${item.name} from cart`}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+    </button>
 
-    </div>
-
-    {/* Right Column: Price & Remove Action */}
-    <div className="flex flex-col items-end justify-between ml-4">
-      
-      <span className="font-body font-bold text-[20px] sm:text-[24px] text-[var(--color-gold)] tracking-wide">
-        {formatPrice(item.price * item.quantity)}
-      </span>
-      
-      <button
-        onClick={() => removeItem(item.id)}
-        className="text-[11px] font-bold text-[#FFB4AB] hover:text-[#ff9b8f] uppercase tracking-widest transition-colors pb-1 sm:pb-2"
-        aria-label={`Remove ${item.name} from cart`}
-      >
-        REMOVE
-      </button>
-
-    </div>
+    <span className="font-body font-bold text-[16px] sm:text-[20px] text-[var(--color-cream)] leading-none mt-auto">
+      {formatPrice(item.price * item.quantity)}
+    </span>
+    
   </div>
 </li>
   );
