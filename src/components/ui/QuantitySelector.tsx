@@ -45,7 +45,7 @@ export function QuantitySelector({
         </svg>
       </button>
 
-      <span className="inline-flex items-center justify-center w-12 h-10 font-body text-body font-medium text-cream" aria-live="polite">
+      <span className="inline-flex items-center justify-center w-10 h-10 font-body text-body font-medium text-cream" aria-live="polite">
         {value}
       </span>
 

@@ -89,12 +89,12 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       {/* Header */}
       <section className="bg-surface border-b border-border py-16 lg:py-20">
         <div className="container-padding">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">order status</span>
-            <h1 className="font-display text-h2 text-primary-text mb-4">
-              order <span className="text-gold">{order.order_code}</span>
+          <div className=" animate-fade-in my-64">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-2 block">order status</span>
+            <h1 className="font-display text-start text-[80px] lg:text-9xl md:text-hero-title text-primary-text leading-[0.94] -mt-2 mb-4">
+              ORDER
             </h1>
-            <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="flex items-center gap-4 mb-6">
               <span className={`badge ${config.color}`}>{config.label}</span>
             </div>
             <p className="font-body text-base text-primary-text/60">{config.description}</p>
@@ -113,7 +113,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                 <ul className="space-y-4" role="list">
                   {order.items.map((item, index) => (
                     <li key={index} className="flex gap-4 py-4 border-b border-border last:border-0">
-                      <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden">
+                      <div className="relative w-10 h-10 flex-shrink-0 overflow-hidden">
                         <img
                           src={item.image || '/images/Menu_Items.png'}
                           alt={item.name}
@@ -127,7 +127,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                             {formatPrice(item.unitPrice * item.quantity)}
                           </span>
                         </div>
-                        <div className="flex items-center gap-4 mt-1">
+                        <div className="flex items-center gap-4">
                           <span className="font-body text-sm text-primary-text/60">Qty: {item.quantity}</span>
                           {Object.keys(item.selectedOptions).length > 0 && (
                             <span className="font-body text-sm text-primary-text/50">
@@ -190,9 +190,9 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                         <form key={status} action={`/api/orders/${order.id}/status`} method="POST">
                           <button
                             type="submit"
-                            className="btn-primary inline-flex items-center gap-2"
+                            className="btn-primary inline-flex items-center p-2 gap-2"
                           >
-                            <StatusIcon className="w-4 h-4" />
+                            <StatusIcon className="w-[16px] h-[16px]" />
                             Mark as {statusConfig.label}
                           </button>
                         </form>
@@ -245,7 +245,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                                   : 'bg-surface border-border'
                               }`}
                             >
-                              <StatusIcon className={`w-4 h-4 ${isCompleted ? 'text-charcoal' : 'text-primary-text/50'}`} />
+                              <StatusIcon className={`w-[16px] h-[16px] ${isCompleted ? 'text-charcoal' : 'text-primary-text/50'}`} />
                             </div>
                             {index < 2 && (
                               <div
@@ -285,18 +285,18 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       <section className="section-spacing bg-surface border-t border-border text-center">
         <div className="container-padding">
           <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">need help?</span>
-          <h2 className="font-display text-h2 text-primary-text mb-4">questions about your order?</h2>
+          <h2 className="font-display text-h2 text-primary-text mb-4 leading-tight">questions about your order?</h2>
           <p className="font-body text-base text-primary-text/60 mb-8 max-w-xl mx-auto">
             Contact us directly via WhatsApp or phone. We&apos;re here to help.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} target="_blank" rel="noopener noreferrer" className="btn-whatsapp inline-flex">
-              <WhatsAppIcon className="w-4 h-4" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-4">
+            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} target="_blank" rel="noopener noreferrer" className="btn-whatsapp inline-flex py-[16px] px-6">
+              <WhatsAppIcon className="w-[16px] h-[16px] mr-2" />
               Contact on WhatsApp
             </a>
-            <a href={`tel:+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} className="btn-secondary inline-flex">
-              <PhoneIcon className="w-4 h-4" />
-              Call Us
+            <a href={`tel:+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567'}`} className="btn-secondary inline-flex py-[16px] px-6">
+              <PhoneIcon className="w-[16px] h-[16px] mr-2 mt-1" />
+              Call Us Now
             </a>
           </div>
         </div>

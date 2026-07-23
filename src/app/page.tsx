@@ -76,7 +76,7 @@ export default function HomePage() {
           {/* Added black fade overlay for enhanced text readability */}
           <div className="absolute inset-0 bg-black/50" />
 
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]"></div>
         </div>
 
         <div className="container-padding relative z-10 text-center lg:text-left w-full flex justify-center">

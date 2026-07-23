@@ -35,7 +35,7 @@ function MenuContent() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center overflow-hidden bg-background border-b border-border">
+      <section className="relative h-screen min-h-[550px] flex items-center justify-center overflow-hidden bg-background border-b border-border mb-9">
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/Menu_Items.png"
@@ -46,13 +46,14 @@ function MenuContent() {
             sizes="100vw"
             quality={90}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]" />
         </div>
         <div className="container-padding relative z-10 py-20 lg:py-28 w-full">
           <div className="max-w-2xl">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">our menu</span>
-            <h1 className="font-display text-h1 text-primary-text mb-6">
-              Hand-crafted with <span className="text-gold">premium ingredients</span>
+            <h1 className="font-display text-start text-[80px] lg:text-9xl md:text-hero-title text-primary-text leading-[0.94] -mt-2 mb-4">
+              SIGNATURE
+              <br />
+              <span className="text-gold">SELECTION</span>
             </h1>
             <p className="font-body text-base lg:text-lg text-primary-text/70 leading-relaxed">
               Explore our full range of signature pizzas, gourmet burgers, and more.
@@ -70,7 +71,7 @@ function MenuContent() {
                 placeholder="Search menu..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                rightIcon={<SearchIcon className="w-4 h-4" />}
+                rightIcon={<SearchIcon className="w-6 h-6" />}
               />
 
               <nav aria-label="Menu categories">
@@ -113,7 +114,7 @@ function MenuContent() {
 
             {filteredItems.length === 0 ? (
               <div className="text-center py-24">
-                <SearchIcon className="w-12 h-12 mx-auto text-border mb-4" />
+                <SearchIcon className="w-6 h-6 mx-auto text-border mb-6" />
                 <h3 className="font-display text-2xl text-primary-text mb-2 uppercase">No items found</h3>
                 <p className="font-body text-sm text-primary-text/60 mb-6">
                   Try adjusting your search or category.

@@ -27,6 +27,7 @@
     --color-error-bg: rgba(239, 68, 68, 0.1);
     --color-whatsapp: #25D366;
     --color-whatsapp-hover: #1DA851;
+    --color-gradient: #21201fb2;
 
     --font-display: var(--font-anton), Impact, sans-serif;
     --font-heading: var(--font-anton), Impact, sans-serif;

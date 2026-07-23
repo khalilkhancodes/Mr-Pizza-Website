@@ -20,7 +20,7 @@ export function Footer() {
     <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)] py-64 pb-32">
       <div className="container-padding">
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-14 lg:gap-8 mb-16">
           {/* Brand & Socials (Left Column - Spans 5) */}
           <div className="md:col-span-5">
             <Link href="/" className="inline-block mb-4">

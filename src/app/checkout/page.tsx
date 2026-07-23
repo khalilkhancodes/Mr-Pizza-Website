@@ -126,7 +126,7 @@ export default function CheckoutPage() {
   if (!isMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <LoaderIcon className="w-10 h-10 text-gold animate-spin" />
+        <LoaderIcon className="w-[16px] h-[16px] text-gold animate-spin" />
       </div>
     );
   }
@@ -145,9 +145,11 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-background">
       <section className="bg-surface border-b border-border py-10 lg:py-14">
-        <div className="container-padding">
+        <div className="container-padding my-64">
           <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-2 block">secure checkout</span>
-          <h1 className="font-display text-h2 text-primary-text">checkout</h1>
+          <h1 className="font-display text-start text-[80px] lg:text-9xl md:text-hero-title text-primary-text leading-[0.94] -mt-2 mb-4">
+            CHECKOUT
+          </h1>
         </div>
       </section>
 
@@ -169,7 +171,7 @@ export default function CheckoutPage() {
                       error={errors.name}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<UserIcon className="w-4 h-4" />}
+                      leftIcon={<UserIcon className="w-[16px] h-[16px]" />}
                     />
                     <Input
                       label="Phone Number"
@@ -181,7 +183,7 @@ export default function CheckoutPage() {
                       error={errors.phone}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<PhoneIcon className="w-4 h-4" />}
+                      leftIcon={<PhoneIcon className="w-[16px] h-[16px]" />}
                     />
                   </div>
 
@@ -195,7 +197,7 @@ export default function CheckoutPage() {
                       error={errors.address}
                       required
                       disabled={isSubmitting}
-                      leftIcon={<MapPinIcon className="w-4 h-4" />}
+                      leftIcon={<MapPinIcon className="w-[16px] h-[16px]" />}
                     />
                     {geo.supported && (
                       <button
@@ -204,7 +206,7 @@ export default function CheckoutPage() {
                         disabled={geo.loading || isSubmitting}
                         className="absolute right-3 top-[38px] text-primary-text/60 hover:text-gold transition-colors"
                       >
-                        {geo.loading ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <CrosshairIcon className="w-4 h-4" />}
+                        {geo.loading ? <LoaderIcon className="mt-0.5 w-[16px] h-[16px] animate-spin" /> : <CrosshairIcon className="mt-0.5 w-[16px] h-[16px]" />}
                       </button>
                     )}
                   </div>
@@ -220,7 +222,7 @@ export default function CheckoutPage() {
                   />
 
                   <div className="flex items-start gap-4 p-5 bg-background border border-border">
-                    <ShieldIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
+                    <ShieldIcon className="w-6 h-6 text-gold flex-shrink-0 mt-0.5 mr-1" />
                     <div>
                       <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text">Secure Checkout</p>
                       <p className="font-body text-sm text-primary-text/60 mt-1">
