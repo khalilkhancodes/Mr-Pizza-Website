@@ -1,7 +1,10 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatPrice } from '@/lib/utils'
+import { Suspense } from 'react'
 import { OrderStatusSelect } from '@/components/staff/OrderStatusSelect'
+import { DeleteOrderButton } from '@/components/staff/DeleteOrderButton'
+import { ToastNotification } from '@/components/staff/ToastNotification'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -81,21 +84,10 @@ export default async function StaffOrdersPage({
   return (
     <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
       
-      {/* Toast Notification (Triggered via URL Params) */}
-      {(searchParams.message || searchParams.error) && (
-        <div className="fixed bottom-24 left-0 z-50 flex items-center p-4 pr-6 bg-[#131313] border border-[#333] border-l-4 shadow-2xl rounded-r-[4px] animate-[slideInRight_0.4s_ease-out_forwards] transition-transform" 
-             style={{ borderLeftColor: searchParams.error ? '#ef4444' : 'var(--color-gold)' }}>
-          {searchParams.error ? (
-            <svg className="w-6 h-6 text-red-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          ) : (
-            <svg className="w-6 h-6 text-[var(--color-gold)] mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-          )}
-          <div>
-            <h4 className="font-display text-[16px] text-white uppercase tracking-wider">{searchParams.error ? 'Action Failed' : 'System Update'}</h4>
-            <p className="font-body text-[12px] text-[#888]">{searchParams.error || searchParams.message}</p>
-          </div>
-        </div>
-      )}
+      {/* Toast Notification (auto-dismisses after 3s) */}
+      <Suspense fallback={null}>
+        <ToastNotification />
+      </Suspense>
 
       {/* Header Area */}
       <section className="pt-8 pb-6 px-4 md:px-8 border-b border-[#222]">
@@ -180,20 +172,29 @@ export default async function StaffOrdersPage({
             ) : (
               displayOrders.map((order: Order) => (
                 <div key={order.id} className="bg-[#131313] border border-[#333] rounded-[2px] transition-colors relative hover:border-[#555]">
-                  
+                   
                   {/* Hidden Checkbox controlling the mobile expansion */}
                   <input type="checkbox" id={`toggle-${order.id}`} className="peer hidden" />
 
+                  {/* Delete Button - Always visible top-right */}
+                  <DeleteOrderButton orderId={order.id} />
+
                   {/* Always Visible Mobile Header */}
                   <label htmlFor={`toggle-${order.id}`} className="flex justify-between items-center p-5 lg:hidden cursor-pointer select-none">
-                    <div className="flex items-center gap-3">
-                      <span className="font-display text-xl text-white">#{order.order_code}</span>
-                      <span className={`px-2 py-1 text-[10px] tracking-[1px] font-bold uppercase rounded-[2px] ${STATUS_CONFIG[order.status].color}`}>
-                        {STATUS_CONFIG[order.status].label}
-                      </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="font-display text-xl text-white">#{order.order_code}</span>
+                        <span className={`px-2 py-1 text-[10px] tracking-[1px] font-bold uppercase rounded-[2px] ${STATUS_CONFIG[order.status].color}`}>
+                          {STATUS_CONFIG[order.status].label}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="font-body text-[14px] text-[#ddd] truncate">{order.customer_name}</span>
+                        <span className="font-display text-[16px] text-[var(--color-gold)]">{formatPrice(order.total)}</span>
+                      </div>
                     </div>
                     {/* Rotates when checkbox is checked */}
-                    <svg className="w-5 h-5 text-[#888] peer-checked:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-[#888] shrink-0 ml-3 peer-checked:rotate-180 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                     </svg>
                   </label>
