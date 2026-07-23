@@ -92,7 +92,7 @@ const team = [
     name: "James Okonkwo",
     role: "Pitmaster",
     bio: "Master of the wood oven. 15 years perfecting the char. Knows every hot spot by heart.",
-    image: "/assets/Profiles/profile2.avif",
+    image: "/assets/Profiles/profile2.webp",
   },
   {
     name: "Sofia Rodriguez",

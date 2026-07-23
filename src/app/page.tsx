@@ -36,7 +36,7 @@ export default function HomePage() {
   const deals = getActiveDeals().slice(0, 3);
 
   const categoryImages: Record<string, string> = {
-    "special-pizzas": "/assets/Catergories/Special-Pizza.avif",
+    "special-pizzas": "/assets/Catergories/Special-Pizza.webp",
     "regular-pizzas": "/assets/Catergories/Regular_Pizza.webp",
     "stuffer-pizzas": "/assets/Catergories/Stuffer_Pizza.webp",
     "appetizers": "/assets/Catergories/Appetizers.webp",

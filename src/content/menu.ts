@@ -1,7 +1,7 @@
 import { MenuItem, Category, Deal } from '@/types';
 
 const CAT_IMG = {
-  'special-pizzas': '/assets/Catergories/Special-Pizza.avif',
+  'special-pizzas': '/assets/Catergories/Special-Pizza.webp',
   'regular-pizzas': '/assets/Catergories/Regular_Pizza.webp',
   'stuffer-pizzas': '/assets/Catergories/Stuffer_Pizza.webp',
   'appetizers': '/assets/Catergories/Appetizers.webp',
@@ -15,7 +15,7 @@ const CAT_IMG = {
 };
 
 export const categories: Category[] = [
-  { id: 'cat-1', name: 'Special Pizzas', slug: 'special-pizzas', description: 'Premium hand-crafted signature pizzas', order: 1, image: '/assets/Catergories/Special-Pizza.avif' },
+  { id: 'cat-1', name: 'Special Pizzas', slug: 'special-pizzas', description: 'Premium hand-crafted signature pizzas', order: 1, image: '/assets/Catergories/Special-Pizza.webp' },
   { id: 'cat-2', name: 'Regular Pizzas', slug: 'regular-pizzas', description: 'Classic favorites, baked to perfection', order: 2, image: '/assets/Catergories/Regular_Pizza.webp' },
   { id: 'cat-3', name: 'Stuffer Pizzas', slug: 'stuffer-pizzas', description: 'Loaded crust, extra filling', order: 3, image: '/assets/Catergories/Stuffer_Pizza.webp' },
   { id: 'cat-4', name: 'Appetizers', slug: 'appetizers', description: 'Perfect starters to share', order: 4, image: '/assets/Catergories/Appetizers.webp' },
