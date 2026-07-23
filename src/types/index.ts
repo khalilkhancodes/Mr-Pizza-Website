@@ -86,7 +86,7 @@ export interface Order {
   whatsappSent?: boolean;
 }
 
-export type OrderStatus = 'placed' | 'confirmed' | 'delivered' | 'cancelled';
+export type OrderStatus = 'placed' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
 
 export interface CheckoutFormData {
   name: string;
@@ -126,13 +126,17 @@ export interface PaginatedResponse<T> {
 export const ORDER_STATUSES: { value: OrderStatus; label: string; color: string }[] = [
   { value: 'placed', label: 'Order Placed', color: 'badge-placed' },
   { value: 'confirmed', label: 'Confirmed', color: 'badge-confirmed' },
+  { value: 'preparing', label: 'Preparing', color: 'badge-preparing' },
+  { value: 'ready', label: 'Ready', color: 'badge-ready' },
   { value: 'delivered', label: 'Delivered', color: 'badge-delivered' },
   { value: 'cancelled', label: 'Cancelled', color: 'badge-cancelled' },
 ];
 
 export const STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
   placed: ['confirmed', 'cancelled'],
-  confirmed: ['delivered', 'cancelled'],
+  confirmed: ['preparing', 'cancelled'],
+  preparing: ['ready', 'cancelled'],
+  ready: ['delivered'],
   delivered: [],
   cancelled: [],
 };

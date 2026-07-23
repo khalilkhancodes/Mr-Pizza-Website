@@ -17,11 +17,11 @@ export default function NotFound() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="/" className="btn-base btn-primary">
-            <HomeIcon className="w-4 h-4" />
+            <HomeIcon className="w-[16px] h-[16px]" />
             Back to Home
           </Link>
           <Link href="/menu" className="btn-base btn-secondary">
-            <SearchIcon className="w-4 h-4" />
+            <SearchIcon className="w-[16px] h-[16px]" />
             Browse Menu
           </Link>
         </div>

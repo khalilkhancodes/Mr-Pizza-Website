@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient, createServiceClient } from '@/lib/supabase/server';
 
-const VALID_STATUSES = ['placed', 'confirmed', 'delivered', 'cancelled'] as const;
+const VALID_STATUSES = ['placed', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled'] as const;
 const STATUS_TRANSITIONS: Record<string, string[]> = {
   placed: ['confirmed', 'cancelled'],
-  confirmed: ['delivered', 'cancelled'],
+  confirmed: ['preparing', 'cancelled'],
+  preparing: ['ready', 'cancelled'],
+  ready: ['delivered'],
   delivered: [],
   cancelled: [],
 };
@@ -80,7 +82,7 @@ export async function POST(
       return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true, status });
+    return NextResponse.redirect(new URL('/staff/orders?message=Order+status+updated+successfully', request.url));
   } catch (err) {
     console.error('Order status update error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

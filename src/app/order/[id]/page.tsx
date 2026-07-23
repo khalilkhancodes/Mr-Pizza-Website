@@ -21,7 +21,7 @@ interface Order {
   delivery_address: string;
   items: OrderItem[];
   total: number;
-  status: 'placed' | 'confirmed' | 'delivered' | 'cancelled';
+  status: 'placed' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
   confirmed_by: string | null;
   created_at: string;
   updated_at: string;
@@ -30,12 +30,14 @@ interface Order {
 const STATUS_CONFIG = {
   placed: { label: 'Order Placed', icon: ClockIcon, color: 'badge-placed', description: 'Your order has been received and is awaiting confirmation.' },
   confirmed: { label: 'Confirmed', icon: CheckIcon, color: 'badge-confirmed', description: 'The restaurant has confirmed your order and started preparing.' },
+  preparing: { label: 'Preparing', icon: ClockIcon, color: 'badge-preparing', description: 'Your order is being prepared by the restaurant.' },
+  ready: { label: 'Ready for Pickup', icon: TruckIcon, color: 'badge-ready', description: 'Your order is ready for pickup or delivery.' },
   delivered: { label: 'Delivered', icon: TruckIcon, color: 'badge-delivered', description: 'Your order has been delivered. Enjoy your meal!' },
   cancelled: { label: 'Cancelled', icon: AlertIcon, color: 'badge-cancelled', description: 'This order has been cancelled.' },
 } as const;
 
-const PROGRESS_WIDTHS: Record<string, number> = { placed: 25, confirmed: 50, delivered: 100, cancelled: 0 };
-const STATUS_ORDER: Record<string, number> = { placed: 0, confirmed: 1, delivered: 2, cancelled: 3 };
+const PROGRESS_WIDTHS: Record<string, number> = { placed: 20, confirmed: 40, preparing: 60, ready: 80, delivered: 100, cancelled: 0 };
+const STATUS_ORDER: Record<string, number> = { placed: 0, confirmed: 1, preparing: 2, ready: 3, delivered: 4, cancelled: 5 };
 
 async function getOrder(id: string): Promise<Order | null> {
   const supabase = await createClient();
@@ -82,7 +84,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   const config = STATUS_CONFIG[order.status];
   const ItemIcon = config.icon;
 
-  const allStatuses = ['placed', 'confirmed', 'delivered'] as const;
+  const allStatuses = ['placed', 'confirmed', 'preparing', 'ready', 'delivered'] as const;
 
   return (
     <div className="min-h-screen">
@@ -174,11 +176,13 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                 <div className="bg-surface-elevated border border-gold p-6 lg:p-8">
                   <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">staff controls</h2>
                   <div className="flex flex-wrap gap-3">
-                    {(['confirmed', 'delivered', 'cancelled'] as const).map((status) => {
+                    {(['confirmed', 'preparing', 'ready', 'delivered', 'cancelled'] as const).map((status) => {
                       if (order.status === status) return null;
                       const allowed = {
                         placed: ['confirmed', 'cancelled'] as const,
-                        confirmed: ['delivered', 'cancelled'] as const,
+                        confirmed: ['preparing', 'cancelled'] as const,
+                        preparing: ['ready', 'cancelled'] as const,
+                        ready: ['delivered'] as const,
                         delivered: [] as const,
                         cancelled: [] as const,
                       }[order.status] as readonly string[];
@@ -220,8 +224,10 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                     </div>
                     <div className="flex justify-between mt-2 font-body text-[10px] tracking-[1px] uppercase text-primary-text/60">
                       <span className={STATUS_ORDER[order.status] >= 0 ? 'text-gold' : ''}>Placed</span>
-                      <span className={['confirmed', 'delivered'].includes(order.status) ? 'text-gold' : ''}>Confirmed</span>
-                      <span className={order.status === 'delivered' ? 'text-gold' : ''}>Delivered</span>
+                      <span className={STATUS_ORDER[order.status] >= 1 ? 'text-gold' : ''}>Confirmed</span>
+                      <span className={STATUS_ORDER[order.status] >= 2 ? 'text-gold' : ''}>Preparing</span>
+                      <span className={STATUS_ORDER[order.status] >= 3 ? 'text-gold' : ''}>Ready</span>
+                      <span className={STATUS_ORDER[order.status] >= 4 ? 'text-gold' : ''}>Delivered</span>
                     </div>
                   </div>
                 </div>
@@ -247,7 +253,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                             >
                               <StatusIcon className={`w-[16px] h-[16px] ${isCompleted ? 'text-charcoal' : 'text-primary-text/50'}`} />
                             </div>
-                            {index < 2 && (
+                            {index < 4 && (
                               <div
                                 className="absolute left-4 top-9 bottom-[-12px] w-px"
                                 style={{ background: index < STATUS_ORDER[order.status] ? 'var(--color-gold)' : 'var(--color-border)' }}

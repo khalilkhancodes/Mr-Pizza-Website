@@ -64,7 +64,7 @@ export default function HomePage() {
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Hero.png"
+            src="/assets/Hero/Home.jpg"
             alt=""
             fill
             priority
@@ -73,14 +73,11 @@ export default function HomePage() {
             quality={90}
           />
 
-          {/* Added black fade overlay for enhanced text readability */}
-          <div className="absolute inset-0 bg-black/50" />
-
           <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]"></div>
         </div>
 
-        <div className="container-padding relative z-10 text-center lg:text-left w-full flex justify-center">
-          <div className="max-w-4xl mx-auto lg:mx-0 text-center">
+        <div className="container-padding relative z-10 text-center lg:text-left w-full flex">
+          <div className="max-w-4xl mx-auto lg:mx-0">
             <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
               100% natural ingredients
             </span>

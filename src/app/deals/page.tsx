@@ -14,10 +14,10 @@ export default function DealsPage() {
 
   return (
     <div className="min-h-screen">
-      <section className="relative min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center overflow-hidden bg-background border-b border-border">
+      <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Deal.png"
+            src="/assets/Hero/Deal.jpg"
             alt="Mr. Pizza deals and combos"
             fill
             priority
@@ -25,17 +25,20 @@ export default function DealsPage() {
             sizes="100vw"
             quality={90}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]"></div>
         </div>
+
         <div className="container-padding relative z-10 py-20 lg:py-28 w-full">
-          <div className="max-w-2xl">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">special offers</span>
-            <h1 className="font-display text-h1 text-primary-text mb-6">
-              deals &amp; <span className="text-gold">combos</span>
+          <div className="max-w-4xl mx-auto lg:mx-0">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
+              Taste the Savings
+            </span>
+
+            <h1 className="font-display text-start text-9xl md:text-hero-title text-primary-text leading-[0.88] -mt-2">
+              VALUE
+              <br />
+              <span className="text-gold">FEASTS</span>
             </h1>
-            <p className="font-body text-base lg:text-lg text-primary-text/70">
-              Curated combinations at exceptional value. Perfect for sharing or treating yourself.
-            </p>
           </div>
         </div>
       </section>
@@ -64,14 +67,14 @@ export default function DealsPage() {
       <section className="section-spacing bg-surface border-y border-border">
         <div className="container-padding">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">how it works</span>
-            <h2 className="font-display text-h2 text-primary-text mb-6">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">how it works</span>
+            <h2 className="font-display text-h2 text-primary-text mb-6 leading-tight">
               simple ordering, maximum value
             </h2>
             <p className="font-body text-base text-primary-text/60 mb-10">
               Select a deal, customize if needed, and checkout via WhatsApp. Cash on delivery.
             </p>
-            <div className="grid sm:grid-cols-3 gap-8 text-left">
+            <div className="grid sm:grid-cols-3 gap-8 text-center">
               {[
                 { icon: '🛒', title: 'pick a deal', desc: 'Choose from our curated combos' },
                 { icon: '📱', title: 'checkout fast', desc: 'WhatsApp handoff in seconds' },

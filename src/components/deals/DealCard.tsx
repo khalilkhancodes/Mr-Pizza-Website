@@ -12,7 +12,7 @@ interface DealCardProps {
 }
 
 export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProps) {
-  const src = '/images/Deal.png';
+  const src = deal.image;
 
   const description = dealItems.map(di => {
     const name = di.item ? di.item.name : 'Item';

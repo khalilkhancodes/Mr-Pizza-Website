@@ -179,7 +179,7 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden mt-12 lg:mt-0">
               <Image
-                src="/images/Kitchen_Interior.png"
+            src="/assets/Hero/About.jpg"
                 alt="Mr. Pizza kitchen interior"
                 fill
                 className="object-cover"

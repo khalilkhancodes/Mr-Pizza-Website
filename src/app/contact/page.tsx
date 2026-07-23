@@ -114,7 +114,7 @@ export default function ContactPage() {
       <section className="relative min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/Kitchen_Exterior.png"
+            src="/assets/Hero/Contact.jpg"
             alt="Mr. Pizza restaurant exterior"
             className="w-full h-full object-cover"
           />
