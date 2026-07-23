@@ -47,7 +47,7 @@ export const metadata = {
     description: 'Hand-crafted pizzas, burgers, and more delivered to your door.',
     images: [
       {
-        url: '/images/og-home.jpg',
+        url: '/images/og-home.webp',
         width: 1200,
         height: 630,
         alt: 'Mr. Pizza - Premium Pizza Delivery',
@@ -58,7 +58,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Mr. Pizza | Premium Pizza Delivery',
     description: 'Hand-crafted pizzas, burgers, and more delivered to your door.',
-    images: ['/images/og-home.jpg'],
+    images: ['/images/og-home.webp'],
     creator: '@mrpizza_pk',
   },
   robots: {

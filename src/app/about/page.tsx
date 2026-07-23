@@ -86,7 +86,7 @@ const team = [
     name: "Marcus Chen",
     role: "Executive Chef",
     bio: "Former Michelin-star chef who believed fast food deserved better. Trained in Naples and Tokyo.",
-    image: "/assets/Profiles/profile1.jpg",
+    image: "/assets/Profiles/profile1.webp",
   },
   {
     name: "James Okonkwo",
@@ -98,7 +98,7 @@ const team = [
     name: "Sofia Rodriguez",
     role: "Head Pizzaiolo",
     bio: "James Beard nominee. Oversees our dry-aging program and develops seasonal specials.",
-    image: "/assets/Profiles/profile3.jpg",
+    image: "/assets/Profiles/profile3.webp",
   },
 ];
 
@@ -109,7 +109,7 @@ export default function AboutPage() {
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/Hero/About.jpg"
+            src="/assets/Hero/About.webp"
             alt="Mr. Pizza deals and combos"
             fill
             priority
@@ -173,7 +173,7 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden mt-12 lg:mt-0">
               <Image
-                src="/assets/Hero/About1.jpg"
+                src="/assets/Hero/About1.webp"
                 alt="Mr. Pizza kitchen interior"
                 fill
                 className="object-cover"

@@ -37,16 +37,16 @@ export default function HomePage() {
 
   const categoryImages: Record<string, string> = {
     "special-pizzas": "/assets/Catergories/Special-Pizza.avif",
-    "regular-pizzas": "/assets/Catergories/Regular_Pizza.jpg",
-    "stuffer-pizzas": "/assets/Catergories/Stuffer_Pizza.jpg",
-    "appetizers": "/assets/Catergories/Appetizers.jpg",
-    "burgers-sandwiches": "/assets/Catergories/Burgers_Sandwiches.jpg",
-    "pizza-burgers": "/assets/Catergories/Pizza_Burgers.jpg",
-    "rolls-wraps-shawarma": "/assets/Catergories/rolls_wraps_shawarma.jpg",
-    "pasta-fries": "/assets/Catergories/Pasta_Fries.jpg",
-    "rice-sajji": "/assets/Catergories/Rice_Sajji.jpg",
-    "platters": "/assets/Catergories/Platters.jpg",
-    "beverages-drinks": "/assets/Catergories/Beverages_Drinks.jpg",
+    "regular-pizzas": "/assets/Catergories/Regular_Pizza.webp",
+    "stuffer-pizzas": "/assets/Catergories/Stuffer_Pizza.webp",
+    "appetizers": "/assets/Catergories/Appetizers.webp",
+    "burgers-sandwiches": "/assets/Catergories/Burgers_Sandwiches.webp",
+    "pizza-burgers": "/assets/Catergories/Pizza_Burgers.webp",
+    "rolls-wraps-shawarma": "/assets/Catergories/rolls_wraps_shawarma.webp",
+    "pasta-fries": "/assets/Catergories/Pasta_Fries.webp",
+    "rice-sajji": "/assets/Catergories/Rice_Sajji.webp",
+    "platters": "/assets/Catergories/Platters.webp",
+    "beverages-drinks": "/assets/Catergories/Beverages_Drinks.webp",
   };
 
   const stats = [
@@ -64,7 +64,7 @@ export default function HomePage() {
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/Hero/Home.jpg"
+            src="/assets/Hero/Home.webp"
             alt=""
             fill
             priority

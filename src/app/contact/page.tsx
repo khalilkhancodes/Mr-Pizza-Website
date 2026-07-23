@@ -117,7 +117,7 @@ export default function ContactPage() {
       <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/Hero/Contact.jpg"
+            src="/assets/Hero/Contact.webp"
             alt="Contact Mr. Pizza"
             fill
             priority

@@ -23,7 +23,7 @@ export function Header() {
       <nav className="container-padding" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-3" aria-label="Mr. Pizza Home">
-            <span className="font-display text-2xl tracking-[2px] text-primary-text">MR. <span className="text-gold">PIZZA</span></span>
+            <span className="font-display font-bold text-2xl tracking-[2px] text-primary-text text-gold">MR.<span className='text-[var(--color-cream)]'>PIZZA</span></span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-10">

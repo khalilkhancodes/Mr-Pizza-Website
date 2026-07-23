@@ -2,30 +2,30 @@ import { MenuItem, Category, Deal } from '@/types';
 
 const CAT_IMG = {
   'special-pizzas': '/assets/Catergories/Special-Pizza.avif',
-  'regular-pizzas': '/assets/Catergories/Regular_Pizza.jpg',
-  'stuffer-pizzas': '/assets/Catergories/Stuffer_Pizza.jpg',
-  'appetizers': '/assets/Catergories/Appetizers.jpg',
-  'burgers-sandwiches': '/assets/Catergories/Burgers_Sandwiches.jpg',
-  'pizza-burgers': '/assets/Catergories/Pizza_Burgers.jpg',
-  'rolls-wraps-shawarma': '/assets/Catergories/rolls_wraps_shawarma.jpg',
-  'pasta-fries': '/assets/Catergories/Pasta_Fries.jpg',
-  'rice-sajji': '/assets/Catergories/Rice_Sajji.jpg',
-  'platters': '/assets/Catergories/Platters.jpg',
-  'beverages-drinks': '/assets/Catergories/Beverages_Drinks.jpg',
+  'regular-pizzas': '/assets/Catergories/Regular_Pizza.webp',
+  'stuffer-pizzas': '/assets/Catergories/Stuffer_Pizza.webp',
+  'appetizers': '/assets/Catergories/Appetizers.webp',
+  'burgers-sandwiches': '/assets/Catergories/Burgers_Sandwiches.webp',
+  'pizza-burgers': '/assets/Catergories/Pizza_Burgers.webp',
+  'rolls-wraps-shawarma': '/assets/Catergories/rolls_wraps_shawarma.webp',
+  'pasta-fries': '/assets/Catergories/Pasta_Fries.webp',
+  'rice-sajji': '/assets/Catergories/Rice_Sajji.webp',
+  'platters': '/assets/Catergories/Platters.webp',
+  'beverages-drinks': '/assets/Catergories/Beverages_Drinks.webp',
 };
 
 export const categories: Category[] = [
   { id: 'cat-1', name: 'Special Pizzas', slug: 'special-pizzas', description: 'Premium hand-crafted signature pizzas', order: 1, image: '/assets/Catergories/Special-Pizza.avif' },
-  { id: 'cat-2', name: 'Regular Pizzas', slug: 'regular-pizzas', description: 'Classic favorites, baked to perfection', order: 2, image: '/assets/Catergories/Regular_Pizza.jpg' },
-  { id: 'cat-3', name: 'Stuffer Pizzas', slug: 'stuffer-pizzas', description: 'Loaded crust, extra filling', order: 3, image: '/assets/Catergories/Stuffer_Pizza.jpg' },
-  { id: 'cat-4', name: 'Appetizers', slug: 'appetizers', description: 'Perfect starters to share', order: 4, image: '/assets/Catergories/Appetizers.jpg' },
-  { id: 'cat-5', name: 'Burgers & Sandwiches', slug: 'burgers-sandwiches', description: 'Hearty hand-crafted burgers', order: 5, image: '/assets/Catergories/Burgers_Sandwiches.jpg' },
-  { id: 'cat-6', name: 'Pizza Burgers', slug: 'pizza-burgers', description: 'The best of both worlds', order: 6, image: '/assets/Catergories/Pizza_Burgers.jpg' },
-  { id: 'cat-7', name: 'Rolls, Wraps & Shawarma', slug: 'rolls-wraps-shawarma', description: 'Wrapped and rolled to perfection', order: 7, image: '/assets/Catergories/rolls_wraps_shawarma.jpg' },
-  { id: 'cat-8', name: 'Pasta & Fries', slug: 'pasta-fries', description: 'Comfort food classics', order: 8, image: '/assets/Catergories/Pasta_Fries.jpg' },
-  { id: 'cat-9', name: 'Rice & Sajji', slug: 'rice-sajji', description: 'Traditional rice dishes and sajji', order: 9, image: '/assets/Catergories/Rice_Sajji.jpg' },
-  { id: 'cat-10', name: 'Platters', slug: 'platters', description: 'Complete meals for sharing', order: 10, image: '/assets/Catergories/Platters.jpg' },
-  { id: 'cat-11', name: 'Beverages & Drinks', slug: 'beverages-drinks', description: 'Refreshing drinks and shakes', order: 11, image: '/assets/Catergories/Beverages_Drinks.jpg' },
+  { id: 'cat-2', name: 'Regular Pizzas', slug: 'regular-pizzas', description: 'Classic favorites, baked to perfection', order: 2, image: '/assets/Catergories/Regular_Pizza.webp' },
+  { id: 'cat-3', name: 'Stuffer Pizzas', slug: 'stuffer-pizzas', description: 'Loaded crust, extra filling', order: 3, image: '/assets/Catergories/Stuffer_Pizza.webp' },
+  { id: 'cat-4', name: 'Appetizers', slug: 'appetizers', description: 'Perfect starters to share', order: 4, image: '/assets/Catergories/Appetizers.webp' },
+  { id: 'cat-5', name: 'Burgers & Sandwiches', slug: 'burgers-sandwiches', description: 'Hearty hand-crafted burgers', order: 5, image: '/assets/Catergories/Burgers_Sandwiches.webp' },
+  { id: 'cat-6', name: 'Pizza Burgers', slug: 'pizza-burgers', description: 'The best of both worlds', order: 6, image: '/assets/Catergories/Pizza_Burgers.webp' },
+  { id: 'cat-7', name: 'Rolls, Wraps & Shawarma', slug: 'rolls-wraps-shawarma', description: 'Wrapped and rolled to perfection', order: 7, image: '/assets/Catergories/rolls_wraps_shawarma.webp' },
+  { id: 'cat-8', name: 'Pasta & Fries', slug: 'pasta-fries', description: 'Comfort food classics', order: 8, image: '/assets/Catergories/Pasta_Fries.webp' },
+  { id: 'cat-9', name: 'Rice & Sajji', slug: 'rice-sajji', description: 'Traditional rice dishes and sajji', order: 9, image: '/assets/Catergories/Rice_Sajji.webp' },
+  { id: 'cat-10', name: 'Platters', slug: 'platters', description: 'Complete meals for sharing', order: 10, image: '/assets/Catergories/Platters.webp' },
+  { id: 'cat-11', name: 'Beverages & Drinks', slug: 'beverages-drinks', description: 'Refreshing drinks and shakes', order: 11, image: '/assets/Catergories/Beverages_Drinks.webp' },
 ];
 
 const pizzaSizeOption = [
@@ -290,7 +290,7 @@ export const deals: Deal[] = [
     id: 'deal-1',
     name: 'Small Feast',
     description: '1 Small Pizza + 1 Mr Special Platter + 1 Cold Drink 500ml',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 16,
     items: [
       { menuItemId: 'sp-1', quantity: 1, note: 'Small' },
@@ -307,7 +307,7 @@ export const deals: Deal[] = [
     id: 'deal-2',
     name: 'Medium Duo',
     description: '1 Medium Pizza + 1 Pasta + 1 Cold Drink 500ml',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 15,
     items: [
       { menuItemId: 'sp-1', quantity: 1, note: 'Medium' },
@@ -323,7 +323,7 @@ export const deals: Deal[] = [
     id: 'deal-3',
     name: 'Family Combo',
     description: '1 Large Pizza + 1 Fries + 1 Cold Drink 1Ltr',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 14,
     items: [
       { menuItemId: 'sp-1', quantity: 1, note: 'Large' },
@@ -339,7 +339,7 @@ export const deals: Deal[] = [
     id: 'deal-4',
     name: 'Large Feast',
     description: '2 Medium Pizza + 1 Fries + 1 Cold Drink 1.5Ltr',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 15,
     items: [
       { menuItemId: 'sp-1', quantity: 2, note: 'Medium' },
@@ -355,7 +355,7 @@ export const deals: Deal[] = [
     id: 'deal-5',
     name: 'Mega Feast',
     description: '1 Large Pizza + 1 Medium Pizza + 1 Fries + 1 Cold Drink 1.5Ltr',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 15,
     items: [
       { menuItemId: 'sp-1', quantity: 1, note: 'Large' },
@@ -373,7 +373,7 @@ export const deals: Deal[] = [
     id: 'deal-6',
     name: 'Ultimate Feast',
     description: '2 Large Pizza + 1 Fries + 1 Cold Drink 1.5Ltr',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 16,
     items: [
       { menuItemId: 'sp-1', quantity: 2, note: 'Large' },
@@ -390,7 +390,7 @@ export const deals: Deal[] = [
     id: 'deal-7',
     name: 'Burger Deal',
     description: '1 Small Pizza + 2 Zinger Burger + 2 Cane Drink',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 13,
     items: [
       { menuItemId: 'sp-1', quantity: 1, note: 'Small' },
@@ -405,7 +405,7 @@ export const deals: Deal[] = [
     id: 'deal-8',
     name: 'Burger Feast',
     description: '4 Zinger Burger + 2 Regular Fries + 1 1.5Ltr Drink',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 17,
     items: [
       { menuItemId: 'brg-1', quantity: 4 },
@@ -421,7 +421,7 @@ export const deals: Deal[] = [
     id: 'deal-9',
     name: 'Burger Party',
     description: '6 Zinger Burger + 2 Regular Fries + 1 1.5Ltr Drink',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 16,
     items: [
       { menuItemId: 'brg-1', quantity: 6 },
@@ -437,7 +437,7 @@ export const deals: Deal[] = [
     id: 'deal-10',
     name: 'The Grand Feast',
     description: '2 Large Pizza + 2 Fries + 4 Patty Burger + 1.5Ltr + 1Ltr Drinks',
-    image: '/assets/Hero/Deal.jpg',
+    image: '/assets/Hero/Deal.webp',
     discount: 17,
     items: [
       { menuItemId: 'sp-1', quantity: 2, note: 'Large' },

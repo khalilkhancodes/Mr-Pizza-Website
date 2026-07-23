@@ -24,7 +24,7 @@ function MenuContent() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
 
   const activeCat = categories.find(c => c.slug === activeCategory);
-  const heroImage = activeCat?.image || '/assets/Hero/Menu.jpg';
+  const heroImage = activeCat?.image || '/assets/Hero/Menu.webp';
 
   const filteredItems = menuItems.filter((item) => {
     const matchesCategory = item.category === activeCategory;
