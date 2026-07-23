@@ -40,12 +40,6 @@ const values = [
       "Our burgers use 28-day dry-aged wagyu blend, ground fresh daily. No frozen patties, ever.",
   },
   {
-    icon: ShieldIcon,
-    title: "zero shortcuts",
-    description:
-      "No freezers, no microwaves, no pre-made sauces. Everything is made in-house, from scratch, every morning.",
-  },
-  {
     icon: StarIcon,
     title: "premium ingredients",
     description:
@@ -92,19 +86,19 @@ const team = [
     name: "Marcus Chen",
     role: "Executive Chef",
     bio: "Former Michelin-star chef who believed fast food deserved better. Trained in Naples and Tokyo.",
-    image: "/images/bradpit.png",
-  },
-  {
-    name: "Sofia Rodriguez",
-    role: "Head Pizzaiolo",
-    bio: "James Beard nominee. Oversees our dry-aging program and develops seasonal specials.",
-    image: "/images/bradpit.png",
+    image: "/assets/Profiles/profile1.jpg",
   },
   {
     name: "James Okonkwo",
     role: "Pitmaster",
     bio: "Master of the wood oven. 15 years perfecting the char. Knows every hot spot by heart.",
-    image: "/images/bradpit.png",
+    image: "/assets/Profiles/profile2.avif",
+  },
+  {
+    name: "Sofia Rodriguez",
+    role: "Head Pizzaiolo",
+    bio: "James Beard nominee. Oversees our dry-aging program and develops seasonal specials.",
+    image: "/assets/Profiles/profile3.jpg",
   },
 ];
 
@@ -112,31 +106,31 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative min-h-[60vh] lg:h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/Kitchen_Interior.png"
-            alt="Mr. Pizza kitchen - wood fired oven"
+            src="/assets/Hero/About.jpg"
+            alt="Mr. Pizza deals and combos"
             fill
             priority
             className="object-cover"
             sizes="100vw"
             quality={90}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]"></div>
         </div>
 
-        <div className="container-padding relative z-10 py-20 lg:py-32 w-full">
-          <div className="max-w-2xl animate-fade-in">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
-              our philosophy
+        <div className="container-padding relative z-10 py-20 lg:py-28 w-full">
+          <div className="max-w-4xl mx-auto lg:mx-0">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
+              Now you know the story
             </span>
-            <h1 className="font-display text-h1 text-primary-text mb-6">
-              fast food, <span className="text-gold">without compromise</span>
+
+            <h1 className="font-display text-start text-9xl md:text-hero-title text-primary-text leading-[0.88] -mt-2">
+              OUR
+              <br />
+              <span className="text-gold">LEGACY</span>
             </h1>
-            <p className="font-body text-base lg:text-lg text-primary-text/70 max-w-xl">
-              We believe fast food should be real food. Hand-crafted with premium ingredients, cooked with care, and delivered hot to your door. No shortcuts. No frozen patties. No compromises.
-            </p>
           </div>
         </div>
       </section>
@@ -153,23 +147,23 @@ export default function AboutPage() {
                 four pillars of <span className="text-gold">quality</span>
               </h2>
               <p className="font-body text-base text-primary-text/60 mb-10">
-                Every decision we make comes back to these four principles. They&apos;re not marketing&mdash;they&apos;re how we operate every single day.
+                Every decision we make comes back to these four principles.
+                They&apos;re not marketing&mdash;they&apos;re how we operate
+                every single day.
               </p>
-              <div className="space-y-8">
+              <div className="space-y-9">
                 {values.map((value, index) => (
                   <div
                     key={value.title}
                     className="flex gap-4 animate-slide-up"
                     style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                   >
-                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-surface-elevated border border-border">
-                      <value.icon className="w-5 h-5 text-gold" />
-                    </div>
+                    <value.icon className="w-6 h-6 text-gold mr-4" />
                     <div>
-                      <h3 className="font-display text-lg text-primary-text mb-1 uppercase tracking-[1px]">
+                      <h3 className="font-display text-lg mb-1 uppercase tracking-[1px]">
                         {value.title}
                       </h3>
-                      <p className="font-body text-sm text-primary-text/60">
+                      <p className="font-body text-xs leading-relaxed">
                         {value.description}
                       </p>
                     </div>
@@ -179,7 +173,7 @@ export default function AboutPage() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden mt-12 lg:mt-0">
               <Image
-            src="/assets/Hero/About.jpg"
+                src="/assets/Hero/About1.jpg"
                 alt="Mr. Pizza kitchen interior"
                 fill
                 className="object-cover"
@@ -195,14 +189,15 @@ export default function AboutPage() {
       <section className="section-spacing bg-background">
         <div className="container-padding">
           <div className="text-center mb-16">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
               by the numbers
             </span>
-            <h2 className="font-display text-h2 text-primary-text mb-4">
+            <h2 className="font-display text-h2 text-primary-text mb-4 leading-tight">
               our standards
             </h2>
             <p className="font-body text-base text-primary-text/60 max-w-xl mx-auto">
-              Numbers that matter. No marketing fluff&mdash;just the standards we hold ourselves to every day.
+              Numbers that matter. No marketing fluff&mdash;just the standards
+              we hold ourselves to every day.
             </p>
           </div>
 
@@ -228,15 +223,16 @@ export default function AboutPage() {
       {/* Timeline */}
       <section className="section-spacing bg-surface">
         <div className="container-padding">
-          <div className="text-center mb-16">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+          <div className="text-center mb-24">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
               our journey
             </span>
-            <h2 className="font-display text-h2 text-primary-text mb-4">
+            <h2 className="font-display text-h2 text-primary-text mb-4 leading-tight">
               from food truck to your table
             </h2>
             <p className="font-body text-base text-primary-text/60 max-w-xl mx-auto">
-              Every great restaurant starts somewhere. Ours started with a single oven and a stubborn belief that fast food could be better.
+              Every great restaurant starts somewhere. Ours started with a
+              single oven and a stubborn belief that fast food could be better.
             </p>
           </div>
 
@@ -248,7 +244,7 @@ export default function AboutPage() {
                 return (
                   <div
                     key={item.year}
-                    className="relative lg:grid lg:grid-cols-2 gap-8 items-start mb-16 animate-slide-up"
+                    className="relative lg:grid lg:grid-cols-2 gap-10 items-start mb-16 animate-slide-up"
                     style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                   >
                     <div
@@ -286,15 +282,16 @@ export default function AboutPage() {
       {/* Team */}
       <section className="section-spacing bg-background">
         <div className="container-padding">
-          <div className="text-center mb-16">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+          <div className="text-center mb-24">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
               meet the team
             </span>
-            <h2 className="font-display text-h2 text-primary-text mb-4">
+            <h2 className="font-display text-h2 text-primary-text mb-4 leading-tight">
               the people behind the food
             </h2>
             <p className="font-body text-base text-primary-text/60 max-w-xl mx-auto">
-              Real chefs. Real passion. No corporate kitchen&mdash;just people who love what they do.
+              Real chefs. Real passion. No corporate kitchen&mdash;just people
+              who love what they do.
             </p>
           </div>
 
@@ -302,13 +299,15 @@ export default function AboutPage() {
             {team.map((member, index) => (
               <div
                 key={member.name}
-                className="bg-surface border border-border p-8 flex flex-col justify-between animate-slide-up"
+                className="bg-surface border border-border p-[16px] flex flex-col justify-between animate-slide-up"
                 style={{ animationDelay: `${(index + 1) * 0.1}s` }}
               >
-                <p className="font-body text-sm text-primary-text/70 mb-10 leading-relaxed">&ldquo;{member.bio}&rdquo;</p>
+                <p className="font-body text-sm text-primary-text/70 mb-6 leading-relaxed">
+                  {member.bio}
+                </p>
 
                 <div className="flex items-center gap-4 mt-auto">
-                  <div className="relative w-14 h-14 flex-shrink-0 overflow-hidden border border-border">
+                  <div className="relative w-14 h-14 rounded-full flex-shrink-0 overflow-hidden border border-border">
                     <Image
                       src={member.image}
                       alt={member.name}
@@ -336,18 +335,27 @@ export default function AboutPage() {
       {/* CTA */}
       <section className="section-spacing bg-surface border-t border-border">
         <div className="container-padding text-center">
-          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
             ready to experience it?
           </span>
-          <h2 className="font-display text-h2 text-primary-text mb-6">
+          <h2 className="font-display text-h2 text-primary-text mb-6 leading-tight">
             your table is ready
           </h2>
           <p className="font-body text-base text-primary-text/60 mb-10 max-w-xl mx-auto">
-            Browse the menu, build your order, and checkout via WhatsApp in under 2 minutes. Cash on delivery. No cards. No apps. Just great food.
+            Browse the menu, build your order, and checkout via WhatsApp in
+            under 2 minutes. Cash on delivery. No cards. No apps. Just great
+            food.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/menu" className="btn-base btn-primary btn-lg">Start Your Order</Link>
-            <Link href="/contact" className="btn-base btn-secondary btn-lg">Find Us</Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-4">
+            <Link href="/menu" className="btn-base btn-primary btn-lg px-6">
+              Start Your Order
+            </Link>
+            <Link
+              href="/contact"
+              className="btn-base btn-secondary btn-lg px-6"
+            >
+              Find Us
+            </Link>
           </div>
         </div>
       </section>

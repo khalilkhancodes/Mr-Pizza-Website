@@ -4,13 +4,13 @@ const CAT_IMG = {
   'special-pizzas': '/assets/Catergories/Special-Pizza.avif',
   'regular-pizzas': '/assets/Catergories/Regular_Pizza.jpg',
   'stuffer-pizzas': '/assets/Catergories/Stuffer_Pizza.jpg',
-  appetizers: '/assets/Catergories/Appetizers.jpg',
+  'appetizers': '/assets/Catergories/Appetizers.jpg',
   'burgers-sandwiches': '/assets/Catergories/Burgers_Sandwiches.jpg',
   'pizza-burgers': '/assets/Catergories/Pizza_Burgers.jpg',
   'rolls-wraps-shawarma': '/assets/Catergories/rolls_wraps_shawarma.jpg',
   'pasta-fries': '/assets/Catergories/Pasta_Fries.jpg',
   'rice-sajji': '/assets/Catergories/Rice_Sajji.jpg',
-  platters: '/assets/Catergories/Platters.jpg',
+  'platters': '/assets/Catergories/Platters.jpg',
   'beverages-drinks': '/assets/Catergories/Beverages_Drinks.jpg',
 };
 

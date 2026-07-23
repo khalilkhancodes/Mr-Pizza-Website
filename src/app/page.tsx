@@ -36,17 +36,17 @@ export default function HomePage() {
   const deals = getActiveDeals().slice(0, 3);
 
   const categoryImages: Record<string, string> = {
-    "special-pizzas": "/images/pizza.jpg",
-    "regular-pizzas": "/images/pizza.jpg",
-    "stuffer-pizzas": "/images/pizza.jpg",
-    appetizers: "/images/fries.jpg",
-    "burgers-sandwiches": "/images/Burger.jpg",
-    "pizza-burgers": "/images/Burger.jpg",
-    "rolls-wraps-shawarma": "/images/shwarma.jpg",
-    "pasta-fries": "/images/pasta.jpg",
-    "rice-sajji": "/images/sajji.jpg",
-    platters: "/images/Deal.png",
-    "beverages-drinks": "/images/Menu_Items.png",
+    "special-pizzas": "/assets/Catergories/Special-Pizza.avif",
+    "regular-pizzas": "/assets/Catergories/Regular_Pizza.jpg",
+    "stuffer-pizzas": "/assets/Catergories/Stuffer_Pizza.jpg",
+    "appetizers": "/assets/Catergories/Appetizers.jpg",
+    "burgers-sandwiches": "/assets/Catergories/Burgers_Sandwiches.jpg",
+    "pizza-burgers": "/assets/Catergories/Pizza_Burgers.jpg",
+    "rolls-wraps-shawarma": "/assets/Catergories/rolls_wraps_shawarma.jpg",
+    "pasta-fries": "/assets/Catergories/Pasta_Fries.jpg",
+    "rice-sajji": "/assets/Catergories/Rice_Sajji.jpg",
+    "platters": "/assets/Catergories/Platters.jpg",
+    "beverages-drinks": "/assets/Catergories/Beverages_Drinks.jpg",
   };
 
   const stats = [
@@ -165,12 +165,12 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[8px]">
-            {featuredItems.map((item, i) => (
+            {featuredItems.map((item) => (
               <MenuCard
                 key={item.id}
                 item={{
                   ...item,
-                  image: i < 4 ? "/images/Menu_Items.png" : "/images/Deal.png",
+                  image: categoryImages[item.category] || "/images/Menu_Items.png",
                 }}
                 variant="menu"
               />
@@ -214,12 +214,12 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[8px]">
-            {popularItems.map((item, i) => (
+            {popularItems.map((item) => (
               <MenuCard
                 key={item.id}
                 item={{
                   ...item,
-                  image: i < 2 ? "/images/Menu_Items.png" : "/images/Deal.png",
+                  image: categoryImages[item.category] || "/images/Menu_Items.png",
                 }}
                 variant="menu"
               />

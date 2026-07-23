@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MenuItem } from '@/types';
 import { formatPrice, cn } from '@/lib/utils';
+import { useCartStore } from '@/store/cart';
+import { useToast } from '@/components/ui/Toaster';
 
 interface MenuCardProps {
   item: MenuItem;
@@ -12,6 +14,15 @@ interface MenuCardProps {
 }
 
 export function MenuCard({ item, variant = 'menu', className }: MenuCardProps) {
+  const { addItem } = useCartStore();
+  const { success } = useToast();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(item as any);
+    success("Added! ✓", `${item.name} added to cart.`);
+  };
   const isDeal = variant === 'deal';
 
   let priceDisplay = formatPrice(item.price);
@@ -73,12 +84,13 @@ export function MenuCard({ item, variant = 'menu', className }: MenuCardProps) {
           </span>
 
           {/* Action Box styled as the '+ ADD' button from the template */}
-          <Link
-            href={`/product/${item.id}`}
+          <button
+            type="button"
+            onClick={handleAddToCart}
             className="border border-[var(--color-border)] text-[var(--color-gold)] font-body text-[11px] font-bold uppercase tracking-[1px] px-3 py-1.5 rounded-[2px] hover:bg-[var(--color-gold)] hover:text-[var(--color-on-gold)] transition-colors"
           >
             {isDeal ? 'ORDER NOW' : '+ ADD'}
-          </Link>
+          </button>
           
         </div>
       </div>

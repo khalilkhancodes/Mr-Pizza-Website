@@ -35,10 +35,10 @@ export const useToastStore = create<ToastState>((set) => ({
 }));
 
 const typeStyles = {
-  success: 'border-green-900/50 bg-green-900/30 text-green-300',
-  error: 'border-red-900/50 bg-red-900/30 text-red-300',
-  info: 'border-blue-900/50 bg-blue-900/30 text-blue-300',
-  warning: 'border-amber-900/50 bg-amber-900/30 text-amber-300',
+  success: 'border-green-900/40 bg-green-900/50 text-green-300',
+  error: 'border-red-900/50 bg-red-900/50 text-red-300',
+  info: 'border-blue-900/50 bg-blue-900/50 text-blue-300',
+  warning: 'border-amber-900/50 bg-amber-900/50 text-amber-300',
 };
 
 interface ToastProps {

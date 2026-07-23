@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -45,7 +46,9 @@ const hours = [
 export default function ContactPage() {
   const { success, error } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -111,27 +114,31 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative min-h-[50vh] lg:min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="/assets/Hero/Contact.jpg"
-            alt="Mr. Pizza restaurant exterior"
-            className="w-full h-full object-cover"
+            alt="Contact Mr. Pizza"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            quality={90}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-gradient)] via-[var(--color-gradient)] to-[var(--color-gradient)]"></div>
         </div>
 
-        <div className="container-padding relative z-10 py-20 lg:py-32 w-full">
-          <div className="max-w-2xl animate-fade-in">
-            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+        <div className="container-padding relative z-10 py-20 lg:py-28 w-full">
+          <div className="max-w-4xl mx-auto lg:mx-0">
+            <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
               get in touch
             </span>
-            <h1 className="font-display text-h1 text-primary-text mb-6">
-              let&apos;s <span className="text-gold">start a conversation</span>
+
+            <h1 className="font-display text-start text-8xl md:text-9xl md:text-hero-title text-primary-text leading-[0.88] -mt-2">
+              LET'S
+              <br />
+              <span className="text-gold">CONNECT</span>
             </h1>
-            <p className="font-body text-base lg:text-lg text-primary-text/70">
-              Have a question about our menu, a catering inquiry, or just want to say hello? We&apos;d love to hear from you.
-            </p>
           </div>
         </div>
       </section>
@@ -153,9 +160,7 @@ export default function ContactPage() {
                       className="flex gap-4 animate-slide-up"
                       style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                     >
-                      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-surface-elevated border border-border">
-                        <item.icon className="w-5 h-5 text-gold" />
-                      </div>
+                        <item.icon className="w-[16px] h-[16px] text-gold mt-1 mr-2" />
                       <div>
                         <p className="font-body text-sm text-primary-text/70">
                           {item.details}
@@ -182,7 +187,7 @@ export default function ContactPage() {
                   {hours.map((hour, index) => (
                     <div
                       key={hour.days}
-                      className="flex justify-between items-center py-3 px-4 bg-surface-elevated border border-border animate-slide-up"
+                      className="flex justify-between items-center py-3 px-6 bg-surface-elevated border border-border animate-slide-up"
                       style={{ animationDelay: `${(index + 4) * 0.1}s` }}
                     >
                       <span className="font-body text-xs tracking-[1.5px] uppercase text-primary-text">
@@ -272,7 +277,6 @@ export default function ContactPage() {
                     disabled={isSubmitting}
                     type="submit"
                   >
-                    <SendIcon className="w-4 h-4" />
                     Send Message
                   </Button>
 
@@ -296,16 +300,17 @@ export default function ContactPage() {
       {/* Final CTA */}
       <section className="section-spacing bg-background border-t border-border">
         <div className="container-padding text-center">
-          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-4 block">
+          <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-6 block">
             prefer to order directly?
           </span>
-          <h2 className="font-display text-h2 text-primary-text mb-6">
+          <h2 className="font-display text-h2 text-primary-text mb-6 leading-tight">
             skip the form, order via whatsapp
           </h2>
           <p className="font-body text-base text-primary-text/60 mb-10 max-w-xl mx-auto">
-            Browse the menu, build your cart, and checkout in under 2 minutes. Cash on delivery, no account needed.
+            Browse the menu, build your cart, and checkout in under 2 minutes.
+            Cash on delivery, no account needed.
           </p>
-          <a href="/menu" className="btn-primary inline-flex px-12 py-3">
+          <a href="/menu" className="btn-primary inline-flex px-6 py-3">
             Start Your Order
           </a>
         </div>
