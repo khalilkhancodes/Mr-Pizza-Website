@@ -22,12 +22,12 @@ export default function NotFound() {
           Sorry, we couldn&apos;t find the page you&apos;re looking for. It might have been moved or doesn&apos;t exist.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link href="/" className="btn-base btn-primary btn-lg">
-            <HomeIcon className="w-4 h-4" />
+          <Link href="/" className="btn-base btn-primary btn-lg px-6">
+            <HomeIcon className="w-[16px] h-[16px]" />
             Back to Home
           </Link>
-          <Link href="/menu" className="btn-base btn-secondary btn-lg">
-            <SearchIcon className="w-4 h-4" />
+          <Link href="/menu" className="btn-base btn-secondary btn-lg px-6">
+            <SearchIcon className="w-[16px] h-[16px]" />
             Browse Menu
           </Link>
         </div>

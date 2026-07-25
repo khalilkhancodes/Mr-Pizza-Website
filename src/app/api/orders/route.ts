@@ -43,12 +43,12 @@ function calculateServerTotal(items: Array<{
   return { total, validatedItems };
 }
 
-function generateIdempotencyKey(body: {
+async function generateIdempotencyKey(body: {
   customerName: string;
   customerPhone: string;
   deliveryAddress: string;
   items: Array<{ menuItemId: string; quantity: number; selectedOptions: Record<string, string> }>;
-}): string {
+}): Promise<string> {
   const normalized = {
     customerName: body.customerName.trim().toLowerCase(),
     customerPhone: body.customerPhone.trim(),
@@ -59,7 +59,12 @@ function generateIdempotencyKey(body: {
       selectedOptions: item.selectedOptions,
     })).sort((a, b) => a.menuItemId.localeCompare(b.menuItemId)),
   };
-  return Buffer.from(JSON.stringify(normalized)).toString('base64');
+  const key = JSON.stringify(normalized);
+  const encoder = new TextEncoder();
+  const data = encoder.encode(key);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 export async function POST(request: NextRequest) {
@@ -68,7 +73,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { customerName, customerPhone, deliveryAddress, note, items } = body;
+    const { customerName, customerPhone, deliveryAddress, note, items, latitude, longitude } = body;
 
     if (!customerName?.trim() || !customerPhone?.trim() || !deliveryAddress?.trim()) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -83,7 +88,7 @@ export async function POST(request: NextRequest) {
     const supabase = createServiceClient();
 
     // Idempotency: check for recent duplicate order
-    const idempotencyKey = generateIdempotencyKey({ customerName, customerPhone, deliveryAddress, items });
+    const idempotencyKey = await generateIdempotencyKey({ customerName, customerPhone, deliveryAddress, items });
     const recentWindow = new Date(Date.now() - 5 * 60 * 1000).toISOString(); // 5 minutes
 
     const { data: existingOrder } = await supabase
@@ -113,7 +118,7 @@ export async function POST(request: NextRequest) {
     const orderId = nanoid(24);
     const orderCode = generateOrderCode();
 
-    const orderData = {
+    const orderData: Record<string, unknown> = {
       id: orderId,
       order_code: orderCode,
       customer_name: customerName.trim(),
@@ -133,6 +138,8 @@ export async function POST(request: NextRequest) {
       total,
       status: 'placed',
       note: note?.trim() || null,
+      latitude: latitude != null ? Number(latitude) : null,
+      longitude: longitude != null ? Number(longitude) : null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };

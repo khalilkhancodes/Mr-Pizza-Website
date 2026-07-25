@@ -40,12 +40,16 @@ export async function POST(
 
     const { data: staffMember } = await supabase
       .from('staff')
-      .select('id')
+      .select('id, role')
       .eq('id', user.id)
       .single();
 
     if (!staffMember) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    if (staffMember.role !== 'admin' && staffMember.role !== 'staff') {
+      return NextResponse.json({ error: 'Forbidden: insufficient role' }, { status: 403 });
     }
 
     const serviceSupabase = createServiceClient();
@@ -72,7 +76,7 @@ export async function POST(
       .from('orders')
       .update({
         status,
-        confirmed_by: status === 'confirmed' ? user.email : null,
+        confirmed_by: user.id,
         updated_at: new Date().toISOString(),
       })
       .eq('id', id);
@@ -82,7 +86,7 @@ export async function POST(
       return NextResponse.json({ error: 'Failed to update order' }, { status: 500 });
     }
 
-    return NextResponse.redirect(new URL('/staff/orders?message=Order+status+updated+successfully', request.url));
+    return NextResponse.json({ success: true, message: 'Order status updated successfully' });
   } catch (err) {
     console.error('Order status update error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -1,18 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contactRateLimiter } from '@/lib/rate-limit';
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 async function sendEmailResend({ name, email, phone, subject, message }: Record<string, string>) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
 
   const html = `
     <h2>New Contact Form Submission</h2>
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-    <p><strong>Subject:</strong> ${subject}</p>
+    <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+    <p><strong>Phone:</strong> ${escapeHtml(phone || 'Not provided')}</p>
+    <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
     <p><strong>Message:</strong></p>
-    <p>${message.replace(/\n/g, '<br>')}</p>
+    <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
   `;
 
   const res = await fetch('https://api.resend.com/emails', {

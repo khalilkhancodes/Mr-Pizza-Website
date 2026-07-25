@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cart';
@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/Input';
 import { formatPrice } from '@/lib/utils';
 import { getOptionDisplayName } from '@/lib/menu-utils';
 import { useGeolocation } from '@/hooks/useGeolocation';
+import { reverseGeocode, getGoogleMapsLink } from '@/lib/geocode';
 import { MapPinIcon, PhoneIcon, UserIcon, ShieldIcon, LoaderIcon, CrosshairIcon } from '@/components/ui/Icons';
 import { useToast } from '@/components/ui/Toaster';
 
@@ -26,24 +27,35 @@ export default function CheckoutPage() {
     address: '',
     note: '',
   });
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [geocoding, setGeocoding] = useState(false);
   const geo = useGeolocation();
+  const locationProcessed = useRef(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const handleRequestLocation = useCallback(() => {
+    locationProcessed.current = false;
     geo.requestLocation();
   }, [geo]);
 
   useEffect(() => {
-    const { latitude, longitude, loading } = geo;
-    if (latitude !== null && longitude !== null && !loading) {
-      setFormData(prev => ({
-        ...prev,
-        address: `${latitude.toFixed(6)}, ${longitude.toFixed(6)}${prev.address ? ` (${prev.address})` : ''}`,
-      }));
+    const { latitude: lat, longitude: lng, loading } = geo;
+    if (lat !== null && lng !== null && !loading && !locationProcessed.current) {
+      locationProcessed.current = true;
+      setLatitude(lat);
+      setLongitude(lng);
+      setGeocoding(true);
+      reverseGeocode(lat, lng).then(address => {
+        if (address) {
+          setFormData(prev => ({ ...prev, address }));
+        }
+        setGeocoding(false);
+      });
     }
   }, [geo.latitude, geo.longitude, geo.loading]);
 
@@ -54,7 +66,7 @@ export default function CheckoutPage() {
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = 'Full name is required';
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    else if (!/^[\d\s\-\+\(\)]{10,}$/.test(formData.phone)) newErrors.phone = 'Enter a valid phone number';
+    else if (!/^(\+92|0)[3]\d{2}[-\s]?\d{7}$/.test(formData.phone.trim().replace(/\s/g, ''))) newErrors.phone = 'Enter a valid Pakistani mobile number (e.g. 03XX-XXXXXXX)';
     if (!formData.address.trim()) newErrors.address = 'Delivery address is required';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -85,6 +97,8 @@ export default function CheckoutPage() {
           deliveryAddress: formData.address,
           note: formData.note || undefined,
           items: orderItems,
+          latitude,
+          longitude,
         }),
       });
 
@@ -96,14 +110,17 @@ export default function CheckoutPage() {
 
       success('Order Placed!', `Order ${orderCode} created. Redirecting to WhatsApp...`);
 
+      const mapsLink = getGoogleMapsLink(latitude, longitude);
       const whatsappMessage = `*New Order ${orderCode}*\n\n` +
         orderItems.map(i => `\u2022 ${i.name} x${i.quantity} = ${formatPrice(i.unitPrice * i.quantity)}`).join('\n') +
         `\n\nTotal: ${formatPrice(subtotal)}` +
         `\nTrack: ${trackingLink}` +
+        (mapsLink ? `\nLocation: ${mapsLink}` : '') +
         `\n\nName: ${formData.name}` +
         `\nPhone: ${formData.phone}` +
         `\nAddress: ${formData.address}` +
-        (formData.note ? `\nInstructions: ${formData.note}` : '');
+        (formData.note ? `\nInstructions: ${formData.note}` : '') +
+        `\n\nThank you for your order!`;
 
       const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '15551234567';
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -133,10 +150,20 @@ export default function CheckoutPage() {
 
   if (itemCount === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center py-xl">
+      <div className="min-h-screen flex items-center justify-center py-16 bg-[var(--color-surface)]">
         <div className="text-center container-padding">
-          <h2 className="font-display text-2xl text-primary-text mb-2 uppercase">your cart is empty</h2>
-          <Link href="/menu" className="btn-base btn-primary btn-lg">Browse Menu</Link>
+          <h1 className="font-display text-[80px] lg:text-[130px] text-[var(--color-cream)] mb-4 uppercase tracking-tight">
+            Your cart is empty
+          </h1>
+          <p className="font-body text-[20px] lg:text-[24px] text-[var(--color-on-surface-variant)] mb-14">
+            Add some items before checking out.
+          </p>
+          <Link
+            href="/menu"
+            className="bg-[var(--color-gold)] text-[#131313] font-body text-[14px] font-bold uppercase tracking-[1px] px-14 py-[16px] rounded-[2px] hover:bg-[var(--color-cream)] transition-colors"
+          >
+            Browse Menu
+          </Link>
         </div>
       </div>
     );
@@ -204,9 +231,9 @@ export default function CheckoutPage() {
                         type="button"
                         onClick={handleRequestLocation}
                         disabled={geo.loading || isSubmitting}
-                        className="absolute right-3 top-[38px] text-primary-text/60 hover:text-gold transition-colors"
+                        className="absolute right-3 top-[38px] text-primary-text/60 hover:text-gold transition-colors bg-surface p-[6px]"
                       >
-                        {geo.loading ? <LoaderIcon className="mt-0.5 w-[16px] h-[16px] animate-spin" /> : <CrosshairIcon className="mt-0.5 w-[16px] h-[16px]" />}
+                        {(geo.loading || geocoding) ? <LoaderIcon className="mt-0.5 w-[16px] h-[16px] animate-spin" /> : <CrosshairIcon className="w-[16px] h-[16px]" />}
                       </button>
                     )}
                   </div>

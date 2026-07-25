@@ -60,3 +60,26 @@ BEGIN
   RETURN deleted_count;
 END;
 $$;
+
+-- Atomic rate limit increment function (solves race condition)
+CREATE OR REPLACE FUNCTION public.atomic_rate_limit_increment(
+  p_identifier TEXT,
+  p_endpoint TEXT,
+  p_window_start TIMESTAMPTZ,
+  p_max_requests INTEGER
+) RETURNS TABLE (
+  request_count INTEGER,
+  is_limited BOOLEAN
+) LANGUAGE plpgsql AS $$
+DECLARE
+  v_count INTEGER;
+BEGIN
+  INSERT INTO public.rate_limits (identifier, endpoint, request_count, window_start)
+  VALUES (p_identifier, p_endpoint, 1, p_window_start)
+  ON CONFLICT (identifier, endpoint, window_start)
+  DO UPDATE SET request_count = public.rate_limits.request_count + 1
+  RETURNING public.rate_limits.request_count INTO v_count;
+
+  RETURN QUERY SELECT v_count, v_count > p_max_requests;
+END;
+$$;

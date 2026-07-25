@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatPrice } from '@/lib/utils';
+import { getGoogleMapsLink } from '@/lib/geocode';
 import { Badge, ClockIcon, MapPinIcon, PhoneIcon, UserIcon, CheckIcon, TruckIcon, AlertIcon, WhatsAppIcon } from '@/components/ui/Icons';
 
 interface OrderItem {
@@ -23,6 +24,8 @@ interface Order {
   total: number;
   status: 'placed' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
   confirmed_by: string | null;
+  latitude: number | null;
+  longitude: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -111,7 +114,10 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
             <div className="lg:col-span-2 space-y-6">
               {/* Order Details */}
               <div className="bg-surface border border-border p-6 lg:p-8">
-                <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">order details</h2>
+                <div className='mb-6'>
+                <h2 className="font-display text-xl text-primary-text uppercase tracking-[1px]">order details</h2>
+                <p className="font-body text-xs text-primary-text/60">{order.order_code}</p>
+                </div>
                 <ul className="space-y-4" role="list">
                   {order.items.map((item, index) => (
                     <li key={index} className="flex gap-4 py-4 border-b border-border last:border-0">
@@ -154,18 +160,24 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                       <p className="font-display text-base text-primary-text uppercase tracking-[0.5px]">{order.customer_name}</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <PhoneIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">Phone</p>
-                      <p className="font-display text-base text-primary-text">{order.customer_phone}</p>
-                    </div>
-                  </div>
                   <div className="sm:col-span-2 flex items-start gap-3">
                     <MapPinIcon className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-body text-xs tracking-[1.5px] uppercase text-primary-text/60">Delivery Address</p>
                       <p className="font-body text-sm text-primary-text">{order.delivery_address}</p>
+                      {(() => {
+                        const mapsLink = getGoogleMapsLink(order.latitude, order.longitude);
+                        return mapsLink ? (
+                          <a
+                            href={mapsLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-body text-xs text-gold hover:underline inline-flex items-center gap-1 mt-1"
+                          >
+                            View on Map
+                          </a>
+                        ) : null;
+                      })()}
                     </div>
                   </div>
                 </div>

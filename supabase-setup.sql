@@ -10,10 +10,14 @@ CREATE TABLE IF NOT EXISTS orders (
   delivery_address TEXT NOT NULL,
   items JSONB NOT NULL DEFAULT '[]',
   total NUMERIC(10, 2) NOT NULL,
-  status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'confirmed', 'delivered', 'cancelled')),
+  status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled')),
+  confirmed_by TEXT,
   note TEXT,
+  latitude NUMERIC(10, 7),
+  longitude NUMERIC(10, 7),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
 );
 
 -- 2. Enable Row Level Security
@@ -25,15 +29,18 @@ CREATE POLICY "Anyone can insert orders"
   ON orders FOR INSERT
   WITH CHECK (true);
 
--- Anyone can read their own order by ID
-CREATE POLICY "Anyone can read orders by ID"
+-- Only authenticated staff can read all orders
+CREATE POLICY "Staff read all orders"
   ON orders FOR SELECT
+  TO authenticated
   USING (true);
 
 -- Only authenticated staff can update orders
-CREATE POLICY "Staff can update orders"
+CREATE POLICY "Staff update orders"
   ON orders FOR UPDATE
-  USING (auth.role() = 'authenticated');
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
 
 -- 4. Create index for faster lookups
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);

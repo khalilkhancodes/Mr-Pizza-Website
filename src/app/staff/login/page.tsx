@@ -2,37 +2,27 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { staffLogin } from "@/app/actions/auth";
 
 export default function LoginPage() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect") || "/staff/orders";
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error || !data.session) {
-      setError("Invalid email or password.");
+    const form = new FormData(e.currentTarget);
+    try {
+      await staffLogin(form);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Invalid email or password.");
       setLoading(false);
-      return;
     }
-
-    await supabase.auth.getSession();
-
-    window.location.href = redirectTo;
   }
 
   return (
@@ -53,7 +43,7 @@ export default function LoginPage() {
 
             {error && (
               <div className="p-4 bg-error/10 border border-error/30 text-error font-body text-sm">
-                Invalid email or password.
+                {error}
               </div>
             )}
 
@@ -83,8 +73,6 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="staff@mrpizza.pk"
                   className="w-full h-12 pl-10 px-4 py-[20px] font-body text-sm text-primary-text bg-surface-elevated border border-border placeholder:text-primary-text/40 focus:outline-none focus:border-gold transition-colors"
@@ -120,8 +108,6 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Enter your password"
                   className="w-full h-12 pl-10 px-4 py-[20px] font-body text-sm text-primary-text bg-surface-elevated border border-border placeholder:text-primary-text/40 focus:outline-none focus:border-gold transition-colors"

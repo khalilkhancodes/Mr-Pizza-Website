@@ -11,13 +11,16 @@ CREATE TABLE IF NOT EXISTS public.orders (
   customer_name TEXT NOT NULL,
   customer_phone TEXT NOT NULL,
   delivery_address TEXT NOT NULL,
-  items JSONB NOT NULL,
+  items JSONB NOT NULL DEFAULT '[]',
   total NUMERIC(10, 2) NOT NULL,
-  status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'confirmed', 'delivered', 'cancelled')),
+  status TEXT NOT NULL DEFAULT 'placed' CHECK (status IN ('placed', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled')),
   confirmed_by TEXT,
   note TEXT,
+  latitude NUMERIC(10, 7),
+  longitude NUMERIC(10, 7),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at TIMESTAMPTZ
 );
 
 -- Indexes for common queries

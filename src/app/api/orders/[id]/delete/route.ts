@@ -36,7 +36,7 @@ export async function POST(
       return NextResponse.json({ error: 'Failed to delete order' }, { status: 500 });
     }
 
-    return NextResponse.redirect(new URL('/staff/orders?message=Order+deleted+successfully', request.url));
+    return NextResponse.json({ success: true, message: 'Order deleted successfully' });
   } catch (err) {
     console.error('Order delete error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
