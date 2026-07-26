@@ -2,13 +2,14 @@
 
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { CartItem, MenuItem } from '@/types';
+import { CartItem, MenuItem, Deal } from '@/types';
 import { calculateItemTotal } from '@/content/menu';
 
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
   addItem: (item: MenuItem, quantity?: number, selectedOptions?: Record<string, string>, note?: string) => void;
+  addDeal: (deal: Deal, dealItemNames: { name: string; quantity: number }[]) => void;
   removeItem: (cartItemId: string) => void;
   updateQuantity: (cartItemId: string, quantity: number) => void;
   updateNote: (cartItemId: string, note: string) => void;
@@ -72,6 +73,34 @@ export const useCartStore = create<CartState>()(
             selectedOptions,
             optionPrices,
             note,
+          };
+
+          return { items: [...state.items, newItem], isOpen: true };
+        });
+      },
+
+      addDeal: (deal, dealItemNames) => {
+        const cartItemId = `deal-${deal.id}`;
+
+        set(state => {
+          const existingIndex = state.items.findIndex(item => item.id === cartItemId);
+          if (existingIndex >= 0) {
+            const newItems = [...state.items];
+            newItems[existingIndex].quantity += 1;
+            return { items: newItems, isOpen: true };
+          }
+
+          const newItem: CartItem = {
+            id: cartItemId,
+            menuItemId: cartItemId,
+            name: deal.name,
+            price: deal.price,
+            image: deal.image,
+            quantity: 1,
+            selectedOptions: {},
+            optionPrices: {},
+            dealId: deal.id,
+            dealItems: dealItemNames,
           };
 
           return { items: [...state.items, newItem], isOpen: true };

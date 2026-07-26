@@ -1,17 +1,20 @@
 ﻿'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Deal, MenuItem } from '@/types';
-import { formatPrice, cn } from '@/lib/utils';
+import { formatPrice } from '@/lib/utils';
+import { useCartStore } from '@/store/cart';
 
 interface DealCardProps {
   deal: Deal;
   dealItems: (Deal['items'][number] & { item: MenuItem | null })[];
-  variant?: 'vertical' | 'horizontal'; // Added variant prop
+  variant?: 'vertical' | 'horizontal';
 }
 
 export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProps) {
+  const router = useRouter();
+  const { addDeal } = useCartStore();
   const src = deal.image;
 
   const description = dealItems.map(di => {
@@ -21,20 +24,25 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
     return `${qty}${name}${note}`;
   }).join(', ');
 
+  const dealItemNames = dealItems.map(di => ({
+    name: di.item ? di.item.name : 'Item',
+    quantity: di.quantity,
+  }));
+
   const hasDiscount = deal.discount > 0;
   const badgeText = deal.badge || (hasDiscount ? `${deal.discount}% OFF` : null);
 
-  // ==========================================
-  // HOME SCREEN VARIANT (Horizontal Layout)
-  // Maps strictly to image_9884da.jpg
-  // ==========================================
+  function handleAddDeal() {
+    addDeal(deal, dealItemNames);
+    router.push('/cart');
+  }
+
   if (variant === 'horizontal') {
     return (
-      <Link 
-        href={`/menu?deal=${deal.id}`}
-        className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)] group flex flex-row h-full overflow-hidden hover:border-[#555555] transition-all duration-300"
+      <button
+        onClick={handleAddDeal}
+        className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)] group flex flex-row h-full overflow-hidden hover:border-[#555555] transition-all duration-300 text-left w-full"
       >
-        {/* Left Image Section */}
         <div className="relative w-2/5 sm:w-1/3 shrink-0 overflow-hidden">
           <Image
             src={src}
@@ -44,28 +52,24 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
             sizes="(max-width: 640px) 40vw, 33vw"
             quality={85}
           />
-          {/* Constant dark fade over image */}
           <div className="absolute inset-0 bg-black/30 transition-opacity duration-300 group-hover:bg-black/10" />
         </div>
 
-        {/* Right Content Section */}
         <div className="p-5 sm:p-6 flex flex-col flex-1 justify-center">
-          
           {badgeText && (
             <span className="self-start mb-3 bg-[var(--color-gold)] text-[#131313] font-body text-[11px] font-bold uppercase tracking-[1px] px-2 py-1 rounded-[2px]">
               {badgeText}
             </span>
           )}
-          
+
           <h3 className="font-body text-[18px] sm:text-[20px] font-bold text-[var(--color-cream)] mb-2 uppercase group-hover:text-[var(--color-gold)] transition-colors">
             {deal.name}
           </h3>
-          
+
           <p className="font-body text-[13px] text-[var(--color-on-surface-variant)] line-clamp-2 mb-4">
             {description}
           </p>
-          
-          {/* Price aligned bottom-left, no button */}
+
           <div className="flex items-baseline gap-3 mt-auto">
             <span className="font-body text-[20px] font-bold text-[var(--color-gold)] leading-none">
               {formatPrice(deal.price)}
@@ -77,18 +81,12 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
             )}
           </div>
         </div>
-      </Link>
+      </button>
     );
   }
 
-  // ==========================================
-  // DEALS MENU VARIANT (Vertical Layout)
-  // Maps strictly to image_988135.jpg
-  // ==========================================
   return (
     <article className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)] group flex flex-col h-full hover:border-[#555555] transition-all duration-300 overflow-hidden">
-      
-      {/* Top Image Section */}
       <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0">
         <Image
           src={src}
@@ -98,10 +96,8 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           quality={85}
         />
-        {/* Constant dark fade over image */}
         <div className="absolute inset-0 bg-black/30 transition-opacity duration-300 group-hover:bg-black/10" />
 
-        {/* Badge positioned absolutely over image */}
         {badgeText && (
           <span className="absolute top-4 right-4 bg-[var(--color-gold)] text-[#131313] font-body text-[11px] font-bold uppercase tracking-[1px] px-3 py-1.5 rounded-[2px] z-10">
             {badgeText}
@@ -109,7 +105,6 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
         )}
       </div>
 
-      {/* Bottom Content Section */}
       <div className="p-6 flex flex-col flex-1">
         <div className="flex-1">
           <h3 className="font-body text-[20px] font-bold text-[var(--color-cream)] mb-2 uppercase">
@@ -121,9 +116,7 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
           </p>
         </div>
 
-        {/* Action Row */}
         <div className="flex items-end justify-between mt-6 pt-1">
-          
           <div className="flex items-baseline gap-2">
             <span className="font-body text-[22px] font-bold text-[var(--color-gold)] leading-none">
               {formatPrice(deal.price)}
@@ -135,13 +128,12 @@ export function DealCard({ deal, dealItems, variant = 'vertical' }: DealCardProp
             )}
           </div>
 
-          <Link
-            href={`/menu?deal=${deal.id}`}
+          <button
+            onClick={handleAddDeal}
             className="bg-[var(--color-gold)] text-[#131313] font-body text-[12px] font-bold uppercase tracking-[1px] px-6 py-2.5 rounded-[2px] hover:bg-[var(--color-gold-hover)] transition-colors"
           >
             ORDER NOW
-          </Link>
-          
+          </button>
         </div>
       </div>
     </article>

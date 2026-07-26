@@ -1,6 +1,7 @@
 ﻿import Image from 'next/image';
 import { getActiveDeals, menuItems } from '@/content/menu';
 import { DealCard } from '@/components/deals/DealCard';
+import { ScrollChevron } from '@/components/ui/ScrollChevron';
 import { ChevronRightIcon } from '@/components/ui/Icons';
 import { MenuItem } from '@/types';
 
@@ -41,9 +42,11 @@ export default function DealsPage() {
             </h1>
           </div>
         </div>
+
+        <ScrollChevron targetId="deals-content" />
       </section>
 
-      <section className="section-spacing bg-background">
+      <section id="deals-content" className="section-spacing bg-background">
         <div className="container-padding">
           {deals.length === 0 ? (
             <div className="text-center py-20">

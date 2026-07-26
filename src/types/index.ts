@@ -69,6 +69,8 @@ export interface CartItem {
   selectedOptions: Record<string, string>;
   optionPrices: Record<string, number>;
   note?: string;
+  dealId?: string;
+  dealItems?: { name: string; quantity: number }[];
 }
 
 export interface Order {

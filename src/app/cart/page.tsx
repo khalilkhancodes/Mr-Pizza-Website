@@ -201,6 +201,17 @@ function CartItem({ item }: { item: CartItemType }) {
             {formatPrice(item.price)}
           </div>
 
+          {/* Deal Items List */}
+          {item.dealItems && item.dealItems.length > 0 && (
+            <div className="flex flex-col gap-0.5 mt-2">
+              {item.dealItems.map((di, i) => (
+                <span key={i} className="font-body text-[11px] text-[var(--color-on-surface-variant)]">
+                  {di.quantity > 1 ? `${di.quantity}x ` : ''}{di.name}
+                </span>
+              ))}
+            </div>
+          )}
+
           {/* Subtitles & Notes */}
           <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-bold text-[var(--color-on-surface-variant)] uppercase tracking-widest mt-1">
             {Object.entries(item.selectedOptions).length > 0 && (

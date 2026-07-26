@@ -5,6 +5,7 @@ import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { categories, menuItems, getMenuItemsByCategory } from '@/content/menu';
 import { MenuCard } from '@/components/ui/Card';
+import { ScrollChevron } from '@/components/ui/ScrollChevron';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { SearchIcon } from '@/components/ui/Icons';
@@ -63,9 +64,11 @@ function MenuContent() {
             </p>
           </div>
         </div>
+
+        <ScrollChevron targetId="menu-content" />
       </section>
 
-      <div className="container-padding py-10 lg:py-16">
+      <div id="menu-content" className="container-padding py-10 lg:py-16">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           <aside className="w-full lg:w-[260px] xl:w-[280px] flex-shrink-0">
             <div className="sticky top-24 lg:top-28 max-h-[calc(100vh-4rem)] overflow-y-auto scrollbar-fade">

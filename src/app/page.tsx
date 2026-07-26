@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { MenuCard } from "@/components/ui/Card";
+import { ScrollChevron } from "@/components/ui/ScrollChevron";
 import { useCartStore } from "@/store/cart";
 import {
   getFeaturedItems,
@@ -91,12 +92,14 @@ export default function HomePage() {
             </h1>
           </div>
         </div>
+
+        <ScrollChevron targetId="categories-section" />
       </section>
 
       {/* ==============================
           CATEGORIES
           ============================== */}
-      <section className="section-spacing bg-background">
+      <section id="categories-section" className="section-spacing bg-background">
         <div className="container-padding">
           <div className="text-center mb-64">
             <span className="font-body text-xs tracking-[4px] uppercase text-gold mb-10 block">

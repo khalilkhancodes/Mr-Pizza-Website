@@ -15,13 +15,29 @@ function generateOrderCode(): string {
 
 function calculateServerTotal(items: Array<{
   menuItemId: string;
+  name?: string;
   quantity: number;
+  unitPrice?: number;
   selectedOptions: Record<string, string>;
 }>): { total: number; validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string> }> } {
   let total = 0;
   const validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string> }> = [];
 
   for (const item of items) {
+    // Deal items have menuItemId starting with "deal-"; skip menu validation and use provided price
+    if (item.menuItemId.startsWith('deal-')) {
+      const unitPrice = item.unitPrice ?? 0;
+      total += unitPrice * item.quantity;
+      validatedItems.push({
+        menuItemId: item.menuItemId,
+        name: item.name || 'Deal',
+        quantity: item.quantity,
+        unitPrice,
+        selectedOptions: item.selectedOptions,
+      });
+      continue;
+    }
+
     const menuItem = getMenuItemById(item.menuItemId);
     if (!menuItem) {
       throw new Error(`Menu item ${item.menuItemId} not found`);
@@ -125,7 +141,8 @@ export async function POST(request: NextRequest) {
       customer_phone: customerPhone.trim(),
       delivery_address: deliveryAddress.trim(),
       items: validatedItems.map(item => {
-        const menuItem = getMenuItemById(item.menuItemId);
+        const isDeal = item.menuItemId.startsWith('deal-');
+        const menuItem = isDeal ? null : getMenuItemById(item.menuItemId);
         return {
           menuItemId: item.menuItemId,
           name: item.name,
