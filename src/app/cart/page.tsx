@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart";
 import { menuItems } from "@/content/menu";
 import { formatPrice } from "@/lib/utils";
+import { useToast } from "@/components/ui/Toaster";
 import { QuantitySelector } from "@/components/ui/QuantitySelector";
 import type { CartItem as CartItemType } from "@/types";
 import { getOptionDisplayName } from "@/lib/menu-utils";
@@ -19,7 +20,8 @@ const crossSellItems = menuItems
 
 export default function CartPage() {
   const router = useRouter();
-  const { items, getSubtotal, getItemCount } = useCartStore();
+  const { items, getSubtotal, getItemCount, addItem } = useCartStore();
+  const { success } = useToast();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -139,30 +141,51 @@ export default function CartPage() {
             </h3>
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               {crossSellItems.map((item) => (
-                <Link
+                <div
                   key={item.id}
-                  href={`/product/${item.id}`}
                   className="group bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-[var(--radius-component)] overflow-hidden hover:border-[#555555] transition-colors"
                 >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 50vw, 25vw"
-                    />
-                  </div>
-                  
+                  <Link
+                    href={`/product/${item.id}`}
+                    className="block"
+                  >
+                    <div className="relative aspect-[16/9] w-full overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
+                  </Link>
+
                   <div className="p-16">
-                    <p className="font-body font-bold text-[16px] text-[var(--color-cream)] truncate mb-1 uppercase">
-                      {item.name}
-                    </p>
-                    <p className="font-body font-bold text-[14px] text-[var(--color-gold)]">
-                      {formatPrice(item.price)}
-                    </p>
+                    <Link
+                      href={`/product/${item.id}`}
+                      className="block"
+                    >
+                      <p className="font-body font-bold text-[16px] text-[var(--color-cream)] truncate mb-1 uppercase group-hover:text-[var(--color-gold)] transition-colors">
+                        {item.name}
+                      </p>
+                    </Link>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="font-body font-bold text-[14px] text-[var(--color-gold)]">
+                        {formatPrice(item.price)}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          addItem(item);
+                          success("Added! \u2713", `${item.name} added to cart.`);
+                        }}
+                        className="border border-[var(--color-border)] text-[var(--color-gold)] font-body text-[11px] font-bold uppercase tracking-[1px] px-3 py-1.5 rounded-[2px] hover:bg-[var(--color-gold)] hover:text-[var(--color-on-gold)] transition-colors"
+                      >
+                        + ADD
+                      </button>
+                    </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
