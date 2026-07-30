@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/server';
 import { formatPrice } from '@/lib/utils';
 import { getGoogleMapsLink } from '@/lib/geocode';
 import { Badge, ClockIcon, MapPinIcon, PhoneIcon, UserIcon, CheckIcon, TruckIcon, AlertIcon, WhatsAppIcon } from '@/components/ui/Icons';
+import { OrderStatusUpdater } from '@/components/order/OrderStatusUpdater';
+import { StaffStatusControls } from '@/components/order/StaffStatusControls';
 
 interface OrderItem {
   menuItemId: string;
@@ -187,39 +189,11 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                 </div>
               </div>
 
+              <OrderStatusUpdater orderId={order.id} />
+
               {/* Staff Controls */}
               {isStaff && (
-                <div className="bg-surface-elevated border border-gold p-6 lg:p-8">
-                  <h2 className="font-display text-xl text-primary-text mb-6 uppercase tracking-[1px]">staff controls</h2>
-                  <div className="flex flex-wrap gap-3">
-                    {(['confirmed', 'preparing', 'ready', 'delivered', 'cancelled'] as const).map((status) => {
-                      if (order.status === status) return null;
-                      const allowed = {
-                        placed: ['confirmed', 'cancelled'] as const,
-                        confirmed: ['preparing', 'cancelled'] as const,
-                        preparing: ['ready', 'cancelled'] as const,
-                        ready: ['delivered'] as const,
-                        delivered: [] as const,
-                        cancelled: [] as const,
-                      }[order.status] as readonly string[];
-                      if (!allowed.includes(status)) return null;
-
-                      const statusConfig = STATUS_CONFIG[status];
-                      const StatusIcon = statusConfig.icon;
-                      return (
-                        <form key={status} action={`/api/orders/${order.id}/status`} method="POST">
-                          <button
-                            type="submit"
-                            className="btn-primary inline-flex items-center p-2 gap-2"
-                          >
-                            <StatusIcon className="w-[16px] h-[16px]" />
-                            Mark as {statusConfig.label}
-                          </button>
-                        </form>
-                      );
-                    })}
-                  </div>
-                </div>
+                <StaffStatusControls orderId={order.id} currentStatus={order.status} />
               )}
             </div>
 
