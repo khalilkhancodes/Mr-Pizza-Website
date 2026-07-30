@@ -6,6 +6,8 @@ import { Suspense } from "react";
 import { OrderStatusSelect } from "@/components/staff/OrderStatusSelect";
 import { DeleteOrderButton } from "@/components/staff/DeleteOrderButton";
 import { ToastNotification } from "@/components/staff/ToastNotification";
+import { SignOutButton } from "@/components/staff/SignOutButton";
+import { OrderListUpdater } from "@/components/order/OrderListUpdater";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -170,6 +172,8 @@ export default async function StaffOrdersPage({
         <ToastNotification />
       </Suspense>
 
+      <OrderListUpdater />
+
       {/* Header Area */}
       <section className="pt-8 pb-6 px-4 md:px-8 border-b border-[#222]">
         <div className="max-w-[1400px] mx-auto flex justify-between items-start my-64 mt-96">
@@ -202,24 +206,7 @@ export default async function StaffOrdersPage({
               </svg>
               <span className="hidden sm:inline">Refresh</span>
             </Link>
-            <form action="/auth/signout" method="post">
-              <button className="font-body text-[12px] uppercase tracking-[1px] text-[#888] hover:text-white transition-colors flex items-center gap-2">
-                <svg
-                  className="w-[16px] h-[16px]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                  <polyline points="16 17 21 12 16 7"></polyline>
-                  <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                <span className="hidden sm:inline">Exit</span>
-              </button>
-            </form>
+            <SignOutButton />
           </div>
         </div>
       </section>

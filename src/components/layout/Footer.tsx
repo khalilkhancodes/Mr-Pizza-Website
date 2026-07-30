@@ -10,9 +10,11 @@ const navigateLinks = [
 
 const socialLinks = [
   { href: "https://instagram.com", label: "IG" },
-  { href: "https://facebook.com", label: "FB" },
+  { href: "https://web.facebook.com/p/Mrpizza-Main-Branch-Narowal-61575815100198/?_rdc=1&_rdr#", label: "FB" },
   { href: "https://twitter.com", label: "TW" },
   { href: "https://youtube.com", label: "YT" },
+  // Admin link
+  { href: "staff/orders", label: "AD" },
 ];
 
 export function Footer() {
@@ -90,7 +92,9 @@ export function Footer() {
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <span>Narowal, Pakistan</span>
+                <a href="https://www.google.com/maps/place/Mr+pizza/@32.095561,74.8845849,17z/data=!4m14!1m7!3m6!1s0x39195300228c4df5:0x2616453b6942a471!2sMr+pizza!8m2!3d32.095561!4d74.8845849!16s%2Fg%2F11xn4gnzwh!3m5!1s0x39195300228c4df5:0x2616453b6942a471!8m2!3d32.095561!4d74.8845849!16s%2Fg%2F11xn4gnzwh?entry=ttu&g_ep=EgoyMDI2MDcyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-gold)] transition-colors">
+                  <span>Narowal, Pakistan</span>
+                </a>
               </li>
               <li className="flex items-start gap-4 text-body-regular text-[13px]">
                 <svg
