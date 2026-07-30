@@ -12,7 +12,7 @@ function escapeHtml(text: string): string {
 
 async function sendEmailResend({ name, email, phone, subject, message }: Record<string, string>) {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return false;
+  if (!apiKey) return { success: false, error: 'RESEND_API_KEY is not configured' };
 
   const html = `
     <h2>New Contact Form Submission</h2>
@@ -39,7 +39,13 @@ async function sendEmailResend({ name, email, phone, subject, message }: Record<
     }),
   });
 
-  return res.ok;
+  if (!res.ok) {
+    const errorBody = await res.text();
+    console.error('Resend API error:', res.status, errorBody);
+    return { success: false, error: `Resend responded with ${res.status}: ${errorBody}` };
+  }
+
+  return { success: true };
 }
 
 export async function POST(request: NextRequest) {
@@ -63,10 +69,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Message must be at least 10 characters' }, { status: 400 });
     }
 
-    const emailSent = await sendEmailResend({ name, email: email.trim(), phone, subject, message });
+    const result = await sendEmailResend({ name, email: email.trim(), phone, subject, message });
 
-    if (!emailSent) {
-      console.log('Contact form submission (email not configured):', { name, email, phone, subject, message });
+    if (!result.success) {
+      return NextResponse.json({ error: result.error || 'Failed to send email' }, { status: 500 });
     }
 
     return NextResponse.json({

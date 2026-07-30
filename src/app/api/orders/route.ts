@@ -18,10 +18,11 @@ function calculateServerTotal(items: Array<{
   name?: string;
   quantity: number;
   unitPrice?: number;
+  image?: string;
   selectedOptions: Record<string, string>;
-}>): { total: number; validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string> }> } {
+}>): { total: number; validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string>; image?: string }> } {
   let total = 0;
-  const validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string> }> = [];
+  const validatedItems: Array<{ menuItemId: string; name: string; quantity: number; unitPrice: number; selectedOptions: Record<string, string>; image?: string }> = [];
 
   for (const item of items) {
     // Deal items have menuItemId starting with "deal-"; skip menu validation and use provided price
@@ -34,6 +35,7 @@ function calculateServerTotal(items: Array<{
         quantity: item.quantity,
         unitPrice,
         selectedOptions: item.selectedOptions,
+        image: item.image || '/images/Menu_Items.png',
       });
       continue;
     }
@@ -53,6 +55,7 @@ function calculateServerTotal(items: Array<{
       quantity: item.quantity,
       unitPrice,
       selectedOptions: item.selectedOptions,
+      image: menuItem.image || '/images/Menu_Items.png',
     });
   }
 
@@ -149,7 +152,7 @@ export async function POST(request: NextRequest) {
           quantity: item.quantity,
           unitPrice: item.unitPrice,
           selectedOptions: item.selectedOptions,
-          image: menuItem?.image || '/images/Menu_Items.png',
+          image: menuItem?.image || item.image || '/images/Menu_Items.png',
         };
       }),
       total,

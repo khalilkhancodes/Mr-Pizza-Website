@@ -21,7 +21,7 @@ export default function DealsPage() {
             src="/assets/Hero/Deal.webp"
             alt="Mr. Pizza deals and combos"
             fill
-            priority
+            loading='lazy'
             className="object-cover"
             sizes="100vw"
             quality={90}

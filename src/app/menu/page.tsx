@@ -45,7 +45,7 @@ function MenuContent() {
             src={heroImage}
             alt="Mr. Pizza menu"
             fill
-            priority
+            loading='lazy'
             className="object-cover"
             sizes="100vw"
             quality={90}

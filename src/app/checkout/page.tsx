@@ -86,6 +86,7 @@ export default function CheckoutPage() {
         unitPrice: item.price,
         selectedOptions: item.selectedOptions,
         note: item.note,
+        image: item.image,
       }));
 
       const res = await fetch('/api/orders', {

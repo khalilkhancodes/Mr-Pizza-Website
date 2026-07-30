@@ -68,7 +68,7 @@ export default function HomePage() {
             src="/assets/Hero/Home.webp"
             alt=""
             fill
-            priority
+            loading="lazy"
             className="object-cover scale-105"
             sizes="100vw"
             quality={90}

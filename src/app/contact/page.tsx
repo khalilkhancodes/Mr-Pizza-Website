@@ -120,7 +120,7 @@ export default function ContactPage() {
             src="/assets/Hero/Contact.webp"
             alt="Contact Mr. Pizza"
             fill
-            priority
+            loading="lazy"
             className="object-cover"
             sizes="100vw"
             quality={90}

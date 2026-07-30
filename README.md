@@ -1,4 +1,4 @@
-# FastBite - Premium Fast Food Ordering Website
+# Mr Pizza - Premium Fast Food Ordering Website
 
 A modern, production-ready Next.js 14 application for a fast-food restaurant with WhatsApp-based checkout, cash on delivery, and a lightweight staff order management console.
 
@@ -102,7 +102,7 @@ The design follows the **"Midnight Gilded"** system from `assets/DESIGN.md`:
 
 ```bash
 # Clone and install
-cd fastbite
+cd mrpizza
 pnpm install
 
 # Copy environment template

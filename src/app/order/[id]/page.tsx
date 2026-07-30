@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { formatPrice } from '@/lib/utils';
@@ -122,10 +123,13 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
                   {order.items.map((item, index) => (
                     <li key={index} className="flex gap-4 py-4 border-b border-border last:border-0">
                       <div className="relative w-10 h-10 flex-shrink-0 overflow-hidden">
-                        <img
+                        <Image
                           src={item.image || '/images/Menu_Items.png'}
                           alt={item.name}
                           className="w-full h-full object-cover"
+                          fill
+                          sizes="40px"
+                          loading='lazy'
                         />
                       </div>
                       <div className="flex-1 min-w-0">
