@@ -12,7 +12,7 @@ export function ScrollChevron({ targetId }: { targetId: string }) {
     <button
       onClick={handleClick}
       aria-label="Scroll down"
-      className="absolute bottom-9 left-1/2 -translate-x-1/2 z-10 text-white/60 hover:text-gold transition-colors animate-bounce"
+      className="absolute bottom-9 ml-1/2 mb-4 -translate-x-1/2 z-10 text-white/60 hover:text-gold transition-colors animate-bounce"
     >
       <svg
         width="32"

@@ -93,7 +93,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <ScrollChevron targetId="categories-section" />
+        <ScrollChevron targetId="categories-section"/>
       </section>
 
       {/* ==============================
